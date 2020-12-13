@@ -4,16 +4,8 @@ html(lang="ja")
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0")
     title Collectio photos
-    style.
-      label {
-      display: block;
-      width: 250px;
-      height: 250px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      }
+    link(rel="stylesheet" type="text/css" href="./index.css")
   body
     form(action="" enctype="multipart/form-data")
-      input#image1.file(type="file" name="image1" accept="image/*")
-      label(for="image1")
+      input#image1.file(type="file" name="image1" accept="image/*" multiple="multiple")
     script(src="./index.ts.js")
