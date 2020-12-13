@@ -2,26 +2,16 @@ doctype html
 html(lang="ja")
   head
     meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title template
-    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap")
-    link(rel="stylesheet", href="./index.css")
-  body#index
-    main
-      article
-        section.grid1
-            #itemA
-              div A
-              div AA
-              div AAA
-            #itemB B
-            #itemC C
-        section.grid2
-            .item A
-            .item B
-            .item C
-            .item D
-            .item E
-            .item F
-            .item G
+    style.
+      label {
+      display: block;
+      width: 250px;
+      height: 250px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      }
+  body
+    form(action="" enctype="multipart/form-data")
+      input#image1.file(type="file" name="image1" accept="image/*")
+      label(for="image1")
     script(src="./index.ts.js")

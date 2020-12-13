@@ -57,5 +57,8 @@
   },
   "resolutions": {
     "minimist": ">=1.2.5"
+  },
+  "dependencies": {
+    "exif-js": "^2.3.0"
   }
 }
