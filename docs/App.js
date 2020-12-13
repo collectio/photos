@@ -46,7 +46,7 @@ var App = /** @class */ (function (_super) {
         var reader = null;
         if (this.input) {
             this.input.addEventListener('change', function () {
-                if (_this.input && _this.input.files && _this.input.files[0]) {
+                if (_this.input && _this.input.files) {
                     Array.from(_this.input.files).map(function (file) {
                         reader = new FileReader();
                         reader.onload = function (e) {

@@ -38,7 +38,7 @@ class App extends React.Component<Props, State> {
         let reader:any = null;
         if (this.input) {
             this.input.addEventListener('change', () => {
-                if (this.input && this.input.files && this.input.files[0]) {
+                if (this.input && this.input.files) {
                     Array.from(this.input.files).map((file: any) => {
                         reader = new FileReader();
                         reader.onload = (e:any) => {
