@@ -38,11 +38,9 @@ var App = /** @class */ (function (_super) {
         return _this;
     }
     App.prototype.setFormRef = function (element) {
-        console.log(element);
         this.form = element;
     };
     App.prototype.setInputRef = function (element) {
-        console.log(element);
         this.input = element;
     };
     App.prototype.componentDidMount = function () {

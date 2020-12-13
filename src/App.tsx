@@ -32,11 +32,9 @@ class App extends React.Component<Props, State> {
         this.input = null;
     }
     setFormRef(element: HTMLFormElement) {
-        console.log(element)
         this.form = element;
     }
     setInputRef(element: HTMLInputElement) {
-        console.log(element)
         this.input = element;
     }
     componentDidMount() {
