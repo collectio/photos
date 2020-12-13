@@ -53,10 +53,11 @@ var App = /** @class */ (function (_super) {
                     Array.from(_this.input.files).map(function (file) {
                         reader = new FileReader();
                         reader.onload = function (e) {
-                            var label = document.createElement('label');
-                            label.style.backgroundImage = "url(" + e.target.result + ")";
+                            var div = document.createElement('div');
+                            div.className = 'photo';
+                            div.style.backgroundImage = "url(" + e.target.result + ")";
                             if (_this.form)
-                                _this.form.appendChild(label);
+                                _this.form.appendChild(div);
                             //回転対応 ,  回転具合を見てlabelを回転
                             var arrayBuffer = base64ToArrayBuffer(reader.result);
                             var exif = exif_js_1.default.readFromBinaryFile(arrayBuffer);
@@ -88,7 +89,8 @@ var App = /** @class */ (function (_super) {
     App.prototype.render = function () {
         return (react_1.default.createElement("div", null,
             react_1.default.createElement("form", { action: "", encType: "multipart/form-data", ref: this.setFormRef.bind(this) },
-                react_1.default.createElement("input", { className: "file", id: "image1", type: "file", name: "image1", accept: "image/*", multiple: true, ref: this.setInputRef.bind(this) }))));
+                react_1.default.createElement("input", { className: "file", id: "file", type: "file", name: "image1", accept: "image/*", multiple: true, ref: this.setInputRef.bind(this) }),
+                react_1.default.createElement("label", { htmlFor: "file" }))));
     };
     return App;
 }(react_1.default.Component));

@@ -45,9 +45,10 @@ class App extends React.Component<Props, State> {
                     Array.from(this.input.files).map((file: any) => {
                         reader = new FileReader();
                         reader.onload = (e:any) => {
-                            const label = document.createElement('label')
-                            label.style.backgroundImage = `url(${e.target.result})`;
-                            if (this.form) this.form.appendChild(label);
+                            const div = document.createElement('div');
+                            div.className = 'photo';
+                            div.style.backgroundImage = `url(${e.target.result})`;
+                            if (this.form) this.form.appendChild(div);
                             //回転対応 ,  回転具合を見てlabelを回転
                             const arrayBuffer = base64ToArrayBuffer(reader.result);
                             const exif = EXIF.readFromBinaryFile(arrayBuffer);
@@ -79,7 +80,8 @@ class App extends React.Component<Props, State> {
     render() {
         return (<div>
             <form action="" encType="multipart/form-data" ref={this.setFormRef.bind(this)}>
-                <input className="file" id="image1" type="file" name="image1" accept="image/*" multiple={true} ref={this.setInputRef.bind(this)} />
+                <input className="file" id="file" type="file" name="image1" accept="image/*" multiple={true} ref={this.setInputRef.bind(this)} />
+                <label htmlFor="file"></label>
             </form>
         </div>);
     }
