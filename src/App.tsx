@@ -8,7 +8,7 @@ interface App {
 interface Props {
 }
 interface State {
-    photos: any[]
+    photos: string[]
 }
 
 const base64ToArrayBuffer = (base64:any) => {
