@@ -22,25 +22,25 @@ input.addEventListener('change', () => {
       label.style.backgroundImage = `url(${e.target.result})`;
 
       //回転対応 ,  回転具合を見てlabelを回転
-      const arrayBuffer = base64ToArrayBuffer(reader.result);
-      const exif = EXIF.readFromBinaryFile(arrayBuffer);
-      let rotate = 0;
-      if (exif && exif.Orientation) {
-          console.log(exif.Orientation)
-        switch (exif.Orientation) {
-          case 3:
-            rotate = 180;
-            break;
-          case 6:
-            rotate = 90;
-            break;
-          case 8:
-            rotate = -90;
-            break;
-        }
-      }
-      label.style.transform = `rotate(${rotate}deg)`;
-      label.style.webkitTransform = `rotate(${rotate}deg)`;
+      // const arrayBuffer = base64ToArrayBuffer(reader.result);
+      // const exif = EXIF.readFromBinaryFile(arrayBuffer);
+      // let rotate = 0;
+      // if (exif && exif.Orientation) {
+      //     console.log(exif.Orientation)
+      //   switch (exif.Orientation) {
+      //     case 3:
+      //       rotate = 180;
+      //       break;
+      //     case 6:
+      //       rotate = 90;
+      //       break;
+      //     case 8:
+      //       rotate = -90;
+      //       break;
+      //   }
+      // }
+      // label.style.transform = `rotate(${rotate}deg)`;
+      // label.style.webkitTransform = `rotate(${rotate}deg)`;
     }
     reader.readAsDataURL(input.files[0]);
   }
