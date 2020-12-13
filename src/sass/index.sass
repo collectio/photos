@@ -3,7 +3,7 @@ body
     background-color: #000000
     #app
         position: relative
-        height: 100%
+        min-height: 100%
         max-width: 1024px
         margin: 0 auto
         background-color: #ffffff
@@ -15,14 +15,17 @@ body
             background-color:#F9F9F9
             padding: 1rem
             img.logo
-        .photos
-            display: flex
-            .photo
-                display: block
-                width: 250px
-                height: 250px
-                background-size: contain
-                background-repeat: no-repeat
+        .albums
+            .album
+                
+                .photos
+                    display: flex
+                    .photo:first-child
+                        display: block
+                        width: 250px
+                        height: 250px
+                        background-size: contain
+                        background-repeat: no-repeat
 
         form
             position: absolute

@@ -34,8 +34,7 @@ var App = /** @class */ (function (_super) {
     function App(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
-            albums: [],
-            photos: []
+            albums: []
         };
         _this.input = null;
         return _this;
@@ -49,17 +48,27 @@ var App = /** @class */ (function (_super) {
         if (this.input) {
             this.input.addEventListener('change', function () {
                 if (_this.input && _this.input.files) {
+                    var photos_1 = [];
                     Array.from(_this.input.files).map(function (file) {
                         reader = new FileReader();
                         reader.onload = function (e) {
-                            _this.state.photos.push({
+                            var _a, _b;
+                            photos_1.push({
                                 image: e.target.result,
                                 game: {
                                     id: null,
                                     title: ''
                                 }
                             });
-                            _this.setState({});
+                            if (((_b = (_a = _this.input) === null || _a === void 0 ? void 0 : _a.files) === null || _b === void 0 ? void 0 : _b.length) === photos_1.length) {
+                                var album = {
+                                    title: '',
+                                    date: '',
+                                    photos: photos_1
+                                };
+                                _this.state.albums.push(album);
+                                _this.setState({});
+                            }
                             //回転対応 ,  回転具合を見てlabelを回転
                             var arrayBuffer = base64ToArrayBuffer(reader.result);
                             var exif = exif_js_1.default.readFromBinaryFile(arrayBuffer);
@@ -92,8 +101,11 @@ var App = /** @class */ (function (_super) {
         return (react_1.default.createElement("div", null,
             react_1.default.createElement("div", { className: "navigation" },
                 react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" })),
-            react_1.default.createElement("div", { className: "photos" }, this.state.photos.map(function (photo) {
-                return (react_1.default.createElement("div", { key: photo.image, className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } }));
+            react_1.default.createElement("div", { className: "albums" }, this.state.albums.map(function (album) {
+                return (react_1.default.createElement("div", { className: "album" },
+                    react_1.default.createElement("div", { className: "photos" }, album.photos.map(function (photo) {
+                        return (react_1.default.createElement("div", { key: photo.image, className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } }));
+                    }))));
             })),
             react_1.default.createElement("form", { action: "", encType: "multipart/form-data" },
                 react_1.default.createElement("input", { className: "file", id: "file", type: "file", name: "image1", accept: "image/*", multiple: true, ref: this.setInputRef.bind(this) }),

@@ -9,7 +9,7 @@ interface App {
 interface Album {
     title: string
     date: string
-    photos: string[]
+    photos: Photo[]
 }
 interface Photo {
     image: string
@@ -24,7 +24,6 @@ interface Props {
 }
 interface State {
     albums: Album[]
-    photos: Photo[]
 }
 
 const base64ToArrayBuffer = (base64:any) => {
@@ -43,8 +42,7 @@ class App extends React.Component<Props, State> {
     constructor(props: ReactPropTypes) {
         super(props);
         this.state = {
-            albums: [],
-            photos: []
+            albums: []
         };
         this.input = null;
     }
@@ -56,17 +54,26 @@ class App extends React.Component<Props, State> {
         if (this.input) {
             this.input.addEventListener('change', () => {
                 if (this.input && this.input.files) {
+                    let photos: Photo[] = [];
                     Array.from(this.input.files).map((file: any) => {
                         reader = new FileReader();
                         reader.onload = (e:any) => {
-                            this.state.photos.push({
+                            photos.push({
                                 image: e.target.result,
                                 game: {
                                     id: null,
                                     title: ''
                                 }
                             });
-                            this.setState({});
+                            if (this.input?.files?.length === photos.length) {
+                                const album: Album = {
+                                    title: '',
+                                    date: '',
+                                    photos: photos
+                                }
+                                this.state.albums.push(album);
+                                this.setState({});
+                            }
                             //回転対応 ,  回転具合を見てlabelを回転
                             const arrayBuffer = base64ToArrayBuffer(reader.result);
                             const exif = EXIF.readFromBinaryFile(arrayBuffer);
@@ -100,9 +107,17 @@ class App extends React.Component<Props, State> {
             <div className="navigation">
                 <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
             </div>
-            <div className="photos">
-            {this.state.photos.map((photo) => {
-                return (<div key={photo.image} className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>)
+            <div className="albums">
+            {this.state.albums.map((album) => {
+                return (
+                    <div className="album">
+                        <div className="photos">
+                        {album.photos.map((photo) => {
+                            return (<div key={photo.image} className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>)
+                        })}
+                        </div>
+                    </div>
+                )
             })}
             </div>
             <form action="" encType="multipart/form-data">
