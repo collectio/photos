@@ -67,8 +67,8 @@ class App extends React.Component<Props, State> {
                             });
                             if (this.input?.files?.length === photos.length) {
                                 const album: Album = {
-                                    title: '',
-                                    date: '',
+                                    title: 'ある日のボードゲーム会',
+                                    date: '2020/12/13',
                                     photos: photos
                                 }
                                 this.state.albums.push(album);
@@ -111,6 +111,8 @@ class App extends React.Component<Props, State> {
             {this.state.albums.map((album) => {
                 return (
                     <div className="album">
+                        <h4>{album.title}</h4>
+                        <span>{album.date}</span>
                         <div className="photos">
                         {album.photos.map((photo) => {
                             return (<div key={photo.image} className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>)

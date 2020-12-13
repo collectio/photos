@@ -62,8 +62,8 @@ var App = /** @class */ (function (_super) {
                             });
                             if (((_b = (_a = _this.input) === null || _a === void 0 ? void 0 : _a.files) === null || _b === void 0 ? void 0 : _b.length) === photos_1.length) {
                                 var album = {
-                                    title: '',
-                                    date: '',
+                                    title: 'ある日のボードゲーム会',
+                                    date: '2020/12/13',
                                     photos: photos_1
                                 };
                                 _this.state.albums.push(album);
@@ -103,6 +103,8 @@ var App = /** @class */ (function (_super) {
                 react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" })),
             react_1.default.createElement("div", { className: "albums" }, this.state.albums.map(function (album) {
                 return (react_1.default.createElement("div", { className: "album" },
+                    react_1.default.createElement("h4", null, album.title),
+                    react_1.default.createElement("span", null, album.date),
                     react_1.default.createElement("div", { className: "photos" }, album.photos.map(function (photo) {
                         return (react_1.default.createElement("div", { key: photo.image, className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } }));
                     }))));
