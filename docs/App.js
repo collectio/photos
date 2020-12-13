@@ -33,6 +33,7 @@ var App = /** @class */ (function (_super) {
     function App(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
+            albums: [],
             photos: []
         };
         _this.input = null;
@@ -50,7 +51,13 @@ var App = /** @class */ (function (_super) {
                     Array.from(_this.input.files).map(function (file) {
                         reader = new FileReader();
                         reader.onload = function (e) {
-                            _this.state.photos.push(e.target.result);
+                            _this.state.photos.push({
+                                image: e.target.result,
+                                game: {
+                                    id: null,
+                                    title: ''
+                                }
+                            });
                             _this.setState({});
                             //回転対応 ,  回転具合を見てlabelを回転
                             var arrayBuffer = base64ToArrayBuffer(reader.result);
@@ -84,12 +91,12 @@ var App = /** @class */ (function (_super) {
         return (react_1.default.createElement("div", null,
             react_1.default.createElement("div", { className: "navigation" },
                 react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" })),
+            react_1.default.createElement("div", { className: "photos" }, this.state.photos.map(function (photo) {
+                return (react_1.default.createElement("div", { key: photo.image, className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } }));
+            })),
             react_1.default.createElement("form", { action: "", encType: "multipart/form-data" },
                 react_1.default.createElement("input", { className: "file", id: "file", type: "file", name: "image1", accept: "image/*", multiple: true, ref: this.setInputRef.bind(this) }),
-                react_1.default.createElement("label", { htmlFor: "file" }),
-                this.state.photos.map(function (photo) {
-                    return (react_1.default.createElement("div", { key: photo, className: "photo", style: { backgroundImage: "url(" + photo + ")" } }));
-                }))));
+                react_1.default.createElement("label", { htmlFor: "file" }))));
     };
     return App;
 }(react_1.default.Component));
