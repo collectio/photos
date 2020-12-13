@@ -74,6 +74,9 @@ class App extends React.Component<Props, State> {
     }
     render() {
         return (<div>
+            <div className="navigation">
+                <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
+            </div>
             <form action="" encType="multipart/form-data">
                 <input className="file" id="file" type="file" name="image1" accept="image/*" multiple={true} ref={this.setInputRef.bind(this)} />
                 <label htmlFor="file"></label>

@@ -83,6 +83,8 @@ var App = /** @class */ (function (_super) {
     };
     App.prototype.render = function () {
         return (react_1.default.createElement("div", null,
+            react_1.default.createElement("div", { className: "navigation" },
+                react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" })),
             react_1.default.createElement("form", { action: "", encType: "multipart/form-data" },
                 react_1.default.createElement("input", { className: "file", id: "file", type: "file", name: "image1", accept: "image/*", multiple: true, ref: this.setInputRef.bind(this) }),
                 react_1.default.createElement("label", { htmlFor: "file" }),

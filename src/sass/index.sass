@@ -1,21 +1,41 @@
 body
-    form
-        input
-            display: none
-        label
-            display: block
-            width: 78px
-            height: 78px
-            background-color: #ffffff
-            border: 1px solid #ffffff
-            border-radius: 50px
-            filter: drop-shadow(0px 3px 6px rgba(0,0,0,16))
-            background-image: url(./assets/plus.svg)
-            background-position: center center
-            background-repeat: no-repeat
-        .photo
-            display: block
-            width: 250px
-            height: 250px
-            background-size: contain
-            background-repeat: no-repeat
+    height: 100%
+    background-color: #000000
+    #app
+        position: relative
+        height: 100%
+        max-width: 1024px
+        margin: 0 auto
+        background-color: #ffffff
+        .navigation
+            display: flex
+            justify-content: center
+            align-items: flex-end
+            height: 100px
+            background-color:#F9F9F9
+            padding: 1rem
+            img.logo
+
+        form
+            position: absolute
+            right: 1rem
+            bottom: 1rem
+            input
+                display: none
+            label
+                display: block
+                width: 78px
+                height: 78px
+                background-color: #ffffff
+                border: 1px solid #ffffff
+                border-radius: 50px
+                filter: drop-shadow(0px 3px 6px rgba(0,0,0,16))
+                background-image: url(./assets/plus.svg)
+                background-position: center center
+                background-repeat: no-repeat
+            .photo
+                display: block
+                width: 250px
+                height: 250px
+                background-size: contain
+                background-repeat: no-repeat
