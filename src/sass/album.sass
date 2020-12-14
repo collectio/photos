@@ -7,3 +7,41 @@
         background-color:#F9F9F9
         padding: 1rem
         filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.16))
+
+    .album
+        .hero
+            position: relative
+            h4
+                color: #ffffff
+                position: absolute
+                left: calc(2.5% + 1rem)
+                bottom: 3.5rem
+                z-index: 1
+                font-size: 1.4rem
+                text-shadow: #000000 1px 0 3px
+            span
+                position: absolute
+                color: #ffffff
+                font-size: 1rem
+                left: calc(2.5% + 1rem)
+                bottom: 2rem
+                z-index: 1
+                text-shadow: #000000 1px 0 3px
+            .cover
+                width: 100%
+                height: 200px
+                background-size: cover
+                background-position: center center
+                background-repeat: no-repeat
+                border-radius: 5px
+                filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.16))
+        .photos
+            display: flex
+            flex-wrap: wrap
+            .photo
+                width: calc(33% - 0.4rem)
+                height: 200px
+                background-size: cover
+                background-position: center center
+                background-repeat: no-repeat
+                margin: 0.2rem

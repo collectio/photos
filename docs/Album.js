@@ -30,12 +30,15 @@ var Album = /** @class */ (function (_super) {
         return (react_1.default.createElement("div", { id: "album" },
             react_1.default.createElement("nav", null,
                 react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
-                    react_1.default.createElement("h4", null, album.title),
-                    react_1.default.createElement("span", null, album.date),
                     react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
             react_1.default.createElement("div", { className: "album" },
-                react_1.default.createElement("img", { src: album.photos[0].image, alt: "" }),
-                react_1.default.createElement("div", { className: "photos" }))));
+                react_1.default.createElement("div", { className: "hero" },
+                    react_1.default.createElement("h4", null, album.title),
+                    react_1.default.createElement("span", null, album.date),
+                    react_1.default.createElement("div", { className: "cover", style: { backgroundImage: "url(" + album.photos[0].image + ")" } })),
+                react_1.default.createElement("div", { className: "photos" }, album.photos.map(function (photo) {
+                    return (react_1.default.createElement("div", { key: photo.image, className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } }));
+                })))));
     };
     return Album;
 }(react_1.default.Component));

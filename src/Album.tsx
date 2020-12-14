@@ -18,15 +18,19 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
         return (<div id="album">
             <nav>
                 <Link to="/">
-                    <h4>{album.title}</h4>
-                    <span>{album.date}</span>
                     <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
                 </Link>
             </nav>
             <div className="album">
-                <img src={album.photos[0].image} alt=""/>
+                <div className="hero">
+                    <h4>{album.title}</h4>
+                    <span>{album.date}</span>
+                    <div className="cover" style={{backgroundImage: `url(${album.photos[0].image})`}}></div>
+                </div>
                 <div className="photos">
-
+                    {album.photos.map((photo: PhotoType) => {
+                        return (<div key={photo.image} className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>)
+                    })}
                 </div>
             </div>
         </div>);
