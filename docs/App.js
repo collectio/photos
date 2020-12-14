@@ -17,17 +17,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
-var exif_js_1 = __importDefault(require("exif-js"));
-var base64ToArrayBuffer = function (base64) {
-    base64 = base64.replace(/^data\:([^\;]+)\;base64,/gmi, '');
-    var binaryString = atob(base64);
-    var len = binaryString.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-    }
-    return bytes.buffer;
-};
+var react_router_dom_1 = require("react-router-dom");
+var Home_1 = __importDefault(require("./Home"));
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App(props) {
@@ -35,82 +26,27 @@ var App = /** @class */ (function (_super) {
         _this.state = {
             albums: []
         };
-        _this.input = null;
         return _this;
     }
-    App.prototype.setInputRef = function (element) {
-        this.input = element;
-    };
-    App.prototype.componentDidMount = function () {
-        var _this = this;
-        var reader = null;
-        if (this.input) {
-            this.input.addEventListener('change', function () {
-                if (_this.input && _this.input.files) {
-                    var photos_1 = [];
-                    Array.from(_this.input.files).map(function (file) {
-                        reader = new FileReader();
-                        reader.onload = function (e) {
-                            var _a, _b;
-                            photos_1.push({
-                                image: e.target.result,
-                                game: {
-                                    id: null,
-                                    title: ''
-                                }
-                            });
-                            if (((_b = (_a = _this.input) === null || _a === void 0 ? void 0 : _a.files) === null || _b === void 0 ? void 0 : _b.length) === photos_1.length) {
-                                var album = {
-                                    title: 'ある日のボードゲーム会',
-                                    date: '2020/12/13',
-                                    photos: photos_1
-                                };
-                                _this.state.albums.push(album);
-                                _this.setState({});
-                            }
-                            //回転対応 ,  回転具合を見てlabelを回転
-                            var arrayBuffer = base64ToArrayBuffer(reader.result);
-                            var exif = exif_js_1.default.readFromBinaryFile(arrayBuffer);
-                            console.log(exif);
-                            // let rotate = 0;
-                            // if (exif && exif.Orientation) {
-                            //     console.log(exif.Orientation)
-                            //   switch (exif.Orientation) {
-                            //     case 3:
-                            //       rotate = 180;
-                            //       break;
-                            //     case 6:
-                            //       rotate = 90;
-                            //       break;
-                            //     case 8:
-                            //       rotate = -90;
-                            //       break;
-                            //   }
-                            // }
-                            // label.style.transform = `rotate(${rotate}deg)`;
-                            // label.style.webkitTransform = `rotate(${rotate}deg)`;
-                        };
-                        reader.readAsDataURL(file);
-                    });
-                }
-            });
-        }
+    App.prototype.setAlbums = function (album) {
+        this.state.albums.push(album);
+        this.setState({});
     };
     App.prototype.render = function () {
-        return (react_1.default.createElement("div", null,
-            react_1.default.createElement("div", { className: "navigation" },
-                react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" })),
-            react_1.default.createElement("div", { className: "albums" }, this.state.albums.map(function (album) {
-                return (react_1.default.createElement("div", { className: "album" },
-                    react_1.default.createElement("h4", null, album.title),
-                    react_1.default.createElement("span", null, album.date),
-                    react_1.default.createElement("div", { className: "photos" }, album.photos.map(function (photo) {
-                        return (react_1.default.createElement("div", { key: photo.image, className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } }));
-                    }))));
-            })),
-            react_1.default.createElement("form", { action: "", encType: "multipart/form-data" },
-                react_1.default.createElement("input", { className: "file", id: "file", type: "file", name: "image1", accept: "image/*", multiple: true, ref: this.setInputRef.bind(this) }),
-                react_1.default.createElement("label", { htmlFor: "file" }))));
+        var _this = this;
+        return (react_1.default.createElement(react_router_dom_1.BrowserRouter, null,
+            react_1.default.createElement("nav", null,
+                react_1.default.createElement("ul", null,
+                    react_1.default.createElement("li", null,
+                        react_1.default.createElement(react_router_dom_1.Link, { to: "/" }, "Home")),
+                    react_1.default.createElement("li", null,
+                        react_1.default.createElement(react_router_dom_1.Link, { to: "/about" }, "About")),
+                    react_1.default.createElement("li", null,
+                        react_1.default.createElement(react_router_dom_1.Link, { to: "/users" }, "Users")))),
+            react_1.default.createElement(react_router_dom_1.Switch, null,
+                react_1.default.createElement(react_router_dom_1.Route, { path: "/", render: function () { return react_1.default.createElement(Home_1.default, { albums: _this.state.albums, setAlbums: _this.setAlbums.bind(_this) }); } }),
+                react_1.default.createElement(react_router_dom_1.Route, { path: "/about" }),
+                react_1.default.createElement(react_router_dom_1.Route, { path: "/users" }, "Users"))));
     };
     return App;
 }(react_1.default.Component));

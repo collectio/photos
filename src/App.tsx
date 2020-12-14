@@ -1,21 +1,27 @@
 
 import React, { ReactPropTypes } from "react";
-import EXIF from 'exif-js';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
+
+import Home from './Home';
 
 interface App {
-    input: HTMLInputElement | null
 }
 
-interface Album {
+export interface Album {
     title: string
     date: string
     photos: Photo[]
 }
-interface Photo {
+export interface Photo {
     image: string
     game: Game
 }
-interface Game {
+export interface Game {
     id: number | null
     title: string
 }
@@ -26,17 +32,6 @@ interface State {
     albums: Album[]
 }
 
-const base64ToArrayBuffer = (base64:any) => {
-    base64 = base64.replace(/^data\:([^\;]+)\;base64,/gmi, '');
-    const binaryString = atob(base64);
-    const len = binaryString.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-    return bytes.buffer;
-}
-  
 
 class App extends React.Component<Props, State> {
     constructor(props: ReactPropTypes) {
@@ -44,89 +39,35 @@ class App extends React.Component<Props, State> {
         this.state = {
             albums: []
         };
-        this.input = null;
     }
-    setInputRef(element: HTMLInputElement) {
-        this.input = element;
-    }
-    componentDidMount() {
-        let reader:any = null;
-        if (this.input) {
-            this.input.addEventListener('change', () => {
-                if (this.input && this.input.files) {
-                    let photos: Photo[] = [];
-                    Array.from(this.input.files).map((file: any) => {
-                        reader = new FileReader();
-                        reader.onload = (e:any) => {
-                            photos.push({
-                                image: e.target.result,
-                                game: {
-                                    id: null,
-                                    title: ''
-                                }
-                            });
-                            if (this.input?.files?.length === photos.length) {
-                                const album: Album = {
-                                    title: 'ある日のボードゲーム会',
-                                    date: '2020/12/13',
-                                    photos: photos
-                                }
-                                this.state.albums.push(album);
-                                this.setState({});
-                            }
-                            //回転対応 ,  回転具合を見てlabelを回転
-                            const arrayBuffer = base64ToArrayBuffer(reader.result);
-                            const exif = EXIF.readFromBinaryFile(arrayBuffer);
-                            console.log(exif)
-                            // let rotate = 0;
-                            // if (exif && exif.Orientation) {
-                            //     console.log(exif.Orientation)
-                            //   switch (exif.Orientation) {
-                            //     case 3:
-                            //       rotate = 180;
-                            //       break;
-                            //     case 6:
-                            //       rotate = 90;
-                            //       break;
-                            //     case 8:
-                            //       rotate = -90;
-                            //       break;
-                            //   }
-                            // }
-                            // label.style.transform = `rotate(${rotate}deg)`;
-                            // label.style.webkitTransform = `rotate(${rotate}deg)`;
-                        }
-                        reader.readAsDataURL(file);
-                    });
-                }
-            });
-        }
+    setAlbums(album: Album) {
+        this.state.albums.push(album);
+        this.setState({});
     }
     render() {
-        return (<div>
-            <div className="navigation">
-                <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
-            </div>
-            <div className="albums">
-            {this.state.albums.map((album) => {
-                return (
-                    <div className="album">
-                        <h4>{album.title}</h4>
-                        <span>{album.date}</span>
-                        <div className="photos">
-                        {album.photos.map((photo) => {
-                            return (<div key={photo.image} className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>)
-                        })}
-                        </div>
-                    </div>
-                )
-            })}
-            </div>
-            <form action="" encType="multipart/form-data">
-                <input className="file" id="file" type="file" name="image1" accept="image/*" multiple={true} ref={this.setInputRef.bind(this)} />
-                <label htmlFor="file"></label>
-            </form>
-        </div>);
+        return (<Router>
+            <nav>
+                <ul>
+                    <li>
+                    <Link to="/">Home</Link>
+                    </li>
+                    <li>
+                    <Link to="/about">About</Link>
+                    </li>
+                    <li>
+                    <Link to="/users">Users</Link>
+                    </li>
+                </ul>
+            </nav>
+            <Switch>
+                <Route path="/" render={() => <Home albums={this.state.albums} setAlbums={this.setAlbums.bind(this)} />} />
+                <Route path="/about">
+                </Route>
+                <Route path="/users">
+                    Users
+                </Route>
+            </Switch>
+        </Router>);
     }
 }
 export default App;
