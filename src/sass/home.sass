@@ -1,0 +1,60 @@
+#home
+    nav
+        display: flex
+        justify-content: center
+        align-items: flex-end
+        height: 100px
+        background-color:#F9F9F9
+        padding: 1rem
+        filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.16))
+    .albums
+        padding: 3rem 0
+        .album
+            position: relative
+            h4
+                color: #ffffff
+                position: absolute
+                left: calc(2.5% + 1rem)
+                bottom: 3.5rem
+                z-index: 1
+                font-size: 1.4rem
+                text-shadow: #000000 1px 0 3px
+            span
+                position: absolute
+                color: #ffffff
+                font-size: 1rem
+                left: calc(2.5% + 1rem)
+                bottom: 2rem
+                z-index: 1
+                text-shadow: #000000 1px 0 3px
+            .photos
+                display: flex
+                .photo:first-child
+                    display: block
+                    width: 95%
+                    height: 190px
+                    margin: 0 auto
+                    margin-bottom: 1rem
+                    background-size: cover
+                    background-position: center center
+                    background-repeat: no-repeat
+                    border-radius: 5px
+                    filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.16))
+
+    form
+        position: fixed
+        right: 2rem
+        bottom: 2rem
+        input
+            display: none
+        label
+            display: block
+            width: 78px
+            height: 78px
+            background-color: #ffffff
+            border: 1px solid #ffffff
+            border-radius: 50px
+            filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.16))
+            background-image: url(./assets/plus.svg)
+            background-position: center center
+            background-repeat: no-repeat

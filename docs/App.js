@@ -35,14 +35,6 @@ var App = /** @class */ (function (_super) {
     App.prototype.render = function () {
         var _this = this;
         return (react_1.default.createElement(react_router_dom_1.BrowserRouter, null,
-            react_1.default.createElement("nav", null,
-                react_1.default.createElement("ul", null,
-                    react_1.default.createElement("li", null,
-                        react_1.default.createElement(react_router_dom_1.Link, { to: "/" }, "Home")),
-                    react_1.default.createElement("li", null,
-                        react_1.default.createElement(react_router_dom_1.Link, { to: "/about" }, "About")),
-                    react_1.default.createElement("li", null,
-                        react_1.default.createElement(react_router_dom_1.Link, { to: "/users" }, "Users")))),
             react_1.default.createElement(react_router_dom_1.Switch, null,
                 react_1.default.createElement(react_router_dom_1.Route, { path: "/", render: function () { return react_1.default.createElement(Home_1.default, { albums: _this.state.albums, setAlbums: _this.setAlbums.bind(_this) }); } }),
                 react_1.default.createElement(react_router_dom_1.Route, { path: "/about" }),

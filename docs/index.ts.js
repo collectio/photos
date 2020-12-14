@@ -36,14 +36,6 @@ var App = /** @class */ (function (_super) {
     App.prototype.render = function () {
         var _this = this;
         return (react_1.default.createElement(react_router_dom_1.BrowserRouter, null,
-            react_1.default.createElement("nav", null,
-                react_1.default.createElement("ul", null,
-                    react_1.default.createElement("li", null,
-                        react_1.default.createElement(react_router_dom_1.Link, { to: "/" }, "Home")),
-                    react_1.default.createElement("li", null,
-                        react_1.default.createElement(react_router_dom_1.Link, { to: "/about" }, "About")),
-                    react_1.default.createElement("li", null,
-                        react_1.default.createElement(react_router_dom_1.Link, { to: "/users" }, "Users")))),
             react_1.default.createElement(react_router_dom_1.Switch, null,
                 react_1.default.createElement(react_router_dom_1.Route, { path: "/", render: function () { return react_1.default.createElement(Home_1.default, { albums: _this.state.albums, setAlbums: _this.setAlbums.bind(_this) }); } }),
                 react_1.default.createElement(react_router_dom_1.Route, { path: "/about" }),
@@ -73,6 +65,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
+var react_router_dom_1 = require("react-router-dom");
 var exif_js_1 = __importDefault(require("exif-js"));
 var base64ToArrayBuffer = function (base64) {
     base64 = base64.replace(/^data\:([^\;]+)\;base64,/gmi, '');
@@ -150,16 +143,20 @@ var Home = /** @class */ (function (_super) {
         }
     };
     Home.prototype.render = function () {
-        return (react_1.default.createElement("div", { className: "home" },
+        return (react_1.default.createElement("div", { id: "home" },
             react_1.default.createElement("nav", null,
                 react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" })),
             react_1.default.createElement("div", { className: "albums" }, this.props.albums.map(function (album) {
-                return (react_1.default.createElement("div", { className: "album" },
-                    react_1.default.createElement("h4", null, album.title),
-                    react_1.default.createElement("span", null, album.date),
-                    react_1.default.createElement("div", { className: "photos" }, album.photos.map(function (photo) {
-                        return (react_1.default.createElement("div", { key: photo.image, className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } }));
-                    }))));
+                return (react_1.default.createElement(react_router_dom_1.Link, { to: {
+                        pathname: "/album",
+                        state: { album: album }
+                    } },
+                    react_1.default.createElement("div", { className: "album" },
+                        react_1.default.createElement("h4", null, album.title),
+                        react_1.default.createElement("span", null, album.date),
+                        react_1.default.createElement("div", { className: "photos" }, album.photos.map(function (photo) {
+                            return (react_1.default.createElement("div", { key: photo.image, className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } }));
+                        })))));
             })),
             react_1.default.createElement("form", { action: "", encType: "multipart/form-data" },
                 react_1.default.createElement("input", { className: "file", id: "file", type: "file", name: "file", accept: "image/*", multiple: true, ref: this.setInputRef.bind(this) }),
@@ -169,7 +166,7 @@ var Home = /** @class */ (function (_super) {
 }(react_1.default.Component));
 exports.default = Home;
 
-},{"exif-js":5,"react":34}],3:[function(require,module,exports){
+},{"exif-js":5,"react":34,"react-router-dom":28}],3:[function(require,module,exports){
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };

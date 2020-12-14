@@ -1,5 +1,6 @@
 import React from "react";
-import {Album, Photo, Game} from './App';
+import {Link} from "react-router-dom";
+import {AlbumType, PhotoType, GameType} from './App';
 import EXIF from 'exif-js';
 
 interface Home {
@@ -7,7 +8,7 @@ interface Home {
 }
 
 interface Props {
-    albums: Album[]
+    albums: AlbumType[]
     setAlbums: Function
 }
 interface State {
@@ -39,7 +40,7 @@ class Home extends React.Component<Props, State> {
         if (this.input) {
             this.input.addEventListener('change', () => {
                 if (this.input && this.input.files) {
-                    let photos: Photo[] = [];
+                    let photos: PhotoType[] = [];
                     Array.from(this.input.files).map((file: any) => {
                         reader = new FileReader();
                         reader.onload = (e:any) => {
@@ -51,7 +52,7 @@ class Home extends React.Component<Props, State> {
                                 }
                             });
                             if (this.input?.files?.length === photos.length) {
-                                const album: Album = {
+                                const album: AlbumType = {
                                     title: 'ある日のボードゲーム会',
                                     date: '2020/12/13',
                                     photos: photos
@@ -87,13 +88,16 @@ class Home extends React.Component<Props, State> {
         }
     }
     render() {
-        return (<div className="home">
+        return (<div id="home">
             <nav>
                 <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
             </nav>
             <div className="albums">
             {this.props.albums.map((album) => {
-                return (
+                return (<Link to={{
+                    pathname: "/album",
+                    state: { album: album }
+                }}>
                     <div className="album">
                         <h4>{album.title}</h4>
                         <span>{album.date}</span>
@@ -103,7 +107,7 @@ class Home extends React.Component<Props, State> {
                         })}
                         </div>
                     </div>
-                )
+                </Link>)
             })}
             </div>
             <form action="" encType="multipart/form-data">

@@ -8,20 +8,21 @@ import {
 } from "react-router-dom";
 
 import Home from './Home';
+import Album from './Album';
 
 interface App {
 }
 
-export interface Album {
+export interface AlbumType {
     title: string
     date: string
-    photos: Photo[]
+    photos: PhotoType[]
 }
-export interface Photo {
+export interface PhotoType {
     image: string
-    game: Game
+    game: GameType
 }
-export interface Game {
+export interface GameType {
     id: number | null
     title: string
 }
@@ -46,19 +47,6 @@ class App extends React.Component<Props, State> {
     }
     render() {
         return (<Router>
-            <nav>
-                <ul>
-                    <li>
-                    <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                    <Link to="/about">About</Link>
-                    </li>
-                    <li>
-                    <Link to="/users">Users</Link>
-                    </li>
-                </ul>
-            </nav>
             <Switch>
                 <Route path="/" render={() => <Home albums={this.state.albums} setAlbums={this.setAlbums.bind(this)} />} />
                 <Route path="/about">
