@@ -90,7 +90,9 @@ class Home extends React.Component<Props, State> {
     render() {
         return (<div id="home">
             <nav>
-                <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
+                <Link to="/">
+                    <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
+                </Link>
             </nav>
             <div className="albums">
             {this.props.albums.map((album) => {

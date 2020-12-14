@@ -35,9 +35,9 @@ var App = /** @class */ (function (_super) {
     };
     App.prototype.render = function () {
         var _this = this;
-        return (react_1.default.createElement(react_router_dom_1.BrowserRouter, null,
+        return (react_1.default.createElement(react_router_dom_1.HashRouter, null,
             react_1.default.createElement(react_router_dom_1.Switch, null,
-                react_1.default.createElement(react_router_dom_1.Route, { path: "/", render: function () { return react_1.default.createElement(Home_1.default, { albums: _this.state.albums, setAlbums: _this.setAlbums.bind(_this) }); } }),
+                react_1.default.createElement(react_router_dom_1.Route, { exact: true, path: "/", render: function () { return react_1.default.createElement(Home_1.default, { albums: _this.state.albums, setAlbums: _this.setAlbums.bind(_this) }); } }),
                 react_1.default.createElement(react_router_dom_1.Route, { path: "/album", render: function () { return react_1.default.createElement(Album_1.default, null); } }))));
     };
     return App;

@@ -97,7 +97,8 @@ var Home = /** @class */ (function (_super) {
     Home.prototype.render = function () {
         return (react_1.default.createElement("div", { id: "home" },
             react_1.default.createElement("nav", null,
-                react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" })),
+                react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
+                    react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
             react_1.default.createElement("div", { className: "albums" }, this.props.albums.map(function (album) {
                 return (react_1.default.createElement(react_router_dom_1.Link, { to: {
                         pathname: "/album",

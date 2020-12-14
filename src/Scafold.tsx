@@ -1,12 +1,14 @@
-import React, { ReactPropTypes } from "react";
+import React from "react";
+import {withRouter, RouteComponentProps, Link} from "react-router-dom";
+import {AlbumType, PhotoType, GameType} from './App';
 
 interface Props {
 }
 interface State {
 }
 
-class Scafold extends React.Component<Props, State> {
-    constructor(props: ReactPropTypes) {
+class Scafold extends React.Component<Props & RouteComponentProps, State> {
+    constructor(props: any) {
         super(props);
         this.state = {
         };
@@ -16,4 +18,4 @@ class Scafold extends React.Component<Props, State> {
     }
 }
 
-export default Scafold;
+export default withRouter(Scafold);

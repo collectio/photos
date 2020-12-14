@@ -17,6 +17,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
+var react_router_dom_1 = require("react-router-dom");
 var Album = /** @class */ (function (_super) {
     __extends(Album, _super);
     function Album(props) {
@@ -27,10 +28,11 @@ var Album = /** @class */ (function (_super) {
     Album.prototype.render = function () {
         return (react_1.default.createElement("div", { id: "album" },
             react_1.default.createElement("nav", null,
-                react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" })),
-            react_1.default.createElement("div", { className: "albums" })));
+                react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
+                    react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
+            react_1.default.createElement("div", { className: "albums" }, "test")));
     };
     return Album;
 }(react_1.default.Component));
-exports.default = Album;
+exports.default = react_router_dom_1.withRouter(Album);
 //# sourceMappingURL=Album.js.map

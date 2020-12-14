@@ -18,6 +18,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
+var react_router_dom_1 = require("react-router-dom");
 var Album = /** @class */ (function (_super) {
     __extends(Album, _super);
     function Album(props) {
@@ -28,14 +29,15 @@ var Album = /** @class */ (function (_super) {
     Album.prototype.render = function () {
         return (react_1.default.createElement("div", { id: "album" },
             react_1.default.createElement("nav", null,
-                react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" })),
-            react_1.default.createElement("div", { className: "albums" })));
+                react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
+                    react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
+            react_1.default.createElement("div", { className: "albums" }, "test")));
     };
     return Album;
 }(react_1.default.Component));
-exports.default = Album;
+exports.default = react_router_dom_1.withRouter(Album);
 
-},{"react":35}],2:[function(require,module,exports){
+},{"react":35,"react-router-dom":29}],2:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -73,9 +75,9 @@ var App = /** @class */ (function (_super) {
     };
     App.prototype.render = function () {
         var _this = this;
-        return (react_1.default.createElement(react_router_dom_1.BrowserRouter, null,
+        return (react_1.default.createElement(react_router_dom_1.HashRouter, null,
             react_1.default.createElement(react_router_dom_1.Switch, null,
-                react_1.default.createElement(react_router_dom_1.Route, { path: "/", render: function () { return react_1.default.createElement(Home_1.default, { albums: _this.state.albums, setAlbums: _this.setAlbums.bind(_this) }); } }),
+                react_1.default.createElement(react_router_dom_1.Route, { exact: true, path: "/", render: function () { return react_1.default.createElement(Home_1.default, { albums: _this.state.albums, setAlbums: _this.setAlbums.bind(_this) }); } }),
                 react_1.default.createElement(react_router_dom_1.Route, { path: "/album", render: function () { return react_1.default.createElement(Album_1.default, null); } }))));
     };
     return App;
@@ -182,7 +184,8 @@ var Home = /** @class */ (function (_super) {
     Home.prototype.render = function () {
         return (react_1.default.createElement("div", { id: "home" },
             react_1.default.createElement("nav", null,
-                react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" })),
+                react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
+                    react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
             react_1.default.createElement("div", { className: "albums" }, this.props.albums.map(function (album) {
                 return (react_1.default.createElement(react_router_dom_1.Link, { to: {
                         pathname: "/album",

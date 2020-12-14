@@ -1,7 +1,7 @@
 
 import React, { ReactPropTypes } from "react";
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
     Switch,
     Route,
     Link
@@ -48,7 +48,7 @@ class App extends React.Component<Props, State> {
     render() {
         return (<Router>
             <Switch>
-                <Route path="/" render={() => <Home albums={this.state.albums} setAlbums={this.setAlbums.bind(this)} />} />
+                <Route exact path="/" render={() => <Home albums={this.state.albums} setAlbums={this.setAlbums.bind(this)} />} />
                 <Route path="/album" render={() => <Album />} />
             </Switch>
         </Router>);
