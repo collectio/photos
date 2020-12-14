@@ -30,7 +30,7 @@ export interface GameType {
 interface Props {
 }
 interface State {
-    albums: Album[]
+    albums: AlbumType[]
 }
 
 
@@ -41,7 +41,7 @@ class App extends React.Component<Props, State> {
             albums: []
         };
     }
-    setAlbums(album: Album) {
+    setAlbums(album: AlbumType) {
         this.state.albums.push(album);
         this.setState({});
     }
@@ -49,11 +49,7 @@ class App extends React.Component<Props, State> {
         return (<Router>
             <Switch>
                 <Route path="/" render={() => <Home albums={this.state.albums} setAlbums={this.setAlbums.bind(this)} />} />
-                <Route path="/about">
-                </Route>
-                <Route path="/users">
-                    Users
-                </Route>
+                <Route path="/album" render={() => <Album />} />
             </Switch>
         </Router>);
     }
