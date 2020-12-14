@@ -26,11 +26,16 @@ var Album = /** @class */ (function (_super) {
         return _this;
     }
     Album.prototype.render = function () {
+        var album = this.props.location.state.album;
         return (react_1.default.createElement("div", { id: "album" },
             react_1.default.createElement("nav", null,
                 react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
+                    react_1.default.createElement("h4", null, album.title),
+                    react_1.default.createElement("span", null, album.date),
                     react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
-            react_1.default.createElement("div", { className: "albums" }, "test")));
+            react_1.default.createElement("div", { className: "album" },
+                react_1.default.createElement("img", { src: album.photos[0].image, alt: "" }),
+                react_1.default.createElement("div", { className: "photos" }))));
     };
     return Album;
 }(react_1.default.Component));
