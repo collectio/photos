@@ -11,6 +11,7 @@
     .album
         .hero
             position: relative
+            margin: 0.5rem
             h4
                 color: #ffffff
                 position: absolute
@@ -33,7 +34,16 @@
                 background-size: cover
                 background-position: center center
                 background-repeat: no-repeat
-                filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.16))
+                border-radius: 5px
+        .actions
+            padding: 0.5rem 0.6rem
+            a.add
+                color: #000000
+                text-decoration: none
+                background-image: url(../assets/add.svg)
+                background-repeat: no-repeat
+                background-size: 1rem 1rem
+                padding-left: 1.2rem
         .photos
             display: flex
             flex-wrap: wrap
@@ -43,7 +53,7 @@
                 width: calc(33% - 0.4rem)
                 height: 200px
                 .photo
-                    width: calc(33% - 0.4rem)
+                    width: 100%
                     height: 200px
                     background-size: cover
                     background-position: center center

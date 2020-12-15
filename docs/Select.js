@@ -18,24 +18,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
 var react_router_dom_1 = require("react-router-dom");
-var Photo = /** @class */ (function (_super) {
-    __extends(Photo, _super);
-    function Photo(props) {
+var Scafold = /** @class */ (function (_super) {
+    __extends(Scafold, _super);
+    function Scafold(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {};
         return _this;
     }
-    Photo.prototype.render = function () {
-        var photo = this.props.location.state.photo;
-        var album = this.props.location.state.album;
-        return (react_1.default.createElement("div", { id: "photo", style: { backgroundImage: "url(" + photo.image + ")" } },
-            react_1.default.createElement(react_router_dom_1.Link, { to: {
-                    pathname: "/album",
-                    state: { album: album }
-                }, className: "close" },
-                react_1.default.createElement("img", { src: "./assets/close.svg" }))));
+    Scafold.prototype.render = function () {
+        return null;
     };
-    return Photo;
+    return Scafold;
 }(react_1.default.Component));
-exports.default = react_router_dom_1.withRouter(Photo);
-//# sourceMappingURL=Photo.js.map
+exports.default = react_router_dom_1.withRouter(Scafold);
+//# sourceMappingURL=Select.js.map

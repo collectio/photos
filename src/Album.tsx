@@ -5,6 +5,7 @@ import {AlbumType, PhotoType, GameType} from './@types/index';
 
 
 interface Props {
+    album: AlbumType
 }
 interface State {
 }
@@ -16,7 +17,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
         };
     }
     render() {
-        const {album} = this.props.location.state as any;
+        const {album} = this.props.location.state as any
         return (<div id="album">
             <nav>
                 <Link to="/">
@@ -30,19 +31,17 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                     <div className="cover" style={{backgroundImage: `url(${album.photos[0].image})`}}></div>
                 </div>
                 <div className="actions">
-                    <Link to="/select">
-                        <span className="add">
-                            遊んだゲーム
-                        </span>
+                    <Link to="/select" className="add">
+                        遊んだゲーム
                     </Link>
                 </div>
                 <div className="photos">
                     {album.photos.map((photo: PhotoType) => {
                         return (<Link to={{
                             pathname: "/photo",
-                            state: { photo: photo }
-                        }}>
-                            <div key={photo.image} className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>
+                            state: { album: album, photo: photo }
+                        }} key={photo.image}>
+                            <div className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>
                         </Link>);
                     })}
                 </div>
