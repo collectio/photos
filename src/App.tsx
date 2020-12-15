@@ -7,24 +7,11 @@ import {
     Link
 } from "react-router-dom";
 
+import {AlbumType, PhotoType, GameType} from './@types/index';
 import Home from './Home';
 import Album from './Album';
 
 interface App {
-}
-
-export interface AlbumType {
-    title: string
-    date: string
-    photos: PhotoType[]
-}
-export interface PhotoType {
-    image: string
-    game: GameType
-}
-export interface GameType {
-    id: number | null
-    title: string
 }
 
 interface Props {

@@ -1,6 +1,8 @@
 import React from "react";
 import {withRouter, RouteComponentProps, Link} from "react-router-dom";
-import {AlbumType, PhotoType, GameType} from './App';
+
+import {AlbumType, PhotoType, GameType} from './@types/index';
+
 
 interface Props {
 }
@@ -27,9 +29,21 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                     <span>{album.date}</span>
                     <div className="cover" style={{backgroundImage: `url(${album.photos[0].image})`}}></div>
                 </div>
+                <div className="actions">
+                    <Link to="/select">
+                        <span className="add">
+                            遊んだゲーム
+                        </span>
+                    </Link>
+                </div>
                 <div className="photos">
                     {album.photos.map((photo: PhotoType) => {
-                        return (<div key={photo.image} className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>)
+                        return (<Link to={{
+                            pathname: "/photo",
+                            state: { photo: photo }
+                        }}>
+                            <div key={photo.image} className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>
+                        </Link>);
                     })}
                 </div>
             </div>

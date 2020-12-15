@@ -37,8 +37,15 @@ var Album = /** @class */ (function (_super) {
                     react_1.default.createElement("h4", null, album.title),
                     react_1.default.createElement("span", null, album.date),
                     react_1.default.createElement("div", { className: "cover", style: { backgroundImage: "url(" + album.photos[0].image + ")" } })),
+                react_1.default.createElement("div", { className: "actions" },
+                    react_1.default.createElement(react_router_dom_1.Link, { to: "/select" },
+                        react_1.default.createElement("span", { className: "add" }, "\u904A\u3093\u3060\u30B2\u30FC\u30E0"))),
                 react_1.default.createElement("div", { className: "photos" }, album.photos.map(function (photo) {
-                    return (react_1.default.createElement("div", { key: photo.image, className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } }));
+                    return (react_1.default.createElement(react_router_dom_1.Link, { to: {
+                            pathname: "/photo",
+                            state: { photo: photo }
+                        } },
+                        react_1.default.createElement("div", { key: photo.image, className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } })));
                 })))));
     };
     return Album;

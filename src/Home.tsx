@@ -1,7 +1,9 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {AlbumType, PhotoType, GameType} from './App';
 import EXIF from 'exif-js';
+
+import {AlbumType, PhotoType, GameType} from './@types/index';
+
 
 interface Home {
     input: HTMLInputElement | null

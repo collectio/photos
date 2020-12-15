@@ -7,7 +7,7 @@ interface Props {
 interface State {
 }
 
-class Scafold extends React.Component<Props & RouteComponentProps, State> {
+class Photo extends React.Component<Props & RouteComponentProps, State> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -18,4 +18,4 @@ class Scafold extends React.Component<Props & RouteComponentProps, State> {
     }
 }
 
-export default withRouter(Scafold);
+export default withRouter(Photo);
