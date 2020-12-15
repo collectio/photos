@@ -26,7 +26,10 @@ var Photo = /** @class */ (function (_super) {
         return _this;
     }
     Photo.prototype.render = function () {
-        return null;
+        var _this = this;
+        var photo = this.props.location.state.photo;
+        return (react_1.default.createElement("div", { id: "photo", style: { backgroundImage: "url(" + photo.image + ")" } },
+            react_1.default.createElement("img", { src: "./assets/close.svg", className: "close", onClick: function () { return _this.props.history.goBack(); } })));
     };
     return Photo;
 }(react_1.default.Component));
