@@ -38,7 +38,10 @@ var Album = /** @class */ (function (_super) {
                     react_1.default.createElement("span", null, album.date),
                     react_1.default.createElement("div", { className: "cover", style: { backgroundImage: "url(" + album.photos[0].image + ")" } })),
                 react_1.default.createElement("div", { className: "actions" },
-                    react_1.default.createElement(react_router_dom_1.Link, { to: "/select", className: "add" }, "\u904A\u3093\u3060\u30B2\u30FC\u30E0")),
+                    react_1.default.createElement(react_router_dom_1.Link, { to: {
+                            pathname: "/select",
+                            state: { album: album }
+                        }, className: "add" }, "\u904A\u3093\u3060\u30B2\u30FC\u30E0")),
                 react_1.default.createElement("div", { className: "photos" }, album.photos.map(function (photo) {
                     return (react_1.default.createElement(react_router_dom_1.Link, { to: {
                             pathname: "/photo",
@@ -330,8 +333,10 @@ var Select = /** @class */ (function (_super) {
     function Select(props) {
         var _this = _super.call(this, props) || this;
         _this.textInput = null;
+        var album = _this.props.location.state.album;
         _this.state = {
             loading: false,
+            album: album,
             suggests: [],
         };
         return _this;
@@ -421,16 +426,18 @@ var Select = /** @class */ (function (_super) {
         });
     };
     Select.prototype.selectSuggest = function (suggest) {
+        this.state.album.photos[0].game.title = suggest.title;
         this.setState({ suggests: [] });
         this.textInput.value = '';
         this.textInput.focus();
     };
     Select.prototype.render = function () {
         var _this = this;
-        var album = this.props.location.state.album;
         return (react_1.default.createElement("div", { id: "select" },
-            react_1.default.createElement("div", { className: "photos" }, album.photos.map(function (photo) {
-                return (react_1.default.createElement("img", { key: photo.image, className: "photo", src: photo.image }));
+            react_1.default.createElement("div", { className: "photos" }, this.state.album.photos.map(function (photo) {
+                return (react_1.default.createElement("div", { key: photo.image, className: "photo" },
+                    react_1.default.createElement("img", { src: photo.image }),
+                    react_1.default.createElement("span", null, photo.game.title ? photo.game.title : '遊んだゲーム未設定')));
             })),
             react_1.default.createElement("form", { action: "", onSubmit: this.onSearch.bind(this) },
                 react_1.default.createElement("input", { type: "text", ref: this.setTextInputRef.bind(this), onChange: this.onSearch.bind(this) }),

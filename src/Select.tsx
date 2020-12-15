@@ -3,6 +3,7 @@ import {withRouter, RouteComponentProps, Link} from "react-router-dom";
 import {AlbumType, PhotoType, GameType} from './@types/index';
 
 import fetchJsonp from "fetch-jsonp";
+import Photo from "./Photo";
 
 interface Select {
     textInput: any;
@@ -17,6 +18,7 @@ interface Props {
 }
 interface State {
     loading: boolean
+    album: AlbumType
     suggests: Suggest[]
 }
 
@@ -24,8 +26,10 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
     constructor(props: any) {
         super(props);
         this.textInput = null;
+        const {album} = this.props.location.state as any
         this.state = {
             loading: false,
+            album: album,
             suggests: [],
         };
     }
@@ -83,19 +87,20 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         return suggests
     }
     selectSuggest(suggest: Suggest) {
+        this.state.album.photos[0].game.title = suggest.title;
         this.setState({suggests: []})
         this.textInput.value = ''
         this.textInput.focus()
     }
     render() {
-        const {album} = this.props.location.state as any
         return (
             <div id="select">
                 <div className="photos">
-                    {album.photos.map((photo: PhotoType) => {
-                        return (
-                            <img key={photo.image} className="photo" src={photo.image} />
-                        );
+                    {this.state.album.photos.map((photo: PhotoType) => {
+                        return (<div key={photo.image} className="photo">
+                            <img src={photo.image} />
+                            <span>{photo.game.title ? photo.game.title : '遊んだゲーム未設定'}</span>
+                        </div>);
                     })}
                 </div>
                 <form action="" onSubmit={this.onSearch.bind(this)}>
