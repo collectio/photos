@@ -14,7 +14,7 @@ class Scafold extends React.Component<Props & RouteComponentProps, State> {
         };
     }
     render() {
-        return null;
+        return (<div id=""></div>);
     }
 }
 

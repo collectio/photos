@@ -26,7 +26,7 @@ var Scafold = /** @class */ (function (_super) {
         return _this;
     }
     Scafold.prototype.render = function () {
-        return null;
+        return (react_1.default.createElement("div", { id: "select" }));
     };
     return Scafold;
 }(react_1.default.Component));
