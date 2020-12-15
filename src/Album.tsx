@@ -5,7 +5,6 @@ import {AlbumType, PhotoType, GameType} from './@types/index';
 
 
 interface Props {
-    album: AlbumType
 }
 interface State {
 }

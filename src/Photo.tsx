@@ -16,7 +16,8 @@ class Photo extends React.Component<Props & RouteComponentProps, State> {
     render() {
         const {photo} = this.props.location.state as any;
         const {album} = this.props.location.state as any;
-        return (<div id="photo" style={{backgroundImage: `url(${photo.image})`}}>
+        return (<div id="photo">
+            <div style={{backgroundImage: `url(${photo.image})`}}></div>
             <Link to={{
                 pathname: "/album",
                 state: { album: album }

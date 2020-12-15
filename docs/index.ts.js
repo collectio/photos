@@ -94,7 +94,7 @@ var App = /** @class */ (function (_super) {
         return (react_1.default.createElement(react_router_dom_1.HashRouter, null,
             react_1.default.createElement(react_router_dom_1.Switch, null,
                 react_1.default.createElement(react_router_dom_1.Route, { exact: true, path: "/", render: function () { return react_1.default.createElement(Home_1.default, { albums: _this.state.albums, setAlbums: _this.setAlbums.bind(_this) }); } }),
-                react_1.default.createElement(react_router_dom_1.Route, { path: "/album", render: function () { return react_1.default.createElement(Album_1.default, { album: _this.state.albums[0] }); } }),
+                react_1.default.createElement(react_router_dom_1.Route, { path: "/album", render: function () { return react_1.default.createElement(Album_1.default, null); } }),
                 react_1.default.createElement(react_router_dom_1.Route, { path: "/photo", render: function () { return react_1.default.createElement(Photo_1.default, null); } }),
                 react_1.default.createElement(react_router_dom_1.Route, { path: "/select", render: function () { return react_1.default.createElement(Select_1.default, null); } }))));
     };
@@ -208,7 +208,7 @@ var Home = /** @class */ (function (_super) {
                 return (react_1.default.createElement(react_router_dom_1.Link, { to: {
                         pathname: "/album",
                         state: { album: album }
-                    } },
+                    }, key: album.title + album.date },
                     react_1.default.createElement("div", { className: "album" },
                         react_1.default.createElement("h4", null, album.title),
                         react_1.default.createElement("span", null, album.date),
@@ -255,12 +255,13 @@ var Photo = /** @class */ (function (_super) {
     Photo.prototype.render = function () {
         var photo = this.props.location.state.photo;
         var album = this.props.location.state.album;
-        return (react_1.default.createElement("div", { id: "photo", style: { backgroundImage: "url(" + photo.image + ")" } },
+        return (react_1.default.createElement("div", { id: "photo" },
+            react_1.default.createElement("div", { style: { backgroundImage: "url(" + photo.image + ")" } }),
             react_1.default.createElement(react_router_dom_1.Link, { to: {
                     pathname: "/album",
                     state: { album: album }
-                } },
-                react_1.default.createElement("img", { src: "./assets/close.svg", className: "close" }))));
+                }, className: "close" },
+                react_1.default.createElement("img", { src: "./assets/close.svg" }))));
     };
     return Photo;
 }(react_1.default.Component));

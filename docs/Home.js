@@ -103,7 +103,7 @@ var Home = /** @class */ (function (_super) {
                 return (react_1.default.createElement(react_router_dom_1.Link, { to: {
                         pathname: "/album",
                         state: { album: album }
-                    } },
+                    }, key: album.title + album.date },
                     react_1.default.createElement("div", { className: "album" },
                         react_1.default.createElement("h4", null, album.title),
                         react_1.default.createElement("span", null, album.date),

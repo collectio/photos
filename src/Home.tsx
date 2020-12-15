@@ -101,7 +101,7 @@ class Home extends React.Component<Props, State> {
                 return (<Link to={{
                     pathname: "/album",
                     state: { album: album }
-                }}>
+                }} key={album.title+album.date}>
                     <div className="album">
                         <h4>{album.title}</h4>
                         <span>{album.date}</span>

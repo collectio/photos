@@ -28,7 +28,8 @@ var Photo = /** @class */ (function (_super) {
     Photo.prototype.render = function () {
         var photo = this.props.location.state.photo;
         var album = this.props.location.state.album;
-        return (react_1.default.createElement("div", { id: "photo", style: { backgroundImage: "url(" + photo.image + ")" } },
+        return (react_1.default.createElement("div", { id: "photo" },
+            react_1.default.createElement("div", { style: { backgroundImage: "url(" + photo.image + ")" } }),
             react_1.default.createElement(react_router_dom_1.Link, { to: {
                     pathname: "/album",
                     state: { album: album }
