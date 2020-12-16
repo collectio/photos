@@ -55,6 +55,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
 var react_router_dom_1 = require("react-router-dom");
 var fetch_jsonp_1 = __importDefault(require("fetch-jsonp"));
+var Slider_1 = __importDefault(require("./Slider"));
 var Select = /** @class */ (function (_super) {
     __extends(Select, _super);
     function Select(props) {
@@ -161,6 +162,7 @@ var Select = /** @class */ (function (_super) {
     Select.prototype.render = function () {
         var _this = this;
         return (react_1.default.createElement("div", { id: "select" },
+            react_1.default.createElement(Slider_1.default, { album: this.state.album }),
             react_1.default.createElement("div", { className: "photos" }, this.state.album.photos.map(function (photo) {
                 return (react_1.default.createElement("div", { key: photo.image, className: "photo" },
                     react_1.default.createElement("img", { src: photo.image }),

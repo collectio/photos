@@ -3,7 +3,7 @@ import {withRouter, RouteComponentProps, Link} from "react-router-dom";
 import {AlbumType, PhotoType, GameType} from './@types/index';
 
 import fetchJsonp from "fetch-jsonp";
-import Photo from "./Photo";
+import SimpleSlider from './Slider'
 
 interface Select {
     textInput: any;
@@ -95,6 +95,7 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
     render() {
         return (
             <div id="select">
+                <SimpleSlider album={this.state.album} />
                 <div className="photos">
                     {this.state.album.photos.map((photo: PhotoType) => {
                         return (<div key={photo.image} className="photo">
