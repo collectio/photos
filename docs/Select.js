@@ -64,15 +64,16 @@ var Select = /** @class */ (function (_super) {
         try {
             var album = _this.props.location.state.album;
             _this.state = {
+                index: 0,
                 loading: false,
                 album: album,
                 suggests: [],
             };
         }
         catch (_a) {
-            alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。');
             _this.props.history.push('/');
             location.reload();
+            alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。');
         }
         return _this;
     }
@@ -161,15 +162,18 @@ var Select = /** @class */ (function (_super) {
         });
     };
     Select.prototype.selectSuggest = function (suggest) {
-        this.state.album.photos[0].game.title = suggest.title;
+        this.state.album.photos[this.state.index].game.title = suggest.title;
         this.setState({ suggests: [] });
         this.textInput.value = '';
         this.textInput.focus();
     };
+    Select.prototype.afterChange = function (index) {
+        this.setState({ index: index });
+    };
     Select.prototype.render = function () {
         var _this = this;
         return (react_1.default.createElement("div", { id: "select" },
-            react_1.default.createElement(Slider_1.default, { album: this.state.album }),
+            react_1.default.createElement(Slider_1.default, { album: this.state.album, afterChange: this.afterChange.bind(this) }),
             react_1.default.createElement("form", { action: "", onSubmit: this.onSearch.bind(this) },
                 react_1.default.createElement("input", { type: "text", ref: this.setTextInputRef.bind(this), placeholder: "\u30B2\u30FC\u30E0\u3092\u691C\u7D22", onChange: this.onSearch.bind(this) })),
             this.state.suggests.length === 0 && this.state.loading ? (react_1.default.createElement("div", { className: "suggests" }, "\u8AAD\u307F\u8FBC\u307F\u4E2D...")) : null,

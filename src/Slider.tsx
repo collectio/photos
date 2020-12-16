@@ -4,6 +4,7 @@ import Slider from "react-slick";
 
 interface Prop {
   album: AlbumType
+  afterChange: any
 }
 interface State {
 
@@ -17,9 +18,7 @@ class SimpleSlider extends React.Component<Prop, State> {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        afterChange: (index: number) => {
-          console.log(index)
-        }
+        afterChange: this.props.afterChange
       };
       return (
         <Slider {...settings}>

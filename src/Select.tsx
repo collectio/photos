@@ -20,6 +20,7 @@ interface State {
     loading: boolean
     album: AlbumType
     suggests: Suggest[]
+    index: number
 }
 
 class Select extends React.Component<Props & RouteComponentProps, State> {
@@ -29,14 +30,15 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         try {
             const {album} = this.props.location.state as any
             this.state = {
+                index: 0,
                 loading: false,
                 album: album,
                 suggests: [],
             };
         } catch {
-            alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。')
             this.props.history.push('/')
             location.reload()
+            alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。')
         }
     }
     componentDidMount() {
@@ -93,15 +95,18 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         return suggests
     }
     selectSuggest(suggest: Suggest) {
-        this.state.album.photos[0].game.title = suggest.title;
+        this.state.album.photos[this.state.index].game.title = suggest.title;
         this.setState({suggests: []})
         this.textInput.value = ''
         this.textInput.focus()
     }
+    afterChange(index: number) {
+        this.setState({index: index})
+    }
     render() {
         return (
             <div id="select">
-                <SimpleSlider album={this.state.album} />
+                <SimpleSlider album={this.state.album} afterChange={this.afterChange.bind(this)} />
                 <form action="" onSubmit={this.onSearch.bind(this)}>
                     <input type="text" ref={this.setTextInputRef.bind(this)} placeholder="ゲームを検索" onChange={this.onSearch.bind(this)} />
                 </form>
