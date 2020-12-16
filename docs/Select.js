@@ -63,11 +63,13 @@ var Select = /** @class */ (function (_super) {
         _this.textInput = null;
         try {
             var album = _this.props.location.state.album;
+            var histories = localStorage.getItem('histories');
             _this.state = {
                 index: 0,
                 loading: false,
                 album: album,
                 suggests: [],
+                histories: histories ? JSON.parse(histories).slice(0, 10) : []
             };
         }
         catch (_a) {
@@ -163,6 +165,14 @@ var Select = /** @class */ (function (_super) {
     };
     Select.prototype.selectSuggest = function (suggest) {
         this.state.album.photos[this.state.index].game.title = suggest.title;
+        this.state.histories.push(suggest);
+        this.setState({ suggests: [] });
+        localStorage.setItem('histories', JSON.stringify(this.state.histories));
+        this.textInput.value = '';
+        this.textInput.focus();
+    };
+    Select.prototype.selectHistory = function (history) {
+        this.state.album.photos[this.state.index].game.title = history.title;
         this.setState({ suggests: [] });
         this.textInput.value = '';
         this.textInput.focus();
@@ -178,8 +188,13 @@ var Select = /** @class */ (function (_super) {
                 react_1.default.createElement("input", { type: "text", ref: this.setTextInputRef.bind(this), placeholder: "\u30B2\u30FC\u30E0\u3092\u691C\u7D22", onChange: this.onSearch.bind(this) })),
             this.state.suggests.length === 0 && this.state.loading ? (react_1.default.createElement("div", { className: "suggests" }, "\u8AAD\u307F\u8FBC\u307F\u4E2D...")) : null,
             this.state.suggests.length > 0 ? (react_1.default.createElement("div", { className: "suggests" }, this.state.suggests.slice(0, 10).map(function (suggest, i) {
-                return react_1.default.createElement("div", { key: i, onClick: _this.selectSuggest.bind(_this, suggest) }, suggest.title);
-            }))) : null));
+                return react_1.default.createElement("div", { key: 'suggest' + i, onClick: _this.selectSuggest.bind(_this, suggest) }, suggest.title);
+            }))) : null,
+            react_1.default.createElement("div", { className: "histories" },
+                react_1.default.createElement("p", null, "\u6700\u8FD1\u904A\u3093\u3060\u30B2\u30FC\u30E0"),
+                this.state.histories.slice(0, 10).map(function (history, i) {
+                    return react_1.default.createElement("div", { key: 'history' + i, onClick: _this.selectHistory.bind(_this, history) }, history.title);
+                }))));
     };
     return Select;
 }(react_1.default.Component));

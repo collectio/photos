@@ -8,10 +8,6 @@ import SimpleSlider from './Slider'
 interface Select {
     textInput: any;
 }
-interface Suggest {
-    title: string;
-    year?: string;
-}
 
 interface Props {
 
@@ -19,8 +15,9 @@ interface Props {
 interface State {
     loading: boolean
     album: AlbumType
-    suggests: Suggest[]
     index: number
+    suggests: GameType[]
+    histories: GameType[]
 }
 
 class Select extends React.Component<Props & RouteComponentProps, State> {
@@ -29,11 +26,13 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         this.textInput = null;
         try {
             const {album} = this.props.location.state as any
+            const histories = localStorage.getItem('histories')
             this.state = {
                 index: 0,
                 loading: false,
                 album: album,
                 suggests: [],
+                histories: histories ? JSON.parse(histories).slice(0, 10) : []
             };
         } catch {
             this.props.history.push('/')
@@ -64,7 +63,7 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         }
         const suggests = await this.suggest(query)
         this.setState({ loading: false })
-        let mergedSuggests:Suggest[] = games.concat(suggests)
+        let mergedSuggests:GameType[] = games.concat(suggests)
         if (mergedSuggests.length === 0) {
             const suggest:any = {title: query}
             mergedSuggests = [suggest]
@@ -75,8 +74,8 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         const r = await fetch(
             "https://db-api-mxiq5qapta-an.a.run.app/search?q=" + encodeURIComponent(query)
         ).then((r) => r.json());
-        const suggests: Suggest[] = [];
-        r.map((game: Suggest) => {
+        const suggests: GameType[] = [];
+        r.map((game: GameType) => {
             suggests.push(game)
         })
         return suggests;
@@ -94,8 +93,16 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         });
         return suggests
     }
-    selectSuggest(suggest: Suggest) {
+    selectSuggest(suggest: GameType) {
         this.state.album.photos[this.state.index].game.title = suggest.title;
+        this.state.histories.push(suggest)
+        this.setState({suggests: []})
+        localStorage.setItem('histories', JSON.stringify(this.state.histories))
+        this.textInput.value = ''
+        this.textInput.focus()
+    }
+    selectHistory(history: GameType) {
+        this.state.album.photos[this.state.index].game.title = history.title;
         this.setState({suggests: []})
         this.textInput.value = ''
         this.textInput.focus()
@@ -115,11 +122,17 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                 ) : null}
                 {this.state.suggests.length > 0 ? (
                     <div className="suggests">
-                    {this.state.suggests.slice(0, 10).map((suggest: Suggest, i: any) => {
-                        return <div key={i} onClick={this.selectSuggest.bind(this, suggest)}>{suggest.title}</div>;
+                    {this.state.suggests.slice(0, 10).map((suggest: GameType, i: number) => {
+                        return <div key={'suggest'+i} onClick={this.selectSuggest.bind(this, suggest)}>{suggest.title}</div>;
                     })}
                     </div>
                 ) : null}
+                <div className="histories">
+                    <p>最近遊んだゲーム</p>
+                    {this.state.histories.slice(0, 10).map((history: GameType, i: number) => {
+                        return <div key={'history'+i} onClick={this.selectHistory.bind(this, history)}>{history.title}</div>;
+                    })}
+                </div>
             </div>
         );
     }
