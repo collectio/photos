@@ -27,28 +27,35 @@ var Album = /** @class */ (function (_super) {
         return _this;
     }
     Album.prototype.render = function () {
-        var album = this.props.location.state.album;
-        return (react_1.default.createElement("div", { id: "album" },
-            react_1.default.createElement("nav", null,
-                react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
-                    react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
-            react_1.default.createElement("div", { className: "album" },
-                react_1.default.createElement("div", { className: "hero" },
-                    react_1.default.createElement("h4", null, album.title),
-                    react_1.default.createElement("span", null, album.date),
-                    react_1.default.createElement("div", { className: "cover", style: { backgroundImage: "url(" + album.photos[0].image + ")" } })),
-                react_1.default.createElement("div", { className: "actions" },
-                    react_1.default.createElement(react_router_dom_1.Link, { to: {
-                            pathname: "/select",
-                            state: { album: album }
-                        }, className: "add" }, "\u904A\u3093\u3060\u30B2\u30FC\u30E0")),
-                react_1.default.createElement("div", { className: "photos" }, album.photos.map(function (photo) {
-                    return (react_1.default.createElement(react_router_dom_1.Link, { to: {
-                            pathname: "/photo",
-                            state: { album: album, photo: photo }
-                        }, key: photo.image },
-                        react_1.default.createElement("div", { className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } })));
-                })))));
+        try {
+            var album_1 = this.props.location.state.album;
+            return (react_1.default.createElement("div", { id: "album" },
+                react_1.default.createElement("nav", null,
+                    react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
+                        react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
+                react_1.default.createElement("div", { className: "album" },
+                    react_1.default.createElement("div", { className: "hero" },
+                        react_1.default.createElement("h4", null, album_1.title),
+                        react_1.default.createElement("span", null, album_1.date),
+                        react_1.default.createElement("div", { className: "cover", style: { backgroundImage: "url(" + album_1.photos[0].image + ")" } })),
+                    react_1.default.createElement("div", { className: "actions" },
+                        react_1.default.createElement(react_router_dom_1.Link, { to: {
+                                pathname: "/select",
+                                state: { album: album_1 }
+                            }, className: "add" }, "\u904A\u3093\u3060\u30B2\u30FC\u30E0")),
+                    react_1.default.createElement("div", { className: "photos" }, album_1.photos.map(function (photo) {
+                        return (react_1.default.createElement(react_router_dom_1.Link, { to: {
+                                pathname: "/photo",
+                                state: { album: album_1, photo: photo }
+                            }, key: photo.image },
+                            react_1.default.createElement("div", { className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } })));
+                    })))));
+        }
+        catch (_a) {
+            alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。');
+            this.props.history.push('/');
+            location.reload();
+        }
     };
     return Album;
 }(react_1.default.Component));
@@ -334,12 +341,19 @@ var Select = /** @class */ (function (_super) {
     function Select(props) {
         var _this = _super.call(this, props) || this;
         _this.textInput = null;
-        var album = _this.props.location.state.album;
-        _this.state = {
-            loading: false,
-            album: album,
-            suggests: [],
-        };
+        try {
+            var album = _this.props.location.state.album;
+            _this.state = {
+                loading: false,
+                album: album,
+                suggests: [],
+            };
+        }
+        catch (_a) {
+            alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。');
+            _this.props.history.push('/');
+            location.reload();
+        }
         return _this;
     }
     Select.prototype.componentDidMount = function () {
@@ -437,8 +451,7 @@ var Select = /** @class */ (function (_super) {
         return (react_1.default.createElement("div", { id: "select" },
             react_1.default.createElement(Slider_1.default, { album: this.state.album }),
             react_1.default.createElement("form", { action: "", onSubmit: this.onSearch.bind(this) },
-                react_1.default.createElement("input", { type: "text", ref: this.setTextInputRef.bind(this), onChange: this.onSearch.bind(this) }),
-                react_1.default.createElement("button", null, "\u691C\u7D22")),
+                react_1.default.createElement("input", { type: "text", ref: this.setTextInputRef.bind(this), placeholder: "\u30B2\u30FC\u30E0\u3092\u691C\u7D22", onChange: this.onSearch.bind(this) })),
             this.state.suggests.length === 0 && this.state.loading ? (react_1.default.createElement("div", { className: "suggests" }, "\u8AAD\u307F\u8FBC\u307F\u4E2D...")) : null,
             this.state.suggests.length > 0 ? (react_1.default.createElement("div", { className: "suggests" }, this.state.suggests.slice(0, 10).map(function (suggest, i) {
                 return react_1.default.createElement("div", { key: i, onClick: _this.selectSuggest.bind(_this, suggest) }, suggest.title);
@@ -488,10 +501,13 @@ var SimpleSlider = /** @class */ (function (_super) {
     SimpleSlider.prototype.render = function () {
         var settings = {
             dots: true,
-            infinite: true,
+            infinite: false,
             speed: 500,
             slidesToShow: 1,
-            slidesToScroll: 1
+            slidesToScroll: 1,
+            afterChange: function (index) {
+                console.log(index);
+            }
         };
         return (react_1.default.createElement(react_slick_1.default, __assign({}, settings), this.props.album.photos.map(function (photo) {
             return (react_1.default.createElement("div", { key: photo.image, className: "photo" },

@@ -37,10 +37,13 @@ var SimpleSlider = /** @class */ (function (_super) {
     SimpleSlider.prototype.render = function () {
         var settings = {
             dots: true,
-            infinite: true,
+            infinite: false,
             speed: 500,
             slidesToShow: 1,
-            slidesToScroll: 1
+            slidesToScroll: 1,
+            afterChange: function (index) {
+                console.log(index);
+            }
         };
         return (react_1.default.createElement(react_slick_1.default, __assign({}, settings), this.props.album.photos.map(function (photo) {
             return (react_1.default.createElement("div", { key: photo.image, className: "photo" },

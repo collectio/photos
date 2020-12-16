@@ -61,12 +61,19 @@ var Select = /** @class */ (function (_super) {
     function Select(props) {
         var _this = _super.call(this, props) || this;
         _this.textInput = null;
-        var album = _this.props.location.state.album;
-        _this.state = {
-            loading: false,
-            album: album,
-            suggests: [],
-        };
+        try {
+            var album = _this.props.location.state.album;
+            _this.state = {
+                loading: false,
+                album: album,
+                suggests: [],
+            };
+        }
+        catch (_a) {
+            alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。');
+            _this.props.history.push('/');
+            location.reload();
+        }
         return _this;
     }
     Select.prototype.componentDidMount = function () {
@@ -164,8 +171,7 @@ var Select = /** @class */ (function (_super) {
         return (react_1.default.createElement("div", { id: "select" },
             react_1.default.createElement(Slider_1.default, { album: this.state.album }),
             react_1.default.createElement("form", { action: "", onSubmit: this.onSearch.bind(this) },
-                react_1.default.createElement("input", { type: "text", ref: this.setTextInputRef.bind(this), onChange: this.onSearch.bind(this) }),
-                react_1.default.createElement("button", null, "\u691C\u7D22")),
+                react_1.default.createElement("input", { type: "text", ref: this.setTextInputRef.bind(this), placeholder: "\u30B2\u30FC\u30E0\u3092\u691C\u7D22", onChange: this.onSearch.bind(this) })),
             this.state.suggests.length === 0 && this.state.loading ? (react_1.default.createElement("div", { className: "suggests" }, "\u8AAD\u307F\u8FBC\u307F\u4E2D...")) : null,
             this.state.suggests.length > 0 ? (react_1.default.createElement("div", { className: "suggests" }, this.state.suggests.slice(0, 10).map(function (suggest, i) {
                 return react_1.default.createElement("div", { key: i, onClick: _this.selectSuggest.bind(_this, suggest) }, suggest.title);

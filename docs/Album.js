@@ -26,28 +26,35 @@ var Album = /** @class */ (function (_super) {
         return _this;
     }
     Album.prototype.render = function () {
-        var album = this.props.location.state.album;
-        return (react_1.default.createElement("div", { id: "album" },
-            react_1.default.createElement("nav", null,
-                react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
-                    react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
-            react_1.default.createElement("div", { className: "album" },
-                react_1.default.createElement("div", { className: "hero" },
-                    react_1.default.createElement("h4", null, album.title),
-                    react_1.default.createElement("span", null, album.date),
-                    react_1.default.createElement("div", { className: "cover", style: { backgroundImage: "url(" + album.photos[0].image + ")" } })),
-                react_1.default.createElement("div", { className: "actions" },
-                    react_1.default.createElement(react_router_dom_1.Link, { to: {
-                            pathname: "/select",
-                            state: { album: album }
-                        }, className: "add" }, "\u904A\u3093\u3060\u30B2\u30FC\u30E0")),
-                react_1.default.createElement("div", { className: "photos" }, album.photos.map(function (photo) {
-                    return (react_1.default.createElement(react_router_dom_1.Link, { to: {
-                            pathname: "/photo",
-                            state: { album: album, photo: photo }
-                        }, key: photo.image },
-                        react_1.default.createElement("div", { className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } })));
-                })))));
+        try {
+            var album_1 = this.props.location.state.album;
+            return (react_1.default.createElement("div", { id: "album" },
+                react_1.default.createElement("nav", null,
+                    react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
+                        react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
+                react_1.default.createElement("div", { className: "album" },
+                    react_1.default.createElement("div", { className: "hero" },
+                        react_1.default.createElement("h4", null, album_1.title),
+                        react_1.default.createElement("span", null, album_1.date),
+                        react_1.default.createElement("div", { className: "cover", style: { backgroundImage: "url(" + album_1.photos[0].image + ")" } })),
+                    react_1.default.createElement("div", { className: "actions" },
+                        react_1.default.createElement(react_router_dom_1.Link, { to: {
+                                pathname: "/select",
+                                state: { album: album_1 }
+                            }, className: "add" }, "\u904A\u3093\u3060\u30B2\u30FC\u30E0")),
+                    react_1.default.createElement("div", { className: "photos" }, album_1.photos.map(function (photo) {
+                        return (react_1.default.createElement(react_router_dom_1.Link, { to: {
+                                pathname: "/photo",
+                                state: { album: album_1, photo: photo }
+                            }, key: photo.image },
+                            react_1.default.createElement("div", { className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } })));
+                    })))));
+        }
+        catch (_a) {
+            alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。');
+            this.props.history.push('/');
+            location.reload();
+        }
     };
     return Album;
 }(react_1.default.Component));

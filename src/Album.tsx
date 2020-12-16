@@ -16,39 +16,45 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
         };
     }
     render() {
-        const {album} = this.props.location.state as any
-        return (<div id="album">
-            <nav>
-                <Link to="/">
-                    <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
-                </Link>
-            </nav>
-            <div className="album">
-                <div className="hero">
-                    <h4>{album.title}</h4>
-                    <span>{album.date}</span>
-                    <div className="cover" style={{backgroundImage: `url(${album.photos[0].image})`}}></div>
-                </div>
-                <div className="actions">
-                    <Link to={{
-                        pathname: "/select",
-                        state: { album: album }
-                    }} className="add">
-                        遊んだゲーム
+        try {
+            const {album} = this.props.location.state as any
+            return (<div id="album">
+                <nav>
+                    <Link to="/">
+                        <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
                     </Link>
+                </nav>
+                <div className="album">
+                    <div className="hero">
+                        <h4>{album.title}</h4>
+                        <span>{album.date}</span>
+                        <div className="cover" style={{backgroundImage: `url(${album.photos[0].image})`}}></div>
+                    </div>
+                    <div className="actions">
+                        <Link to={{
+                            pathname: "/select",
+                            state: { album: album }
+                        }} className="add">
+                            遊んだゲーム
+                        </Link>
+                    </div>
+                    <div className="photos">
+                        {album.photos.map((photo: PhotoType) => {
+                            return (<Link to={{
+                                pathname: "/photo",
+                                state: { album: album, photo: photo }
+                            }} key={photo.image}>
+                                <div className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>
+                            </Link>);
+                        })}
+                    </div>
                 </div>
-                <div className="photos">
-                    {album.photos.map((photo: PhotoType) => {
-                        return (<Link to={{
-                            pathname: "/photo",
-                            state: { album: album, photo: photo }
-                        }} key={photo.image}>
-                            <div className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>
-                        </Link>);
-                    })}
-                </div>
-            </div>
-        </div>);
+            </div>);
+        } catch {
+            alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。')
+            this.props.history.push('/')
+            location.reload()
+        }
     }
 }
 

@@ -26,12 +26,18 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
     constructor(props: any) {
         super(props);
         this.textInput = null;
-        const {album} = this.props.location.state as any
-        this.state = {
-            loading: false,
-            album: album,
-            suggests: [],
-        };
+        try {
+            const {album} = this.props.location.state as any
+            this.state = {
+                loading: false,
+                album: album,
+                suggests: [],
+            };
+        } catch {
+            alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。')
+            this.props.history.push('/')
+            location.reload()
+        }
     }
     componentDidMount() {
         if (this.textInput) this.textInput.focus();
@@ -97,8 +103,7 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
             <div id="select">
                 <SimpleSlider album={this.state.album} />
                 <form action="" onSubmit={this.onSearch.bind(this)}>
-                    <input type="text" ref={this.setTextInputRef.bind(this)} onChange={this.onSearch.bind(this)} />
-                    <button>検索</button>
+                    <input type="text" ref={this.setTextInputRef.bind(this)} placeholder="ゲームを検索" onChange={this.onSearch.bind(this)} />
                 </form>
                 {this.state.suggests.length===0 && this.state.loading ? (
                     <div className="suggests">読み込み中...</div>

@@ -13,10 +13,13 @@ class SimpleSlider extends React.Component<Prop, State> {
     render() {
       const settings = {
         dots: true,
-        infinite: true,
+        infinite: false,
         speed: 500,
         slidesToShow: 1,
-        slidesToScroll: 1
+        slidesToScroll: 1,
+        afterChange: (index: number) => {
+          console.log(index)
+        }
       };
       return (
         <Slider {...settings}>
