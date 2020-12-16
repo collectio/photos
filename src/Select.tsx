@@ -96,14 +96,6 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         return (
             <div id="select">
                 <SimpleSlider album={this.state.album} />
-                <div className="photos">
-                    {this.state.album.photos.map((photo: PhotoType) => {
-                        return (<div key={photo.image} className="photo">
-                            <img src={photo.image} />
-                            <span>{photo.game.title ? photo.game.title : '遊んだゲーム未設定'}</span>
-                        </div>);
-                    })}
-                </div>
                 <form action="" onSubmit={this.onSearch.bind(this)}>
                     <input type="text" ref={this.setTextInputRef.bind(this)} onChange={this.onSearch.bind(this)} />
                     <button>検索</button>
