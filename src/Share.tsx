@@ -57,7 +57,7 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
         }
     }
     render() {
-        return (<div id="" onClick={this.share.bind(this)}>share</div>);
+        return (<div id="share" onClick={this.share.bind(this)}>share</div>);
     }
 }
 

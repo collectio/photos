@@ -623,7 +623,7 @@ var Share = /** @class */ (function (_super) {
         });
     };
     Share.prototype.render = function () {
-        return (react_1.default.createElement("div", { id: "", onClick: this.share.bind(this) }, "share"));
+        return (react_1.default.createElement("div", { id: "share", onClick: this.share.bind(this) }, "share"));
     };
     return Share;
 }(react_1.default.Component));
