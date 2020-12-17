@@ -56,13 +56,15 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
         const blob = await fetch(url).then(res => res.blob())
         return new File([blob], "Filename",{ type: "image/jpg" })
     }
-    share() {
+    async share() {
         // const file = dataURLtoFile(this.state.photos[0].image, 'test.jpg')
         let files: File[] = []
-        this.state.photos.map(async (photo) => {
+        await this.state.photos.map(async (photo) => {
             const file = await this.convertFile(photo.image)
+            console.log(file)
             files.push(file)
         })
+        console.log(files)
         if (navigator.share) {
             navigator.share({
                 text: 'Web Share API level2のテストです',
