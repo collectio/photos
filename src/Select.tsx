@@ -41,7 +41,12 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         }
     }
     componentDidMount() {
-        if (this.textInput) this.textInput.focus();
+        if (this.textInput) {
+            this.textInput.addEventListener('focus', () => {
+                scrollTo(0, 140)
+            })
+            this.textInput.focus()
+        }
     }
     setTextInputRef(element: any) {
         this.textInput = element;
@@ -95,17 +100,15 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
     }
     selectSuggest(suggest: GameType) {
         this.state.album.photos[this.state.index].game.title = suggest.title;
-        this.state.histories.push(suggest)
+        this.state.histories.unshift(suggest)
         this.setState({suggests: []})
         localStorage.setItem('histories', JSON.stringify(this.state.histories))
         this.textInput.value = ''
-        this.textInput.focus()
     }
     selectHistory(history: GameType) {
         this.state.album.photos[this.state.index].game.title = history.title;
         this.setState({suggests: []})
         this.textInput.value = ''
-        this.textInput.focus()
     }
     afterChange(index: number) {
         this.setState({index: index})
@@ -113,6 +116,12 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
     render() {
         return (
             <div id="select">
+                <Link to={{
+                    pathname: "/album",
+                    state: { album: this.state.album }
+                }} className="close">
+                    <img src="./assets/close.svg" />
+                </Link>
                 <SimpleSlider album={this.state.album} afterChange={this.afterChange.bind(this)} />
                 <form action="" onSubmit={this.onSearch.bind(this)}>
                     <input type="text" ref={this.setTextInputRef.bind(this)} placeholder="ゲームを検索" onChange={this.onSearch.bind(this)} />
@@ -122,17 +131,19 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                 ) : null}
                 {this.state.suggests.length > 0 ? (
                     <div className="suggests">
-                    {this.state.suggests.slice(0, 10).map((suggest: GameType, i: number) => {
+                    {this.state.suggests.slice(0, 100).map((suggest: GameType, i: number) => {
                         return <div key={'suggest'+i} onClick={this.selectSuggest.bind(this, suggest)}>{suggest.title}</div>;
                     })}
                     </div>
                 ) : null}
-                <div className="histories">
-                    <p>最近遊んだゲーム</p>
-                    {this.state.histories.slice(0, 10).map((history: GameType, i: number) => {
-                        return <div key={'history'+i} onClick={this.selectHistory.bind(this, history)}>{history.title}</div>;
-                    })}
-                </div>
+                {this.state.histories.length > 0 ? (
+                    <div className="histories">
+                        <p>最近遊んだゲーム</p>
+                        {this.state.histories.map((history: GameType, i: number) => {
+                            return <div key={'history'+i} onClick={this.selectHistory.bind(this, history)}>{history.title}</div>;
+                        })}
+                    </div>
+                ) : null}
             </div>
         );
     }

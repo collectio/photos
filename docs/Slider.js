@@ -36,7 +36,7 @@ var SimpleSlider = /** @class */ (function (_super) {
     }
     SimpleSlider.prototype.render = function () {
         var settings = {
-            dots: true,
+            dots: false,
             infinite: false,
             speed: 500,
             slidesToShow: 1,
@@ -46,7 +46,7 @@ var SimpleSlider = /** @class */ (function (_super) {
         return (react_1.default.createElement(react_slick_1.default, __assign({}, settings), this.props.album.photos.map(function (photo) {
             return (react_1.default.createElement("div", { key: photo.image, className: "photo" },
                 react_1.default.createElement("img", { src: photo.image }),
-                react_1.default.createElement("span", null, photo.game.title ? photo.game.title : '遊んだゲーム未設定')));
+                react_1.default.createElement("span", null, photo.game.title ? photo.game.title : '遊んだゲームを検索')));
         })));
     };
     return SimpleSlider;

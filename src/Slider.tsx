@@ -13,7 +13,7 @@ interface State {
 class SimpleSlider extends React.Component<Prop, State> {
     render() {
       const settings = {
-        dots: true,
+        dots: false,
         infinite: false,
         speed: 500,
         slidesToShow: 1,
@@ -25,7 +25,7 @@ class SimpleSlider extends React.Component<Prop, State> {
           {this.props.album.photos.map((photo: PhotoType) => {
               return (<div key={photo.image} className="photo">
                   <img src={photo.image} />
-                  <span>{photo.game.title ? photo.game.title : '遊んだゲーム未設定'}</span>
+                  <span>{photo.game.title ? photo.game.title : '遊んだゲームを検索'}</span>
               </div>);
           })}
         </Slider>

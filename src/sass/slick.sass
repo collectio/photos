@@ -144,7 +144,7 @@
     opacity: 1
 
 .slick-prev.slick-disabled:before, .slick-next.slick-disabled:before
-  opacity: .25
+  opacity: 0
 
 .slick-prev:before, .slick-next:before
   font-family: 'slick'
@@ -156,30 +156,44 @@
   -moz-osx-font-smoothing: grayscale
 
 .slick-prev
-  left: -25px
+  left: 1rem
+  z-index: 1
 
 [dir='rtl'] .slick-prev
-  right: -25px
+  right: 0px
   left: auto
 
 .slick-prev:before
-  content: '←'
+  content: ''
+  display: block
+  z-index: 1
+  width: 22px
+  height: 53px
+  background-image: url(./assets/prev.svg)
+  background-size: 22px 53px
 
 [dir='rtl'] .slick-prev:before
-  content: '→'
+  content: ''
 
 .slick-next
-  right: -25px
+  right: 1rem
+  z-index: 1
 
 [dir='rtl'] .slick-next
   right: auto
-  left: -25px
+  left: 0px
 
 .slick-next:before
-  content: '→'
+  content: ''
+  display: block
+  z-index: 1
+  width: 22px
+  height: 53px
+  background-image: url(./assets/next.svg)
+  background-size: 22px 53px
 
 [dir='rtl'] .slick-next:before
-  content: '←'
+  content: ''
 
 /* Dots
 

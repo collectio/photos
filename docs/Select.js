@@ -80,8 +80,12 @@ var Select = /** @class */ (function (_super) {
         return _this;
     }
     Select.prototype.componentDidMount = function () {
-        if (this.textInput)
+        if (this.textInput) {
+            this.textInput.addEventListener('focus', function () {
+                scrollTo(0, 140);
+            });
             this.textInput.focus();
+        }
     };
     Select.prototype.setTextInputRef = function (element) {
         this.textInput = element;
@@ -165,17 +169,15 @@ var Select = /** @class */ (function (_super) {
     };
     Select.prototype.selectSuggest = function (suggest) {
         this.state.album.photos[this.state.index].game.title = suggest.title;
-        this.state.histories.push(suggest);
+        this.state.histories.unshift(suggest);
         this.setState({ suggests: [] });
         localStorage.setItem('histories', JSON.stringify(this.state.histories));
         this.textInput.value = '';
-        this.textInput.focus();
     };
     Select.prototype.selectHistory = function (history) {
         this.state.album.photos[this.state.index].game.title = history.title;
         this.setState({ suggests: [] });
         this.textInput.value = '';
-        this.textInput.focus();
     };
     Select.prototype.afterChange = function (index) {
         this.setState({ index: index });
@@ -183,18 +185,23 @@ var Select = /** @class */ (function (_super) {
     Select.prototype.render = function () {
         var _this = this;
         return (react_1.default.createElement("div", { id: "select" },
+            react_1.default.createElement(react_router_dom_1.Link, { to: {
+                    pathname: "/album",
+                    state: { album: this.state.album }
+                }, className: "close" },
+                react_1.default.createElement("img", { src: "./assets/close.svg" })),
             react_1.default.createElement(Slider_1.default, { album: this.state.album, afterChange: this.afterChange.bind(this) }),
             react_1.default.createElement("form", { action: "", onSubmit: this.onSearch.bind(this) },
                 react_1.default.createElement("input", { type: "text", ref: this.setTextInputRef.bind(this), placeholder: "\u30B2\u30FC\u30E0\u3092\u691C\u7D22", onChange: this.onSearch.bind(this) })),
             this.state.suggests.length === 0 && this.state.loading ? (react_1.default.createElement("div", { className: "suggests" }, "\u8AAD\u307F\u8FBC\u307F\u4E2D...")) : null,
-            this.state.suggests.length > 0 ? (react_1.default.createElement("div", { className: "suggests" }, this.state.suggests.slice(0, 10).map(function (suggest, i) {
+            this.state.suggests.length > 0 ? (react_1.default.createElement("div", { className: "suggests" }, this.state.suggests.slice(0, 100).map(function (suggest, i) {
                 return react_1.default.createElement("div", { key: 'suggest' + i, onClick: _this.selectSuggest.bind(_this, suggest) }, suggest.title);
             }))) : null,
-            react_1.default.createElement("div", { className: "histories" },
+            this.state.histories.length > 0 ? (react_1.default.createElement("div", { className: "histories" },
                 react_1.default.createElement("p", null, "\u6700\u8FD1\u904A\u3093\u3060\u30B2\u30FC\u30E0"),
-                this.state.histories.slice(0, 10).map(function (history, i) {
+                this.state.histories.map(function (history, i) {
                     return react_1.default.createElement("div", { key: 'history' + i, onClick: _this.selectHistory.bind(_this, history) }, history.title);
-                }))));
+                }))) : null));
     };
     return Select;
 }(react_1.default.Component));
