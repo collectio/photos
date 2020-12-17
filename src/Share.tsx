@@ -52,8 +52,13 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
             location.reload()
         }
     }
-    share() {
-        const file = dataURLtoFile(this.state.photos[0].image, 'test.jpg')
+    async convertFile(url: string) {
+        const blob = await fetch(url).then(res => res.blob())
+        return new File([blob], "Filename",{ type: "image/jpg" })
+    }
+    async share() {
+        // const file = dataURLtoFile(this.state.photos[0].image, 'test.jpg')
+        const file = await this.convertFile(this.state.photos[0].image)
         console.log(file)
         if (navigator.share) {
             navigator.share({
