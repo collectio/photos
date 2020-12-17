@@ -99,32 +99,35 @@ var Share = /** @class */ (function (_super) {
         });
     };
     Share.prototype.share = function () {
-        return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        // const file = dataURLtoFile(this.state.photos[0].image, 'test.jpg')
+        var files = [];
+        this.state.photos.map(function (photo) { return __awaiter(_this, void 0, void 0, function () {
             var file;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.convertFile(this.state.photos[0].image)];
+                    case 0: return [4 /*yield*/, this.convertFile(photo.image)];
                     case 1:
                         file = _a.sent();
-                        console.log(file);
-                        if (navigator.share) {
-                            navigator.share({
-                                text: 'Web Share API level2のテストです',
-                                url: 'https://collectio.jp/',
-                                files: [file]
-                            }).then(function () {
-                                console.log('Share was successful.');
-                            }).catch(function (error) {
-                                console.log('Sharing failed', error);
-                            });
-                        }
-                        else {
-                            alert('このブラウザではシェア機能が使えません。\n最新のSafari, Chromeをお使いください。');
-                        }
+                        files.push(file);
                         return [2 /*return*/];
                 }
             });
-        });
+        }); });
+        if (navigator.share) {
+            navigator.share({
+                text: 'Web Share API level2のテストです',
+                url: 'https://collectio.jp/',
+                files: [file]
+            }).then(function () {
+                console.log('Share was successful.');
+            }).catch(function (error) {
+                console.log('Sharing failed', error);
+            });
+        }
+        else {
+            alert('このブラウザではシェア機能が使えません。\n最新のSafari, Chromeをお使いください。');
+        }
     };
     Share.prototype.render = function () {
         return (react_1.default.createElement("div", { id: "", onClick: this.share.bind(this) }, "share"));
