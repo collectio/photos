@@ -54,6 +54,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
 var react_router_dom_1 = require("react-router-dom");
+function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','), bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    var mime;
+    var m = arr[0];
+    if (m) {
+        var mi = m.match(/:(.*?);/);
+        if (mi)
+            mime = mi[1];
+    }
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+}
 var Share = /** @class */ (function (_super) {
     __extends(Share, _super);
     function Share(props) {
@@ -95,13 +109,10 @@ var Share = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.state.photos.map(function (photo) { return __awaiter(_this, void 0, void 0, function () {
                                 var file;
                                 return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0: return [4 /*yield*/, this.convertFile(photo.image)];
-                                        case 1:
-                                            file = _a.sent();
-                                            files.push(file);
-                                            return [2 /*return*/];
-                                    }
+                                    file = dataURLtoFile(photo.image, 'test.jpg');
+                                    // const file = await this.convertFile(photo.image)
+                                    files.push(file);
+                                    return [2 /*return*/];
                                 });
                             }); })];
                     case 1:

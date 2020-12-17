@@ -17,6 +17,27 @@ interface ShareData {
     files?: File[];
 }
 
+function dataURLtoFile(dataurl: string, filename: string) {
+    var arr = dataurl.split(','),
+        bstr = atob(arr[1]), 
+        n = bstr.length, 
+        u8arr = new Uint8Array(n);
+
+        var mime;
+        var m = arr[0]
+        if (m) {
+            var mi = m.match(/:(.*?);/)
+            if (mi) mime = mi[1]
+        }
+        
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    
+    return new File([u8arr], filename, {type:mime});
+}
+
+
 class Share extends React.Component<Props & RouteComponentProps, State> {
     constructor(props: any) {
         super(props);
@@ -38,7 +59,8 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
     async share() {
         let files: File[] = []
         await this.state.photos.map(async (photo) => {
-            const file = await this.convertFile(photo.image)
+            const file = dataURLtoFile(photo.image, 'test.jpg')
+            // const file = await this.convertFile(photo.image)
             files.push(file)
         })
         console.log(files)
