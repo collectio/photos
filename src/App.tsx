@@ -12,6 +12,7 @@ import Home from './Home';
 import Album from './Album';
 import Photo from './Photo';
 import Select from './Select';
+import Share from './Share';
 
 interface App {
 }
@@ -27,7 +28,7 @@ class App extends React.Component<Props, State> {
     constructor(props: ReactPropTypes) {
         super(props);
         this.state = {
-            albums: []
+            albums: [],
         };
     }
     setAlbums(album: AlbumType) {
@@ -41,6 +42,7 @@ class App extends React.Component<Props, State> {
                 <Route path="/album" render={() => <Album />} />
                 <Route path="/photo" render={() => <Photo />} />
                 <Route path="/select" render={() => <Select />} />
+                <Route path="/share" render={() => <Share />} />
             </Switch>
         </Router>);
     }

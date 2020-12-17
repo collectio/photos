@@ -37,6 +37,10 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                         }} className="add">
                             遊んだゲーム
                         </Link>
+                        <Link to={{
+                            pathname: "/share",
+                            state: { photos: album.photos }
+                        }} className="share">共有</Link>
                     </div>
                     <div className="photos">
                         {album.photos.map((photo: PhotoType) => {
