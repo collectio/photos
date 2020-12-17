@@ -33,7 +33,7 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
     }
     async convertFile(url: string) {
         const blob = await fetch(url).then(res => res.blob())
-        return new File([blob], 'Filename',{ type: 'image/jpg' })
+        return new File([blob], 'Filename',{ type: blob.type })
     }
     async share() {
         let files: File[] = []

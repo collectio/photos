@@ -575,7 +575,7 @@ var Share = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, fetch(url).then(function (res) { return res.blob(); })];
                     case 1:
                         blob = _a.sent();
-                        return [2 /*return*/, new File([blob], 'Filename', { type: 'image/jpg' })];
+                        return [2 /*return*/, new File([blob], 'Filename', { type: blob.type })];
                 }
             });
         });
