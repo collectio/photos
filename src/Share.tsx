@@ -58,7 +58,7 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
     }
     share() {
         // const file = dataURLtoFile(this.state.photos[0].image, 'test.jpg')
-        let files = []
+        let files: File[] = []
         this.state.photos.map(async (photo) => {
             const file = await this.convertFile(photo.image)
             files.push(file)
@@ -67,7 +67,7 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
             navigator.share({
                 text: 'Web Share API level2のテストです',
                 url: 'https://collectio.jp/',
-                files: [file]
+                files: files
               } as ShareData).then(() => {
                 console.log('Share was successful.')
               }).catch((error) => {

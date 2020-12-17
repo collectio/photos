@@ -118,7 +118,7 @@ var Share = /** @class */ (function (_super) {
             navigator.share({
                 text: 'Web Share API level2のテストです',
                 url: 'https://collectio.jp/',
-                files: [file]
+                files: files
             }).then(function () {
                 console.log('Share was successful.');
             }).catch(function (error) {
