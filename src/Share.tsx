@@ -52,15 +52,15 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
             location.reload()
         }
     }
-    async convertFile(url: string) {
-        const blob = await fetch(url).then(res => res.blob())
-        return new File([blob], 'Filename',{ type: blob.type })
-    }
+    // async convertFile(url: string) {
+    //     const blob = await fetch(url).then(res => res.blob())
+    //     console.log(blob.type)
+    //     return new File([blob], 'test.jpg',{ type: blob.type })
+    // }
     async share() {
         let files: File[] = []
         await this.state.photos.map(async (photo) => {
             const file = dataURLtoFile(photo.image, 'test.jpg')
-            // const file = await this.convertFile(photo.image)
             files.push(file)
         })
         console.log(files)
@@ -79,7 +79,9 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
         }
     }
     render() {
-        return (<div id="share" onClick={this.share.bind(this)}>share</div>);
+        return (<div id="share">
+            <button onClick={this.share.bind(this)}>share</button>
+        </div>);
     }
 }
 

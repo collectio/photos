@@ -581,19 +581,11 @@ var Share = /** @class */ (function (_super) {
         }
         return _this;
     }
-    Share.prototype.convertFile = function (url) {
-        return __awaiter(this, void 0, void 0, function () {
-            var blob;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, fetch(url).then(function (res) { return res.blob(); })];
-                    case 1:
-                        blob = _a.sent();
-                        return [2 /*return*/, new File([blob], 'Filename', { type: blob.type })];
-                }
-            });
-        });
-    };
+    // async convertFile(url: string) {
+    //     const blob = await fetch(url).then(res => res.blob())
+    //     console.log(blob.type)
+    //     return new File([blob], 'test.jpg',{ type: blob.type })
+    // }
     Share.prototype.share = function () {
         return __awaiter(this, void 0, void 0, function () {
             var files;
@@ -606,7 +598,6 @@ var Share = /** @class */ (function (_super) {
                                 var file;
                                 return __generator(this, function (_a) {
                                     file = dataURLtoFile(photo.image, 'test.jpg');
-                                    // const file = await this.convertFile(photo.image)
                                     files.push(file);
                                     return [2 /*return*/];
                                 });
@@ -634,7 +625,8 @@ var Share = /** @class */ (function (_super) {
         });
     };
     Share.prototype.render = function () {
-        return (react_1.default.createElement("div", { id: "share", onClick: this.share.bind(this) }, "share"));
+        return (react_1.default.createElement("div", { id: "share" },
+            react_1.default.createElement("button", { onClick: this.share.bind(this) }, "share")));
     };
     return Share;
 }(react_1.default.Component));
