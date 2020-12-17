@@ -550,20 +550,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
 var react_router_dom_1 = require("react-router-dom");
-function dataURLtoFile(dataurl, filename) {
-    var arr = dataurl.split(','), bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-    var mime;
-    var m = arr[0];
-    if (m) {
-        var mi = m.match(/:(.*?);/);
-        if (mi)
-            mime = mi[1];
-    }
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, { type: mime });
-}
 var Share = /** @class */ (function (_super) {
     __extends(Share, _super);
     function Share(props) {
@@ -589,7 +575,7 @@ var Share = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, fetch(url).then(function (res) { return res.blob(); })];
                     case 1:
                         blob = _a.sent();
-                        return [2 /*return*/, new File([blob], "Filename", { type: "image/jpg" })];
+                        return [2 /*return*/, new File([blob], 'Filename', { type: 'image/jpg' })];
                 }
             });
         });
@@ -609,7 +595,6 @@ var Share = /** @class */ (function (_super) {
                                         case 0: return [4 /*yield*/, this.convertFile(photo.image)];
                                         case 1:
                                             file = _a.sent();
-                                            console.log(file);
                                             files.push(file);
                                             return [2 /*return*/];
                                     }
