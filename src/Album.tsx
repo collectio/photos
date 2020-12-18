@@ -7,13 +7,36 @@ import {AlbumType, PhotoType, GameType} from './@types/index';
 interface Props {
 }
 interface State {
+    selectMode: boolean
+    selectedImageIndex: number[]
+    selectDisabled: boolean
 }
 
 class Album extends React.Component<Props & RouteComponentProps, State> {
     constructor(props: any) {
         super(props);
         this.state = {
+            selectMode: false,
+            selectedImageIndex: [],
+            selectDisabled: false
         };
+    }
+    selectMode() {
+        this.setState({selectMode: true})
+    }
+    select(index: number) {
+        if (this.state.selectedImageIndex.indexOf(index) === -1) {
+            if (this.state.selectDisabled === false) {
+                this.state.selectedImageIndex.push(index)
+            }
+        } else {
+            this.state.selectedImageIndex.splice(this.state.selectedImageIndex.indexOf(index), 1)
+            this.setState({selectDisabled: false})
+        }
+        if (this.state.selectedImageIndex.length >= 4) {
+            this.setState({selectDisabled: true})
+        }
+        this.setState({})
     }
     render() {
         try {
@@ -37,19 +60,26 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                         }} className="add">
                             遊んだゲーム
                         </Link>
+                        <span className="select" onClick={this.selectMode.bind(this)}>選択</span>
                         <Link to={{
                             pathname: "/share",
                             state: { photos: album.photos }
                         }} className="share">共有</Link>
                     </div>
                     <div className="photos">
-                        {album.photos.map((photo: PhotoType) => {
-                            return (<Link to={{
-                                pathname: "/photo",
-                                state: { album: album, photo: photo }
-                            }} key={photo.image}>
-                                <div className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>
-                            </Link>);
+                        {album.photos.map((photo: PhotoType, index: number) => {
+                            if (!this.state.selectMode) {
+                                return (<Link to={{
+                                    pathname: "/photo",
+                                    state: { album: album, photo: photo }
+                                }} key={photo.image}>
+                                    <div className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>
+                                </Link>);
+                            } else {
+                                return (<div className={'photo' + (this.state.selectDisabled ? ' disabled' : '')} onClick={this.select.bind(this, index)} style={{backgroundImage: `url(${photo.image})`}}>
+                                    <span className={'select' + (this.state.selectedImageIndex.indexOf(index) > -1 ? ' selected' : '')}></span>
+                                </div>);
+                            }
                         })}
                     </div>
                 </div>

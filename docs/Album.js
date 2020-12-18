@@ -22,10 +22,33 @@ var Album = /** @class */ (function (_super) {
     __extends(Album, _super);
     function Album(props) {
         var _this = _super.call(this, props) || this;
-        _this.state = {};
+        _this.state = {
+            selectMode: false,
+            selectedImageIndex: [],
+            selectDisabled: false
+        };
         return _this;
     }
+    Album.prototype.selectMode = function () {
+        this.setState({ selectMode: true });
+    };
+    Album.prototype.select = function (index) {
+        if (this.state.selectedImageIndex.indexOf(index) === -1) {
+            if (this.state.selectDisabled === false) {
+                this.state.selectedImageIndex.push(index);
+            }
+        }
+        else {
+            this.state.selectedImageIndex.splice(this.state.selectedImageIndex.indexOf(index), 1);
+            this.setState({ selectDisabled: false });
+        }
+        if (this.state.selectedImageIndex.length >= 4) {
+            this.setState({ selectDisabled: true });
+        }
+        this.setState({});
+    };
     Album.prototype.render = function () {
+        var _this = this;
         try {
             var album_1 = this.props.location.state.album;
             return (react_1.default.createElement("div", { id: "album" },
@@ -42,16 +65,23 @@ var Album = /** @class */ (function (_super) {
                                 pathname: "/select",
                                 state: { album: album_1 }
                             }, className: "add" }, "\u904A\u3093\u3060\u30B2\u30FC\u30E0"),
+                        react_1.default.createElement("span", { className: "select", onClick: this.selectMode.bind(this) }, "\u9078\u629E"),
                         react_1.default.createElement(react_router_dom_1.Link, { to: {
                                 pathname: "/share",
                                 state: { photos: album_1.photos }
                             }, className: "share" }, "\u5171\u6709")),
-                    react_1.default.createElement("div", { className: "photos" }, album_1.photos.map(function (photo) {
-                        return (react_1.default.createElement(react_router_dom_1.Link, { to: {
-                                pathname: "/photo",
-                                state: { album: album_1, photo: photo }
-                            }, key: photo.image },
-                            react_1.default.createElement("div", { className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } })));
+                    react_1.default.createElement("div", { className: "photos" }, album_1.photos.map(function (photo, index) {
+                        if (!_this.state.selectMode) {
+                            return (react_1.default.createElement(react_router_dom_1.Link, { to: {
+                                    pathname: "/photo",
+                                    state: { album: album_1, photo: photo }
+                                }, key: photo.image },
+                                react_1.default.createElement("div", { className: "photo", style: { backgroundImage: "url(" + photo.image + ")" } })));
+                        }
+                        else {
+                            return (react_1.default.createElement("div", { className: 'photo' + (_this.state.selectDisabled ? ' disabled' : ''), onClick: _this.select.bind(_this, index), style: { backgroundImage: "url(" + photo.image + ")" } },
+                                react_1.default.createElement("span", { className: 'select' + (_this.state.selectedImageIndex.indexOf(index) > -1 ? ' selected' : '') })));
+                        }
                     })))));
         }
         catch (_a) {
