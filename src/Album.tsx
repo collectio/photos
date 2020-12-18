@@ -21,8 +21,8 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
             selectDisabled: false
         };
     }
-    selectMode() {
-        this.setState({selectMode: true})
+    selectMode(mode: boolean) {
+        this.setState({selectMode: mode})
     }
     select(index: number) {
         if (this.state.selectedImageIndex.indexOf(index) === -1) {
@@ -37,6 +37,12 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
             this.setState({selectDisabled: true})
         }
         this.setState({})
+    }
+    delete() {
+        const {album} = this.props.location.state as any
+        const photos = album.photos.filter((photo: PhotoType, index: number) => this.state.selectedImageIndex.indexOf(index) === -1)
+        album.photos = photos
+        this.setState({selectMode: false, selectedImageIndex: []})
     }
     render() {
         try {
@@ -60,11 +66,11 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                         }} className="add">
                             遊んだゲーム
                         </Link>
-                        <span className="select" onClick={this.selectMode.bind(this)}>選択</span>
-                        <Link to={{
-                            pathname: "/share",
-                            state: { photos: album.photos }
-                        }} className="share">共有</Link>
+                        {this.state.selectMode ? (
+                            <span className="select" onClick={this.selectMode.bind(this, false)}>キャンセル</span>
+                        ) : (
+                            <span className="select" onClick={this.selectMode.bind(this, true)}>選択</span>
+                        )}
                     </div>
                     <div className="photos">
                         {album.photos.map((photo: PhotoType, index: number) => {
@@ -81,6 +87,13 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                                 </div>);
                             }
                         })}
+                    </div>
+                    <div className="bottomActions">
+                        <Link to={{
+                                pathname: "/share",
+                                state: { photos: album.photos }
+                        }} className="share">共有</Link>
+                        <span className="delete" onClick={this.delete.bind(this)}>削除</span>
                     </div>
                 </div>
             </div>);

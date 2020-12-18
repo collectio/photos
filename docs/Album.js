@@ -29,8 +29,8 @@ var Album = /** @class */ (function (_super) {
         };
         return _this;
     }
-    Album.prototype.selectMode = function () {
-        this.setState({ selectMode: true });
+    Album.prototype.selectMode = function (mode) {
+        this.setState({ selectMode: mode });
     };
     Album.prototype.select = function (index) {
         if (this.state.selectedImageIndex.indexOf(index) === -1) {
@@ -46,6 +46,13 @@ var Album = /** @class */ (function (_super) {
             this.setState({ selectDisabled: true });
         }
         this.setState({});
+    };
+    Album.prototype.delete = function () {
+        var _this = this;
+        var album = this.props.location.state.album;
+        var photos = album.photos.filter(function (photo, index) { return _this.state.selectedImageIndex.indexOf(index) === -1; });
+        album.photos = photos;
+        this.setState({ selectMode: false, selectedImageIndex: [] });
     };
     Album.prototype.render = function () {
         var _this = this;
@@ -65,11 +72,7 @@ var Album = /** @class */ (function (_super) {
                                 pathname: "/select",
                                 state: { album: album_1 }
                             }, className: "add" }, "\u904A\u3093\u3060\u30B2\u30FC\u30E0"),
-                        react_1.default.createElement("span", { className: "select", onClick: this.selectMode.bind(this) }, "\u9078\u629E"),
-                        react_1.default.createElement(react_router_dom_1.Link, { to: {
-                                pathname: "/share",
-                                state: { photos: album_1.photos }
-                            }, className: "share" }, "\u5171\u6709")),
+                        this.state.selectMode ? (react_1.default.createElement("span", { className: "select", onClick: this.selectMode.bind(this, false) }, "\u30AD\u30E3\u30F3\u30BB\u30EB")) : (react_1.default.createElement("span", { className: "select", onClick: this.selectMode.bind(this, true) }, "\u9078\u629E"))),
                     react_1.default.createElement("div", { className: "photos" }, album_1.photos.map(function (photo, index) {
                         if (!_this.state.selectMode) {
                             return (react_1.default.createElement(react_router_dom_1.Link, { to: {
@@ -82,7 +85,13 @@ var Album = /** @class */ (function (_super) {
                             return (react_1.default.createElement("div", { className: 'photo' + (_this.state.selectDisabled ? ' disabled' : ''), onClick: _this.select.bind(_this, index), style: { backgroundImage: "url(" + photo.image + ")" } },
                                 react_1.default.createElement("span", { className: 'select' + (_this.state.selectedImageIndex.indexOf(index) > -1 ? ' selected' : '') })));
                         }
-                    })))));
+                    })),
+                    react_1.default.createElement("div", { className: "bottomActions" },
+                        react_1.default.createElement(react_router_dom_1.Link, { to: {
+                                pathname: "/share",
+                                state: { photos: album_1.photos }
+                            }, className: "share" }, "\u5171\u6709"),
+                        react_1.default.createElement("span", { className: "delete", onClick: this.delete.bind(this) }, "\u524A\u9664")))));
         }
         catch (_a) {
             alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。');
