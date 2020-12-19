@@ -60,8 +60,11 @@ var Album = /** @class */ (function (_super) {
             var album_1 = this.props.location.state.album;
             return (react_1.default.createElement("div", { id: "album" },
                 react_1.default.createElement("nav", null,
+                    react_1.default.createElement("span", null),
                     react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
-                        react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
+                        react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" })),
+                    react_1.default.createElement("span", { onClick: function () { return alert('アルバムの削除機能などがくる予定'); } },
+                        react_1.default.createElement("img", { src: "./assets/menu.svg", alt: "menu" }))),
                 react_1.default.createElement("div", { className: "album" },
                     react_1.default.createElement("div", { className: "hero" },
                         react_1.default.createElement("h4", null, album_1.title),

@@ -49,9 +49,13 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
             const {album} = this.props.location.state as any
             return (<div id="album">
                 <nav>
+                    <span></span>
                     <Link to="/">
                         <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
                     </Link>
+                    <span onClick={() => alert('アルバムの削除機能などがくる予定')}>
+                        <img src="./assets/menu.svg" alt="menu"/>
+                    </span>
                 </nav>
                 <div className="album">
                     <div className="hero">
