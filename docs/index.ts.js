@@ -26,7 +26,7 @@ var Album = /** @class */ (function (_super) {
         _this.state = {
             selectMode: false,
             selectedImageIndex: [],
-            selectDisabled: false
+            selectDisabled: false,
         };
         return _this;
     }
@@ -48,9 +48,22 @@ var Album = /** @class */ (function (_super) {
         }
         this.setState({});
     };
+    Album.prototype.share = function () {
+        var _this = this;
+        var album = this.props.location.state.album;
+        if (this.state.selectedImageIndex.length === 0)
+            return alert('写真を選択してください');
+        var photos = album.photos.filter(function (photo, index) { return _this.state.selectedImageIndex.indexOf(index) > -1; });
+        this.props.history.push({
+            pathname: "/share",
+            state: { photos: photos }
+        });
+    };
     Album.prototype.delete = function () {
         var _this = this;
         var album = this.props.location.state.album;
+        if (this.state.selectedImageIndex.length === 0)
+            return alert('写真を選択してください');
         var photos = album.photos.filter(function (photo, index) { return _this.state.selectedImageIndex.indexOf(index) === -1; });
         album.photos = photos;
         this.setState({ selectMode: false, selectedImageIndex: [] });
@@ -90,12 +103,9 @@ var Album = /** @class */ (function (_super) {
                                 react_1.default.createElement("span", { className: 'select' + (_this.state.selectedImageIndex.indexOf(index) > -1 ? ' selected' : '') })));
                         }
                     })),
-                    react_1.default.createElement("div", { className: "bottomActions" },
-                        react_1.default.createElement(react_router_dom_1.Link, { to: {
-                                pathname: "/share",
-                                state: { photos: album_1.photos }
-                            }, className: "share" }, "\u5171\u6709"),
-                        react_1.default.createElement("span", { className: "delete", onClick: this.delete.bind(this) }, "\u524A\u9664")))));
+                    this.state.selectMode ? (react_1.default.createElement("div", { className: "bottomActions" },
+                        react_1.default.createElement("span", { className: "share", onClick: this.share.bind(this) }, "\u5171\u6709"),
+                        react_1.default.createElement("span", { className: "delete", onClick: this.delete.bind(this) }, "\u524A\u9664"))) : null)));
         }
         catch (_a) {
             alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。');

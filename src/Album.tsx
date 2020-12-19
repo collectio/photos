@@ -18,7 +18,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
         this.state = {
             selectMode: false,
             selectedImageIndex: [],
-            selectDisabled: false
+            selectDisabled: false,
         };
     }
     selectMode(mode: boolean) {
@@ -38,8 +38,18 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
         }
         this.setState({})
     }
+    share() {
+        const {album} = this.props.location.state as any
+        if (this.state.selectedImageIndex.length === 0) return alert('写真を選択してください')
+        const photos = album.photos.filter((photo: PhotoType, index: number) => this.state.selectedImageIndex.indexOf(index) > -1)
+        this.props.history.push({
+            pathname: "/share",
+            state: { photos: photos }
+        })
+    }
     delete() {
         const {album} = this.props.location.state as any
+        if (this.state.selectedImageIndex.length === 0) return alert('写真を選択してください')
         const photos = album.photos.filter((photo: PhotoType, index: number) => this.state.selectedImageIndex.indexOf(index) === -1)
         album.photos = photos
         this.setState({selectMode: false, selectedImageIndex: []})
@@ -92,13 +102,12 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                             }
                         })}
                     </div>
-                    <div className="bottomActions">
-                        <Link to={{
-                                pathname: "/share",
-                                state: { photos: album.photos }
-                        }} className="share">共有</Link>
-                        <span className="delete" onClick={this.delete.bind(this)}>削除</span>
-                    </div>
+                    {this.state.selectMode ? (
+                        <div className="bottomActions">
+                            <span className="share" onClick={this.share.bind(this)}>共有</span>
+                            <span className="delete" onClick={this.delete.bind(this)}>削除</span>
+                        </div>
+                    ) : null}
                 </div>
             </div>);
         } catch {
