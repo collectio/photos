@@ -46,7 +46,7 @@ var SimpleSlider = /** @class */ (function (_super) {
         return (react_1.default.createElement(react_slick_1.default, __assign({}, settings), this.props.album.photos.map(function (photo) {
             return (react_1.default.createElement("div", { key: photo.image, className: "photo" },
                 react_1.default.createElement("img", { src: photo.image }),
-                react_1.default.createElement("span", null, photo.game.title ? photo.game.title : '遊んだゲームを検索')));
+                react_1.default.createElement("span", null, photo.game.title ? photo.game.title : '遊んだゲーム未設定')));
         })));
     };
     return SimpleSlider;

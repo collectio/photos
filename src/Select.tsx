@@ -32,7 +32,7 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                 loading: false,
                 album: album,
                 suggests: [],
-                histories: histories ? JSON.parse(histories).slice(0, 10) : []
+                histories: histories ? JSON.parse(histories).slice(0, 3) : []
             };
         } catch {
             this.props.history.push('/')
@@ -116,34 +116,41 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
     render() {
         return (
             <div id="select">
-                <Link to={{
-                    pathname: "/album",
-                    state: { album: this.state.album }
-                }} className="close">
-                    <img src="./assets/close.svg" />
-                </Link>
-                <SimpleSlider album={this.state.album} afterChange={this.afterChange.bind(this)} />
+                <nav>
+                    <Link to={{
+                        pathname: "/album",
+                        state: { album: this.state.album }
+                    }} className="close">
+                        <img src="./assets/close.svg" />
+                    </Link>
+                    <Link to="/">
+                        <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
+                    </Link>
+                </nav>
                 <form action="" onSubmit={this.onSearch.bind(this)}>
-                    <input type="text" ref={this.setTextInputRef.bind(this)} placeholder="ゲームを検索" onChange={this.onSearch.bind(this)} />
-                </form>
-                {this.state.suggests.length===0 && this.state.loading ? (
-                    <div className="suggests">読み込み中...</div>
-                ) : null}
-                {this.state.suggests.length > 0 ? (
-                    <div className="suggests">
-                    {this.state.suggests.slice(0, 100).map((suggest: GameType, i: number) => {
-                        return <div key={'suggest'+i} onClick={this.selectSuggest.bind(this, suggest)}>{suggest.title}</div>;
-                    })}
+                    <div className="bg">
+                        <input type="text" ref={this.setTextInputRef.bind(this)} placeholder="ゲームを検索" onChange={this.onSearch.bind(this)} />
                     </div>
-                ) : null}
-                {this.state.histories.length > 0 ? (
-                    <div className="histories">
-                        <p>最近遊んだゲーム</p>
-                        {this.state.histories.map((history: GameType, i: number) => {
-                            return <div key={'history'+i} onClick={this.selectHistory.bind(this, history)}>{history.title}</div>;
+                    {this.state.suggests.length===0 && this.state.loading ? (
+                        <div className="suggests">読み込み中...</div>
+                    ) : null}
+                    {this.state.suggests.length > 0 ? (
+                        <div className="suggests">
+                        {this.state.suggests.slice(0, 100).map((suggest: GameType, i: number) => {
+                            return <div key={'suggest'+i} onClick={this.selectSuggest.bind(this, suggest)}>{suggest.title}</div>;
                         })}
-                    </div>
-                ) : null}
+                        </div>
+                    ) : null}
+                    {this.state.histories.length > 0 ? (
+                        <div className="histories">
+                            <p>最近遊んだゲーム</p>
+                            {this.state.histories.map((history: GameType, i: number) => {
+                                return <div key={'history'+i} onClick={this.selectHistory.bind(this, history)}>{history.title}</div>;
+                            })}
+                        </div>
+                    ) : null}
+                </form>
+                <SimpleSlider album={this.state.album} afterChange={this.afterChange.bind(this)} />
             </div>
         );
     }

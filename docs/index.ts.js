@@ -394,7 +394,7 @@ var Select = /** @class */ (function (_super) {
                 loading: false,
                 album: album,
                 suggests: [],
-                histories: histories ? JSON.parse(histories).slice(0, 10) : []
+                histories: histories ? JSON.parse(histories).slice(0, 3) : []
             };
         }
         catch (_a) {
@@ -510,23 +510,27 @@ var Select = /** @class */ (function (_super) {
     Select.prototype.render = function () {
         var _this = this;
         return (react_1.default.createElement("div", { id: "select" },
-            react_1.default.createElement(react_router_dom_1.Link, { to: {
-                    pathname: "/album",
-                    state: { album: this.state.album }
-                }, className: "close" },
-                react_1.default.createElement("img", { src: "./assets/close.svg" })),
-            react_1.default.createElement(Slider_1.default, { album: this.state.album, afterChange: this.afterChange.bind(this) }),
+            react_1.default.createElement("nav", null,
+                react_1.default.createElement(react_router_dom_1.Link, { to: {
+                        pathname: "/album",
+                        state: { album: this.state.album }
+                    }, className: "close" },
+                    react_1.default.createElement("img", { src: "./assets/close.svg" })),
+                react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
+                    react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
             react_1.default.createElement("form", { action: "", onSubmit: this.onSearch.bind(this) },
-                react_1.default.createElement("input", { type: "text", ref: this.setTextInputRef.bind(this), placeholder: "\u30B2\u30FC\u30E0\u3092\u691C\u7D22", onChange: this.onSearch.bind(this) })),
-            this.state.suggests.length === 0 && this.state.loading ? (react_1.default.createElement("div", { className: "suggests" }, "\u8AAD\u307F\u8FBC\u307F\u4E2D...")) : null,
-            this.state.suggests.length > 0 ? (react_1.default.createElement("div", { className: "suggests" }, this.state.suggests.slice(0, 100).map(function (suggest, i) {
-                return react_1.default.createElement("div", { key: 'suggest' + i, onClick: _this.selectSuggest.bind(_this, suggest) }, suggest.title);
-            }))) : null,
-            this.state.histories.length > 0 ? (react_1.default.createElement("div", { className: "histories" },
-                react_1.default.createElement("p", null, "\u6700\u8FD1\u904A\u3093\u3060\u30B2\u30FC\u30E0"),
-                this.state.histories.map(function (history, i) {
-                    return react_1.default.createElement("div", { key: 'history' + i, onClick: _this.selectHistory.bind(_this, history) }, history.title);
-                }))) : null));
+                react_1.default.createElement("div", { className: "bg" },
+                    react_1.default.createElement("input", { type: "text", ref: this.setTextInputRef.bind(this), placeholder: "\u30B2\u30FC\u30E0\u3092\u691C\u7D22", onChange: this.onSearch.bind(this) })),
+                this.state.suggests.length === 0 && this.state.loading ? (react_1.default.createElement("div", { className: "suggests" }, "\u8AAD\u307F\u8FBC\u307F\u4E2D...")) : null,
+                this.state.suggests.length > 0 ? (react_1.default.createElement("div", { className: "suggests" }, this.state.suggests.slice(0, 100).map(function (suggest, i) {
+                    return react_1.default.createElement("div", { key: 'suggest' + i, onClick: _this.selectSuggest.bind(_this, suggest) }, suggest.title);
+                }))) : null,
+                this.state.histories.length > 0 ? (react_1.default.createElement("div", { className: "histories" },
+                    react_1.default.createElement("p", null, "\u6700\u8FD1\u904A\u3093\u3060\u30B2\u30FC\u30E0"),
+                    this.state.histories.map(function (history, i) {
+                        return react_1.default.createElement("div", { key: 'history' + i, onClick: _this.selectHistory.bind(_this, history) }, history.title);
+                    }))) : null),
+            react_1.default.createElement(Slider_1.default, { album: this.state.album, afterChange: this.afterChange.bind(this) })));
     };
     return Select;
 }(react_1.default.Component));
@@ -720,7 +724,7 @@ var SimpleSlider = /** @class */ (function (_super) {
         return (react_1.default.createElement(react_slick_1.default, __assign({}, settings), this.props.album.photos.map(function (photo) {
             return (react_1.default.createElement("div", { key: photo.image, className: "photo" },
                 react_1.default.createElement("img", { src: photo.image }),
-                react_1.default.createElement("span", null, photo.game.title ? photo.game.title : '遊んだゲームを検索')));
+                react_1.default.createElement("span", null, photo.game.title ? photo.game.title : '遊んだゲーム未設定')));
         })));
     };
     return SimpleSlider;
