@@ -624,6 +624,7 @@ var Share = /** @class */ (function (_super) {
     __extends(Share, _super);
     function Share(props) {
         var _this = _super.call(this, props) || this;
+        _this.textArea = null;
         try {
             var photos = _this.props.location.state.photos;
             _this.state = {
@@ -642,6 +643,9 @@ var Share = /** @class */ (function (_super) {
     //     console.log(blob.type)
     //     return new File([blob], 'test.jpg',{ type: blob.type })
     // }
+    Share.prototype.setTextInputRef = function (element) {
+        this.textArea = element;
+    };
     Share.prototype.share = function () {
         return __awaiter(this, void 0, void 0, function () {
             var files;
@@ -663,7 +667,7 @@ var Share = /** @class */ (function (_super) {
                         console.log(files);
                         if (navigator.share) {
                             navigator.share({
-                                text: 'Web Share API level2のテストです',
+                                text: this.textArea.value,
                                 url: 'https://collectio.jp/',
                                 files: files
                             }).then(function () {
@@ -682,7 +686,11 @@ var Share = /** @class */ (function (_super) {
     };
     Share.prototype.render = function () {
         return (react_1.default.createElement("div", { id: "share" },
-            react_1.default.createElement("button", { onClick: this.share.bind(this) }, "share")));
+            react_1.default.createElement("div", { className: "photos" }, this.state.photos.map(function (photo, index) {
+                return (react_1.default.createElement("div", { className: 'photo', style: { backgroundImage: "url(" + photo.image + ")" } }));
+            })),
+            react_1.default.createElement("textarea", { name: "comment", id: "comment", ref: this.setTextInputRef.bind(this), placeholder: "\u30B2\u30FC\u30E0\u3092\u904A\u3093\u3060\u611F\u60F3\u306A\u3069" }),
+            react_1.default.createElement("button", { onClick: this.share.bind(this) }, "\u5171\u6709")));
     };
     return Share;
 }(react_1.default.Component));

@@ -3,6 +3,7 @@ import {withRouter, RouteComponentProps, Link} from "react-router-dom";
 import {AlbumType, PhotoType, GameType} from './@types/index';
 
 interface Share {
+    textArea: any
 }
 interface Props {
 }
@@ -41,6 +42,7 @@ function dataURLtoFile(dataurl: string, filename: string) {
 class Share extends React.Component<Props & RouteComponentProps, State> {
     constructor(props: any) {
         super(props);
+        this.textArea = null
         try {
             const {photos} = this.props.location.state as any
             this.state = {
@@ -57,6 +59,9 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
     //     console.log(blob.type)
     //     return new File([blob], 'test.jpg',{ type: blob.type })
     // }
+    setTextInputRef(element: any) {
+        this.textArea = element;
+    }
     async share() {
         let files: File[] = []
         await this.state.photos.map(async (photo) => {
@@ -66,7 +71,7 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
         console.log(files)
         if (navigator.share) {
             navigator.share({
-                text: 'Web Share API level2のテストです',
+                text: this.textArea.value,
                 url: 'https://collectio.jp/',
                 files: files
               } as ShareData).then(() => {
@@ -80,7 +85,14 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
     }
     render() {
         return (<div id="share">
-            <button onClick={this.share.bind(this)}>share</button>
+            <div className="photos">
+                {this.state.photos.map((photo: PhotoType, index: number) => {
+                    return (<div className={'photo'} style={{backgroundImage: `url(${photo.image})`}}>
+                    </div>);
+                })}
+            </div>
+            <textarea name="comment" id="comment" ref={this.setTextInputRef.bind(this)} placeholder="ゲームを遊んだ感想など"></textarea>
+            <button onClick={this.share.bind(this)}>共有</button>
         </div>);
     }
 }
