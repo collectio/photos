@@ -84,7 +84,16 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
         }
     }
     render() {
+        const {album} = this.props.location.state as any
         return (<div id="share">
+            <nav>
+                <Link to={{
+                    pathname: "/album",
+                    state: { album: album }
+                }} className="close">
+                    <img className="logo" src="./assets/back.svg" alt="戻る" />
+                </Link>
+            </nav>
             <div className="photos">
                 {this.state.photos.map((photo: PhotoType, index: number) => {
                     return (<div className={'photo'} style={{backgroundImage: `url(${photo.image})`}}>

@@ -133,7 +133,14 @@ var Share = /** @class */ (function (_super) {
         });
     };
     Share.prototype.render = function () {
+        var album = this.props.location.state.album;
         return (react_1.default.createElement("div", { id: "share" },
+            react_1.default.createElement("nav", null,
+                react_1.default.createElement(react_router_dom_1.Link, { to: {
+                        pathname: "/album",
+                        state: { album: album }
+                    }, className: "close" },
+                    react_1.default.createElement("img", { className: "logo", src: "./assets/back.svg", alt: "\u623B\u308B" }))),
             react_1.default.createElement("div", { className: "photos" }, this.state.photos.map(function (photo, index) {
                 return (react_1.default.createElement("div", { className: 'photo', style: { backgroundImage: "url(" + photo.image + ")" } }));
             })),

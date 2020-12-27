@@ -56,7 +56,7 @@ var Album = /** @class */ (function (_super) {
         var photos = album.photos.filter(function (photo, index) { return _this.state.selectedImageIndex.indexOf(index) > -1; });
         this.props.history.push({
             pathname: "/share",
-            state: { photos: photos }
+            state: { photos: photos, album: album }
         });
     };
     Album.prototype.delete = function () {
@@ -74,9 +74,9 @@ var Album = /** @class */ (function (_super) {
             var album_1 = this.props.location.state.album;
             return (react_1.default.createElement("div", { id: "album" },
                 react_1.default.createElement("nav", null,
-                    react_1.default.createElement("span", null),
                     react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
-                        react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" })),
+                        react_1.default.createElement("img", { className: "logo", src: "./assets/back.svg", alt: "\u623B\u308B" })),
+                    react_1.default.createElement("span", null),
                     react_1.default.createElement("span", { onClick: function () { return alert('アルバムの削除機能などがくる予定'); } },
                         react_1.default.createElement("img", { src: "./assets/menu.svg", alt: "menu" }))),
                 react_1.default.createElement("div", { className: "album" },
@@ -526,9 +526,7 @@ var Select = /** @class */ (function (_super) {
                         pathname: "/album",
                         state: { album: this.state.album }
                     }, className: "close" },
-                    react_1.default.createElement("img", { src: "./assets/close.svg" })),
-                react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
-                    react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
+                    react_1.default.createElement("img", { className: "logo", src: "./assets/back.svg", alt: "\u623B\u308B" }))),
             react_1.default.createElement("form", { action: "", onSubmit: this.onSearch.bind(this) },
                 react_1.default.createElement("div", { className: "bg" },
                     react_1.default.createElement("input", { type: "text", ref: this.setTextInputRef.bind(this), placeholder: "\u30B2\u30FC\u30E0\u3092\u691C\u7D22", onChange: this.onSearch.bind(this) }),
@@ -682,7 +680,14 @@ var Share = /** @class */ (function (_super) {
         });
     };
     Share.prototype.render = function () {
+        var album = this.props.location.state.album;
         return (react_1.default.createElement("div", { id: "share" },
+            react_1.default.createElement("nav", null,
+                react_1.default.createElement(react_router_dom_1.Link, { to: {
+                        pathname: "/album",
+                        state: { album: album }
+                    }, className: "close" },
+                    react_1.default.createElement("img", { className: "logo", src: "./assets/back.svg", alt: "\u623B\u308B" }))),
             react_1.default.createElement("div", { className: "photos" }, this.state.photos.map(function (photo, index) {
                 return (react_1.default.createElement("div", { className: 'photo', style: { backgroundImage: "url(" + photo.image + ")" } }));
             })),

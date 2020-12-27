@@ -188,9 +188,7 @@ var Select = /** @class */ (function (_super) {
                         pathname: "/album",
                         state: { album: this.state.album }
                     }, className: "close" },
-                    react_1.default.createElement("img", { src: "./assets/close.svg" })),
-                react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
-                    react_1.default.createElement("img", { className: "logo", src: "./assets/collectio.svg", alt: "Collectio" }))),
+                    react_1.default.createElement("img", { className: "logo", src: "./assets/back.svg", alt: "\u623B\u308B" }))),
             react_1.default.createElement("form", { action: "", onSubmit: this.onSearch.bind(this) },
                 react_1.default.createElement("div", { className: "bg" },
                     react_1.default.createElement("input", { type: "text", ref: this.setTextInputRef.bind(this), placeholder: "\u30B2\u30FC\u30E0\u3092\u691C\u7D22", onChange: this.onSearch.bind(this) }),

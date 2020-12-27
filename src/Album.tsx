@@ -1,7 +1,7 @@
 import React from "react";
 import {withRouter, RouteComponentProps, Link} from "react-router-dom";
 
-import {AlbumType, PhotoType, GameType} from './@types/index';
+import {PhotoType} from './@types/index';
 
 
 interface Props {
@@ -44,7 +44,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
         const photos = album.photos.filter((photo: PhotoType, index: number) => this.state.selectedImageIndex.indexOf(index) > -1)
         this.props.history.push({
             pathname: "/share",
-            state: { photos: photos }
+            state: { photos: photos, album: album }
         })
     }
     delete() {
@@ -59,10 +59,10 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
             const {album} = this.props.location.state as any
             return (<div id="album">
                 <nav>
-                    <span></span>
                     <Link to="/">
-                        <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
+                        <img className="logo" src="./assets/back.svg" alt="戻る" />
                     </Link>
+                    <span></span>
                     <span onClick={() => alert('アルバムの削除機能などがくる予定')}>
                         <img src="./assets/menu.svg" alt="menu"/>
                     </span>
