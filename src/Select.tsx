@@ -26,13 +26,12 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         this.textInput = null;
         try {
             const {album} = this.props.location.state as any
-            const histories = localStorage.getItem('histories')
             this.state = {
                 index: 0,
                 loading: false,
                 album: album,
                 suggests: [],
-                histories: histories ? JSON.parse(histories).slice(0, 3) : []
+                histories: []
             };
         } catch {
             this.props.history.push('/')
@@ -102,7 +101,6 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         this.state.album.photos[this.state.index].game.title = suggest.title;
         this.state.histories.unshift(suggest)
         this.setState({suggests: []})
-        localStorage.setItem('histories', JSON.stringify(this.state.histories))
         this.textInput.value = ''
     }
     selectHistory(history: GameType) {
@@ -130,6 +128,13 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                 <form action="" onSubmit={this.onSearch.bind(this)}>
                     <div className="bg">
                         <input type="text" ref={this.setTextInputRef.bind(this)} placeholder="ゲームを検索" onChange={this.onSearch.bind(this)} />
+                        {this.state.histories.length > 0 ? (
+                        <div className="histories">
+                            {this.state.histories.map((history: GameType, i: number) => {
+                                return <div key={'history'+i} onClick={this.selectHistory.bind(this, history)}>{history.title}</div>;
+                            })}
+                        </div>
+                        ) : null}
                     </div>
                     {this.state.suggests.length===0 && this.state.loading ? (
                         <div className="suggests">読み込み中...</div>
@@ -139,14 +144,6 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                         {this.state.suggests.slice(0, 100).map((suggest: GameType, i: number) => {
                             return <div key={'suggest'+i} onClick={this.selectSuggest.bind(this, suggest)}>{suggest.title}</div>;
                         })}
-                        </div>
-                    ) : null}
-                    {this.state.histories.length > 0 ? (
-                        <div className="histories">
-                            <p>最近遊んだゲーム</p>
-                            {this.state.histories.map((history: GameType, i: number) => {
-                                return <div key={'history'+i} onClick={this.selectHistory.bind(this, history)}>{history.title}</div>;
-                            })}
                         </div>
                     ) : null}
                 </form>

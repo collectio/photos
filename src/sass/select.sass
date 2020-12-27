@@ -21,8 +21,9 @@
         margin: 0 auto
         padding: 0
         z-index: 100000
+        overflow: hidden
         .bg
-            padding: 0.5rem 1rem
+            padding: 0.5rem 1rem 0
             background-color: #ffffff
             input
                 width: 100%
@@ -37,6 +38,16 @@
                 background-image: url(./assets/search.svg)
                 background-repeat: no-repeat
                 background-position: calc(100% - 1rem) center
+            .histories
+                display: flex
+                flex-direction: row
+                width: 3000%
+                padding: 0
+                div
+                    cursor: pointer
+                    color: #666666
+                    font-size: 0.8rem
+                    padding: 0.5rem 0.5rem 0.5rem
         .suggests
             position: absolute
             top: calc(34px + 0.5rem)
@@ -59,24 +70,6 @@
                     border-top: 1px solid #cccccc
                 &:hover, &:active
                     background: #cccccc
-        .histories
-            position: absolute
-            top: calc(34px + 0.5rem)
-            left: 0
-            z-index: 1
-            width: 100%
-            padding: 0
-            background-color: rgba(255, 255, 255, 0.85)
-            p
-                font-size: 0.8rem
-                color: #000000
-                padding: 1.5rem 0.75rem 0.5rem
-                border-bottom: 1px solid #dddddd
-            div
-                cursor: pointer
-                color: #000000
-                font-size: 0.9rem
-                padding: 0.75rem
     .slick-slide
         background-color: #000000 
         .photo
