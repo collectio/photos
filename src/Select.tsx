@@ -130,9 +130,11 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                         <input type="text" ref={this.setTextInputRef.bind(this)} placeholder="ゲームを検索" onChange={this.onSearch.bind(this)} />
                         {this.state.histories.length > 0 ? (
                         <div className="histories">
+                            <div>
                             {this.state.histories.map((history: GameType, i: number) => {
                                 return <div key={'history'+i} onClick={this.selectHistory.bind(this, history)}>{history.title}</div>;
                             })}
+                            </div>
                         </div>
                         ) : null}
                     </div>

@@ -21,9 +21,8 @@
         margin: 0 auto
         padding: 0
         z-index: 100000
-        overflow: hidden
         .bg
-            padding: 0.5rem 1rem 0
+            padding: 0.5rem 1rem 0.5rem
             background-color: #ffffff
             input
                 width: 100%
@@ -39,15 +38,18 @@
                 background-repeat: no-repeat
                 background-position: calc(100% - 1rem) center
             .histories
-                display: flex
-                flex-direction: row
-                width: 3000%
+                width: 100%
                 padding: 0
-                div
-                    cursor: pointer
-                    color: #666666
-                    font-size: 0.8rem
-                    padding: 0.5rem 0.5rem 0.5rem
+                overflow: hidden
+                > div
+                    display: flex
+                    flex-direction: row
+                    width: 3000%
+                    div
+                        cursor: pointer
+                        color: #666666
+                        font-size: 0.8rem
+                        padding: 0.5rem 0.5rem 0
         .suggests
             position: absolute
             top: calc(34px + 0.5rem)

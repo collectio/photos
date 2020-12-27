@@ -532,9 +532,10 @@ var Select = /** @class */ (function (_super) {
             react_1.default.createElement("form", { action: "", onSubmit: this.onSearch.bind(this) },
                 react_1.default.createElement("div", { className: "bg" },
                     react_1.default.createElement("input", { type: "text", ref: this.setTextInputRef.bind(this), placeholder: "\u30B2\u30FC\u30E0\u3092\u691C\u7D22", onChange: this.onSearch.bind(this) }),
-                    this.state.histories.length > 0 ? (react_1.default.createElement("div", { className: "histories" }, this.state.histories.map(function (history, i) {
-                        return react_1.default.createElement("div", { key: 'history' + i, onClick: _this.selectHistory.bind(_this, history) }, history.title);
-                    }))) : null),
+                    this.state.histories.length > 0 ? (react_1.default.createElement("div", { className: "histories" },
+                        react_1.default.createElement("div", null, this.state.histories.map(function (history, i) {
+                            return react_1.default.createElement("div", { key: 'history' + i, onClick: _this.selectHistory.bind(_this, history) }, history.title);
+                        })))) : null),
                 this.state.suggests.length === 0 && this.state.loading ? (react_1.default.createElement("div", { className: "suggests" }, "\u8AAD\u307F\u8FBC\u307F\u4E2D...")) : null,
                 this.state.suggests.length > 0 ? (react_1.default.createElement("div", { className: "suggests" }, this.state.suggests.slice(0, 100).map(function (suggest, i) {
                     return react_1.default.createElement("div", { key: 'suggest' + i, onClick: _this.selectSuggest.bind(_this, suggest) }, suggest.title);
