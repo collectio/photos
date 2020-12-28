@@ -46,6 +46,8 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
             })
             this.textInput.focus()
         }
+        // インスタンスを立ち上げておく
+        fetch('https://db-api-mxiq5qapta-an.a.run.app/search')
     }
     setTextInputRef(element: any) {
         this.textInput = element;
@@ -99,6 +101,11 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
     }
     selectSuggest(suggest: GameType) {
         this.state.album.photos[this.state.index].game.title = suggest.title;
+        let isExist = false
+        this.state.histories.map((game) => {
+            if (game.title === suggest.title) isExist = true
+        })
+        if (isExist) this.state.histories.unshift(suggest)
         this.state.histories.unshift(suggest)
         this.setState({suggests: []})
         this.textInput.value = ''

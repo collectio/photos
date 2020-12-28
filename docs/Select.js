@@ -85,6 +85,8 @@ var Select = /** @class */ (function (_super) {
             });
             this.textInput.focus();
         }
+        // インスタンスを立ち上げておく
+        fetch('https://db-api-mxiq5qapta-an.a.run.app/search');
     };
     Select.prototype.setTextInputRef = function (element) {
         this.textInput = element;
@@ -168,6 +170,13 @@ var Select = /** @class */ (function (_super) {
     };
     Select.prototype.selectSuggest = function (suggest) {
         this.state.album.photos[this.state.index].game.title = suggest.title;
+        var isExist = false;
+        this.state.histories.map(function (game) {
+            if (game.title === suggest.title)
+                isExist = true;
+        });
+        if (isExist)
+            this.state.histories.unshift(suggest);
         this.state.histories.unshift(suggest);
         this.setState({ suggests: [] });
         this.textInput.value = '';

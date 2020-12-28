@@ -62,15 +62,18 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
     setTextInputRef(element: any) {
         this.textArea = element;
     }
-    async share() {
+    share() {
         let text = this.textArea.value
+        let titles: string[] = ['\n']
         let files: File[] = []
-        await this.state.photos.map(async (photo) => {
+        this.state.photos.map((photo) => {
             const file = dataURLtoFile(photo.image, 'test.jpg')
             files.push(file)
-            if (photo.game) text += '#' + photo.game.title
+            if (photo.game && titles.indexOf(photo.game.title) === -1) titles.push('#' + photo.game.title)
         })
-        console.log(files)
+        text += titles.join(' ')
+        // console.log(text)
+        // console.log(files)
         if (navigator.share) {
             navigator.share({
                 text: text,
