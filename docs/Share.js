@@ -96,17 +96,20 @@ var Share = /** @class */ (function (_super) {
     };
     Share.prototype.share = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var files;
+            var text, files;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        text = this.textArea.value;
                         files = [];
                         return [4 /*yield*/, this.state.photos.map(function (photo) { return __awaiter(_this, void 0, void 0, function () {
                                 var file;
                                 return __generator(this, function (_a) {
                                     file = dataURLtoFile(photo.image, 'test.jpg');
                                     files.push(file);
+                                    if (photo.game)
+                                        text += '#' + photo.game.title;
                                     return [2 /*return*/];
                                 });
                             }); })];
@@ -115,7 +118,7 @@ var Share = /** @class */ (function (_super) {
                         console.log(files);
                         if (navigator.share) {
                             navigator.share({
-                                text: this.textArea.value,
+                                text: text,
                                 url: 'https://collectio.jp/',
                                 files: files
                             }).then(function () {
@@ -139,7 +142,7 @@ var Share = /** @class */ (function (_super) {
                 react_1.default.createElement(react_router_dom_1.Link, { to: {
                         pathname: "/album",
                         state: { album: album }
-                    }, className: "close" },
+                    }, className: "back" },
                     react_1.default.createElement("img", { className: "logo", src: "./assets/back.svg", alt: "\u623B\u308B" }))),
             react_1.default.createElement("div", { className: "photos" }, this.state.photos.map(function (photo, index) {
                 return (react_1.default.createElement("div", { className: 'photo', style: { backgroundImage: "url(" + photo.image + ")" } }));

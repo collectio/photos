@@ -63,15 +63,17 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
         this.textArea = element;
     }
     async share() {
+        let text = this.textArea.value
         let files: File[] = []
         await this.state.photos.map(async (photo) => {
             const file = dataURLtoFile(photo.image, 'test.jpg')
             files.push(file)
+            if (photo.game) text += '#' + photo.game.title
         })
         console.log(files)
         if (navigator.share) {
             navigator.share({
-                text: this.textArea.value,
+                text: text,
                 url: 'https://collectio.jp/',
                 files: files
               } as ShareData).then(() => {
@@ -90,7 +92,7 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
                 <Link to={{
                     pathname: "/album",
                     state: { album: album }
-                }} className="close">
+                }} className="back">
                     <img className="logo" src="./assets/back.svg" alt="戻る" />
                 </Link>
             </nav>

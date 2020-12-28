@@ -118,8 +118,14 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                     <Link to={{
                         pathname: "/album",
                         state: { album: this.state.album }
-                    }} className="close">
+                    }} className="back">
                         <img className="logo" src="./assets/back.svg" alt="戻る" />
+                    </Link>
+                    <Link to={{
+                        pathname: "/album",
+                        state: { album: this.state.album }
+                    }} className="complete">
+                        完了
                     </Link>
                 </nav>
                 <form action="" onSubmit={this.onSearch.bind(this)}>
