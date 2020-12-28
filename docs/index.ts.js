@@ -77,7 +77,7 @@ var Album = /** @class */ (function (_super) {
                     react_1.default.createElement(react_router_dom_1.Link, { to: "/" },
                         react_1.default.createElement("img", { className: "logo", src: "./assets/back.svg", alt: "\u623B\u308B" })),
                     react_1.default.createElement("span", null),
-                    react_1.default.createElement("span", { onClick: function () { return alert('アルバムの削除機能などがくる予定'); } },
+                    react_1.default.createElement("span", { onClick: function () { return alert('アルバムのタイトル編集・アルバムの削除機能などがくる予定'); } },
                         react_1.default.createElement("img", { src: "./assets/menu.svg", alt: "menu" }))),
                 react_1.default.createElement("div", { className: "album" },
                     react_1.default.createElement("div", { className: "hero" },

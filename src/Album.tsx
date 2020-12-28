@@ -63,7 +63,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                         <img className="logo" src="./assets/back.svg" alt="戻る" />
                     </Link>
                     <span></span>
-                    <span onClick={() => alert('アルバムの削除機能などがくる予定')}>
+                    <span onClick={() => alert('アルバムのタイトル編集・アルバムの削除機能などがくる予定')}>
                         <img src="./assets/menu.svg" alt="menu"/>
                     </span>
                 </nav>
