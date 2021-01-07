@@ -12,7 +12,7 @@
     "watch:sass": "chokidar \"./src/**/*.sass\" --command \"npm run build:sass && npm run build:autoprefixer\"",
     "watch:ts": "chokidar \"./src/**/*.tsx\" --command \"npm run build:ts\"",
     "build": "npm-run-all clean build:** -s",
-    "build:ts": "esbuild ./src/index.tsx --outfile=./docs/index.js  --bundle --minify --sourcemap --target=chrome58,firefox57,safari11,edge16 --define:process.env.NODE_ENV='\"production\"'",
+    "build:ts": "esbuild ./src/index.tsx --outfile=./docs/index.js --bundle --minify --sourcemap --target=chrome58,firefox57,safari11 --define:process.env.NODE_ENV='\"production\"'",
     "build:sass": "sass ./src/index.sass ./docs/index.css --style compressed --no-source-map",
     "build:autoprefixer": "postcss ./docs/index.css -o ./docs/index.css --config ./postcss.config.js",
     "build:pug": "pug -O pug_env.js src/ --out ./docs/",
