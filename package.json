@@ -11,7 +11,6 @@
     "watch:pug": "npm run build:pug -- --watch --pretty",
     "watch:sass": "chokidar \"./src/**/*.sass\" --command \"npm run build:sass && npm run build:autoprefixer\"",
     "watch:ts": "chokidar \"./src/**/*.tsx\" --command \"npm run build:ts\"",
-    "//watch:ts": "chokidar \"./src/**/*.tsx\" --command \"npm run build:ts && npm run build:browserify\"",
     "build": "npm-run-all clean build:** -s",
     "build:ts": "esbuild ./src/index.tsx --outfile=./docs/index.js --bundle --define:process.env.NODE_ENV='\"production\"'",
     "build:sass": "sass ./src/index.sass ./docs/index.css --style compressed --no-source-map",
