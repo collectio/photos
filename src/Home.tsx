@@ -88,7 +88,7 @@ class Home extends React.Component<Props, State> {
 
     resizeImage(base64: string) {
         return new Promise((resolve, reject) => {
-            const MIN_SIZE = 1024
+            const MIN_SIZE = 640
             const canvas = document.createElement('canvas')
             const ctx = canvas.getContext('2d')
             if (ctx) {
