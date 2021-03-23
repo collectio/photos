@@ -72,7 +72,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                         })}
                     </div>
                     <div className="bottomActions">
-                        <span className="share" onClick={this.share.bind(this)}>共有する</span>
+                        <span className="share" onClick={this.share.bind(this)}>次へ</span>
                     </div>
                 </div>
             </div>);
