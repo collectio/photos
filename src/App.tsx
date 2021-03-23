@@ -10,6 +10,7 @@ import {
 import {AlbumType, PhotoType, GameType} from './@types/index';
 import Home from './Home';
 import Album from './Album';
+import AlbumSelect from './AlbumSelect';
 import Photo from './Photo';
 import Select from './Select';
 import Share from './Share';
@@ -40,6 +41,7 @@ class App extends React.Component<Props, State> {
             <Switch>
                 <Route exact path="/" render={() => <Home albums={this.state.albums} setAlbums={this.setAlbums.bind(this)} />} />
                 <Route path="/album" render={() => <Album />} />
+                <Route path="/albumSelect" render={() => <AlbumSelect />} />
                 <Route path="/photo" render={() => <Photo />} />
                 <Route path="/select" render={() => <Select />} />
                 <Route path="/share" render={() => <Share />} />

@@ -93,7 +93,7 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
         return (<div id="share">
             <nav>
                 <Link to={{
-                    pathname: "/album",
+                    pathname: "/albumSelect",
                     state: { album: album }
                 }} className="back">
                     <img className="logo" src="./assets/back.svg" alt="戻る" />
