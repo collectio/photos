@@ -55,7 +55,7 @@ class Home extends React.Component<Props, State> {
                         const date = new Date()
                         const album: AlbumType = {
                             title: 'ある日のボードゲーム会',
-                            date: `${date.getFullYear()}/${date.getMonth()+1}/${date.getDay()}`,
+                            date: `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`,
                             photos: photos
                         }
                         this.props.setAlbums(album)
