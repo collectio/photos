@@ -54,6 +54,19 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                             シェア
                         </Link>
                     </div>
+                    <div className="games">
+                        {album.games.map((game, i) => {
+                            return <div key={'game'+i} className="game">
+                                    {game.image ? (
+                                        <img src={game.image} alt={game.title} />
+                                    ): (
+                                        <span className="title">
+                                            {game.title}
+                                        </span>
+                                    )}
+                                </div>
+                        })}
+                    </div>
                     <div className="photos">
                         {album.photos.map((photo: PhotoType, index: number) => {
                             return (<Link to={{

@@ -45,7 +45,7 @@ class Home extends React.Component<Props, State> {
             title: 'ある日のボードゲーム会',
             date: `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`,
             photos: photos,
-            games: [{"bgdb":"http://www.gamers-jp.com/playgame/db_gamea.php?game_id=6959","bgg":"https://boardgamegeek.com/boardgame/191895","bodogema":"https://bodoge.hoobby.net/games/golovonogi","etitle":"Toddles-Bobbles Green","hasJPURL":1,"id":"95735","keyword":"なんじゃもんじゃ,みどり,緑","maxPlayers":6,"minPlayers":2,"playAge":4,"playingTime":15,"title":"ナンジャモンジャ・ミドリ","year":"2010","image":"https://db.collectio.jp/wp-content/uploads/2019/05/95735.jpg"},{"bgdb":"","bgg":"https://boardgamegeek.com/boardgame/230802","bodogema":"https://bodoge.hoobby.net/games/azul","etitle":"Azul","hasJPURL":1,"id":"72660","keyword":"","maxPlayers":4,"minPlayers":2,"playAge":8,"playingTime":45,"title":"アズール","year":"2017","image":"https://db.collectio.jp/wp-content/uploads/2019/05/72660.jpg"},{"bgdb":"http://www.gamers-jp.com/playgame/db_gamea.php?game_id=4786","bgg":"https://boardgamegeek.com/boardgame/68448","bodogema":"https://bodoge.hoobby.net/games/7-wonders","etitle":"7 Wonders","hasJPURL":1,"id":"81063","keyword":"せかいのななふしぎ せぶんわんだー 7わんだー","maxPlayers":"","minPlayers":"","playAge":"","playingTime":"","title":"世界の七不思議","year":"2010","image":"https://db.collectio.jp/wp-content/uploads/2019/05/81063.jpg"}]
+            games: [{"bgdb":"http://www.gamers-jp.com/playgame/db_gamea.php?game_id=6959","bgg":"https://boardgamegeek.com/boardgame/191895","bodogema":"https://bodoge.hoobby.net/games/golovonogi","etitle":"Toddles-Bobbles Green","hasJPURL":1,"id":"95735","keyword":"なんじゃもんじゃ,みどり,緑","maxPlayers":6,"minPlayers":2,"playAge":4,"playingTime":15,"title":"ナンジャモンジャ・ミドリ","year":"2010","image":"https://db.collectio.jp/wp-content/uploads/2019/05/95735.jpg"},{"bgdb":"","bgg":"https://boardgamegeek.com/boardgame/230802","bodogema":"https://bodoge.hoobby.net/games/azul","etitle":"Azul","hasJPURL":1,"id":"72660","keyword":"","maxPlayers":4,"minPlayers":2,"playAge":8,"playingTime":45,"title":"アズール","year":"2017","image":"https://db.collectio.jp/wp-content/uploads/2019/05/72660.jpg"},{"bgdb":"http://www.gamers-jp.com/playgame/db_gamea.php?game_id=4786","bgg":"https://boardgamegeek.com/boardgame/68448","bodogema":"https://bodoge.hoobby.net/games/7-wonders","etitle":"7 Wonders","hasJPURL":1,"id":"81063","keyword":"せかいのななふしぎ せぶんわんだー 7わんだー","maxPlayers":"","minPlayers":"","playAge":"","playingTime":"","title":"世界の七不思議","year":"2010","image":"https://db.collectio.jp/wp-content/uploads/2019/05/81063.jpg"},{"bgdb":null,"bgg":null,"bodogema":null,"etitle":"","hasJPURL":1,"id":"110318","keyword":"","maxPlayers":null,"minPlayers":null,"playAge":null,"playingTime":null,"title":"Escape from the Office: The exciting escape game – escape your boss","year":"0","image":null}]
         }
         props.setAlbums(album)        
     }
@@ -149,11 +149,26 @@ class Home extends React.Component<Props, State> {
                     state: { album: album }
                 }} key={album.title+album.date}>
                     <div className="album">
-                        <h4>{album.title}</h4>
-                        <span>{album.date}</span>
-                        <div className="photos">
-                        {album.photos.map((photo) => {
-                            return (<div key={photo.image} className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>)
+                        <div className="image">
+                            <h4>{album.title}</h4>
+                            <span>{album.date}</span>
+                            <div className="photos">
+                            {album.photos.map((photo) => {
+                                return (<div key={photo.image} className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>)
+                            })}
+                            </div>
+                        </div>
+                        <div className="games">
+                        {album.games.map((game, i) => {
+                            return <div key={'game'+i} className="game">
+                                    {game.image ? (
+                                        <img src={game.image} alt={game.title} />
+                                    ): (
+                                        <span className="title">
+                                            {game.title}
+                                        </span>
+                                    )}
+                                </div>
                         })}
                         </div>
                     </div>
