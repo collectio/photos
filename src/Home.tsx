@@ -52,9 +52,10 @@ class Home extends React.Component<Props, State> {
                         }
                     });
                     if (this.input?.files?.length === photos.length) {
+                        const date = new Date()
                         const album: AlbumType = {
                             title: 'ある日のボードゲーム会',
-                            date: '2020/12/13',
+                            date: `${date.getFullYear()}/${date.getMonth()+1}/${date.getDay()}`,
                             photos: photos
                         }
                         this.props.setAlbums(album)
