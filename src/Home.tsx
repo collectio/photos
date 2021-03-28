@@ -40,23 +40,20 @@ class Home extends React.Component<Props, State> {
     loadImage() {
         if (this.input && this.input.files) {
             let reader:any = null;
-            let photos: PhotoType[] = [];
+            const photos: PhotoType[] = [];
             Array.from(this.input.files).map((file: any) => {
                 reader = new FileReader();
                 reader.onload = async (e:any) => {
                     photos.push({
                         image: await this.resizeImage(e.target.result) as string,
-                        game: {
-                            id: null,
-                            title: ''
-                        }
                     });
                     if (this.input?.files?.length === photos.length) {
                         const date = new Date()
                         const album: AlbumType = {
                             title: 'ある日のボードゲーム会',
                             date: `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`,
-                            photos: photos
+                            photos: photos,
+                            games: []
                         }
                         this.props.setAlbums(album)
                     }
@@ -121,7 +118,23 @@ class Home extends React.Component<Props, State> {
         if (this.input) {
             this.input.addEventListener('change', this.loadImage.bind(this));
         }
+
+        // dummy
+        const photos = []
+        photos.push({
+            image: 'https://yabumi.cc/178778c9b10669be71d87be7.jpg',
+        });
+        const date = new Date()
+        const album: AlbumType = {
+            title: 'ある日のボードゲーム会',
+            date: `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`,
+            photos: photos,
+            games: []
+        }
+        this.props.setAlbums(album)
+
     }
+
     render() {
         return (<div id="home">
             <nav>

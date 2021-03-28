@@ -2,11 +2,11 @@ export interface AlbumType {
     title: string
     date: string
     photos: PhotoType[]
+    games: GameType[]
 }
 
 export interface PhotoType {
     image: string
-    game: GameType
 }
 
 export interface GameType {
