@@ -3,7 +3,7 @@ import {withRouter, RouteComponentProps, Link} from "react-router-dom";
 import {AlbumType, PhotoType, GameType} from './@types/index';
 
 import fetchJsonp from "fetch-jsonp";
-import SimpleSlider from './Slider'
+// import SimpleSlider from './Slider'
 
 interface Select {
     textInput: any;
@@ -17,7 +17,7 @@ interface State {
     album: AlbumType
     index: number
     suggests: GameType[]
-    histories: GameType[]
+    // histories: GameType[]
 }
 
 class Select extends React.Component<Props & RouteComponentProps, State> {
@@ -31,7 +31,7 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                 loading: false,
                 album: album,
                 suggests: [],
-                histories: []
+                // histories: []
             };
         } catch {
             this.props.history.push('/')
@@ -99,25 +99,33 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         });
         return suggests
     }
-    selectSuggest(suggest: GameType) {
-        this.state.album.photos[this.state.index].game.title = suggest.title;
-        let isExist = false
-        this.state.histories.map((game) => {
-            if (game.title === suggest.title) isExist = true
-        })
-        if (isExist) this.state.histories.unshift(suggest)
-        this.state.histories.unshift(suggest)
+    async selectSuggest(suggest: GameType) {
+        const game = await fetch(`http://db.collectio.jp/wp-json/wp/v2/posts/${suggest.id}?_embed`).then((r) => r.json())
+        const gameImage = game.featured_image.src
+        if (gameImage !== 'http://db.collectio.jp/wp-includes/images/media/default.png') {
+            suggest.image = gameImage
+        } else {
+            suggest.image = null
+        }
+        this.state.album.games.push(suggest)
+        // this.state.album.games.push(suggest);
+        // let isExist = false
+        // this.state.histories.map((game) => {
+        //     if (game.title === suggest.title) isExist = true
+        // })
+        // if (isExist) this.state.histories.unshift(suggest)
+        // this.state.histories.unshift(suggest)
         this.setState({suggests: []})
         this.textInput.value = ''
     }
-    selectHistory(history: GameType) {
-        this.state.album.photos[this.state.index].game.title = history.title;
-        this.setState({suggests: []})
-        this.textInput.value = ''
-    }
-    afterChange(index: number) {
-        this.setState({index: index})
-    }
+    // selectHistory(history: GameType) {
+    //     this.state.album.photos[this.state.index].game.title = history.title;
+    //     this.setState({suggests: []})
+    //     this.textInput.value = ''
+    // }
+    // afterChange(index: number) {
+    //     this.setState({index: index})
+    // }
     render() {
         return (
             <div id="select">
@@ -138,7 +146,7 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                 <form action="" onSubmit={this.onSearch.bind(this)}>
                     <div className="bg">
                         <input type="text" ref={this.setTextInputRef.bind(this)} placeholder="ゲームを検索" onChange={this.onSearch.bind(this)} />
-                        {this.state.histories.length > 0 ? (
+                        {/* {this.state.histories.length > 0 ? (
                         <div className="histories">
                             <div>
                             {this.state.histories.map((history: GameType, i: number) => {
@@ -146,7 +154,7 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                             })}
                             </div>
                         </div>
-                        ) : null}
+                        ) : null} */}
                     </div>
                     {this.state.suggests.length===0 && this.state.loading ? (
                         <div className="suggests">読み込み中...</div>
@@ -159,7 +167,24 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                         </div>
                     ) : null}
                 </form>
-                <SimpleSlider album={this.state.album} afterChange={this.afterChange.bind(this)} />
+                {this.state.album.games.length > 0 ? (
+                        <div className="games">
+                            <h3>遊んだゲーム</h3>
+                            {this.state.album.games.map((game: GameType, i: number) => {
+                                return <div key={'game'+i} className="game">
+                                    {game.image ? (
+                                        <img src={game.image} alt=""/>
+                                    ): (
+                                        <span className="image"></span>
+                                    )}
+                                    <span className="title">
+                                        {game.title}
+                                    </span>
+                                </div>;
+                            })}
+                        </div>
+                ) : null}
+                {/* <SimpleSlider album={this.state.album} afterChange={this.afterChange.bind(this)} /> */}
             </div>
         );
     }

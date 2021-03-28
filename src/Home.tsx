@@ -33,6 +33,21 @@ class Home extends React.Component<Props, State> {
         this.state = {
         };
         this.input = null;
+
+        // dummy
+        if (props.albums.length > 0) return
+        const photos = []
+        photos.push({
+            image: 'https://yabumi.cc/178778c9b10669be71d87be7.jpg',
+        });
+        const date = new Date()
+        const album: AlbumType = {
+            title: 'ある日のボードゲーム会',
+            date: `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`,
+            photos: photos,
+            games: [{"bgdb":"http://www.gamers-jp.com/playgame/db_gamea.php?game_id=6959","bgg":"https://boardgamegeek.com/boardgame/191895","bodogema":"https://bodoge.hoobby.net/games/golovonogi","etitle":"Toddles-Bobbles Green","hasJPURL":1,"id":"95735","keyword":"なんじゃもんじゃ,みどり,緑","maxPlayers":6,"minPlayers":2,"playAge":4,"playingTime":15,"title":"ナンジャモンジャ・ミドリ","year":"2010","image":"https://db.collectio.jp/wp-content/uploads/2019/05/95735.jpg"},{"bgdb":"","bgg":"https://boardgamegeek.com/boardgame/230802","bodogema":"https://bodoge.hoobby.net/games/azul","etitle":"Azul","hasJPURL":1,"id":"72660","keyword":"","maxPlayers":4,"minPlayers":2,"playAge":8,"playingTime":45,"title":"アズール","year":"2017","image":"https://db.collectio.jp/wp-content/uploads/2019/05/72660.jpg"},{"bgdb":"http://www.gamers-jp.com/playgame/db_gamea.php?game_id=4786","bgg":"https://boardgamegeek.com/boardgame/68448","bodogema":"https://bodoge.hoobby.net/games/7-wonders","etitle":"7 Wonders","hasJPURL":1,"id":"81063","keyword":"せかいのななふしぎ せぶんわんだー 7わんだー","maxPlayers":"","minPlayers":"","playAge":"","playingTime":"","title":"世界の七不思議","year":"2010","image":"https://db.collectio.jp/wp-content/uploads/2019/05/81063.jpg"}]
+        }
+        props.setAlbums(album)        
     }
     setInputRef(element: HTMLInputElement) {
         this.input = element;
@@ -118,21 +133,6 @@ class Home extends React.Component<Props, State> {
         if (this.input) {
             this.input.addEventListener('change', this.loadImage.bind(this));
         }
-
-        // dummy
-        const photos = []
-        photos.push({
-            image: 'https://yabumi.cc/178778c9b10669be71d87be7.jpg',
-        });
-        const date = new Date()
-        const album: AlbumType = {
-            title: 'ある日のボードゲーム会',
-            date: `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`,
-            photos: photos,
-            games: []
-        }
-        this.props.setAlbums(album)
-
     }
 
     render() {
