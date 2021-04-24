@@ -1,5 +1,15 @@
-# TightlyTemplate
-npm scripts で pug+sass+TypeScriptがビルドできてオートリロードできるサイト作成環境を書く  
+# FireBaseTemplate
+npm scripts で pug+sass+TypeScript+React+Firebaseがビルドできてオートリロードできるサイト作成環境を書く  
+
+## FireBaseのセットアップ
+
+https://firebase.google.com/docs/web/setup?hl=ja
+
+- GitHubリポジトリ->Settings->SecretにFIREBASECONFIGを作成
+- Authentication->Sign-in method->Googleログインを有効化
+- Authentication->Sign-in method->承認済みドメインを追加
+- FireStoreを有効化　リージョンに注意（後から変更できない）
+- FireStoreのルールのデプロイ
 
 ## 使い方
 
@@ -8,17 +18,15 @@ npm install
 npm start
 ```
 
-## Windows
-
-Gitのインストール  
-https://git-scm.com/downloads
-
-
-node-sassのビルドに必要なライブラリを入れる
+FireStore emulator
 ```
-npm install --global --production windows-build-tools
+npm run firestore
 ```
 
+FireStoreのルールのデプロイ
+```
+npm run rule
+```
 
 
 ## ライセンスについて
