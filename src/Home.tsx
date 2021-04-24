@@ -38,7 +38,7 @@ class Home extends React.Component<Props, State> {
         if (props.albums.length > 0) return
         const photos = []
         photos.push({
-            image: 'https://yabumi.cc/178778c9b10669be71d87be7.jpg',
+            image: 'https://yabumi.cc/17901ccdcd7973907b4cfd62.jpg',
         });
         const date = new Date()
         const album: AlbumType = {
