@@ -21,6 +21,7 @@ interface App {
 interface Props {
 }
 interface State {
+    user: any
     albums: AlbumType[]
 }
 
@@ -29,18 +30,32 @@ class App extends React.Component<Props, State> {
     constructor(props: ReactPropTypes) {
         super(props);
         this.state = {
+            user: null,
             albums: [],
         };
     }
-    setAlbums(album: AlbumType) {
-        this.state.albums.push(album);
-        this.setState({});
+
+    setUser(user) {
+        this.setState({user})
     }
+
+    addAlbums(album: AlbumType) {
+        this.state.albums.unshift(album)
+        this.setState({})
+    }
+
     render() {
         return (<Router>
             <Switch>
-                <Route exact path="/" render={() => <Home albums={this.state.albums} setAlbums={this.setAlbums.bind(this)} />} />
-                <Route path="/album" render={() => <Album />} />
+                <Route exact path="/" render={() => <Home
+                    user={this.state.user}
+                    albums={this.state.albums}
+                    setUser={this.setUser.bind(this)}
+                    addAlbums={this.addAlbums.bind(this)}
+                />} />
+                <Route path="/album" render={() => <Album
+                    user={this.state.user}
+                />} />
                 <Route path="/albumSelect" render={() => <AlbumSelect />} />
                 <Route path="/photo" render={() => <Photo />} />
                 <Route path="/select" render={() => <Select />} />

@@ -3,6 +3,7 @@ export interface AlbumType {
     date: string
     photos: PhotoType[]
     games: GameType[]
+    userId: string
 }
 
 export interface PhotoType {

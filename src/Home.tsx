@@ -12,8 +12,10 @@ interface Home {
 }
 
 interface Props {
+    user: any | null
     albums: AlbumType[]
-    setAlbums: (album) => void
+    setUser: (user: any) => void
+    addAlbums: (album: AlbumType) => void
 }
 interface State {
     user: any | null
@@ -49,62 +51,145 @@ class Home extends React.Component<Props, State> {
             title: 'ある日のボードゲーム会',
             date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`,
             photos: photos,
-            games: [{ "bgdb": "http://www.gamers-jp.com/playgame/db_gamea.php?game_id=6959", "bgg": "https://boardgamegeek.com/boardgame/191895", "bodogema": "https://bodoge.hoobby.net/games/golovonogi", "etitle": "Toddles-Bobbles Green", "hasJPURL": 1, "id": "95735", "keyword": "なんじゃもんじゃ,みどり,緑", "maxPlayers": 6, "minPlayers": 2, "playAge": 4, "playingTime": 15, "title": "ナンジャモンジャ・ミドリ", "year": "2010", "image": "https://db.collectio.jp/wp-content/uploads/2019/05/95735.jpg" }, { "bgdb": "", "bgg": "https://boardgamegeek.com/boardgame/230802", "bodogema": "https://bodoge.hoobby.net/games/azul", "etitle": "Azul", "hasJPURL": 1, "id": "72660", "keyword": "", "maxPlayers": 4, "minPlayers": 2, "playAge": 8, "playingTime": 45, "title": "アズール", "year": "2017", "image": "https://db.collectio.jp/wp-content/uploads/2019/05/72660.jpg" }, { "bgdb": "http://www.gamers-jp.com/playgame/db_gamea.php?game_id=4786", "bgg": "https://boardgamegeek.com/boardgame/68448", "bodogema": "https://bodoge.hoobby.net/games/7-wonders", "etitle": "7 Wonders", "hasJPURL": 1, "id": "81063", "keyword": "せかいのななふしぎ せぶんわんだー 7わんだー", "maxPlayers": "", "minPlayers": "", "playAge": "", "playingTime": "", "title": "世界の七不思議", "year": "2010", "image": "https://db.collectio.jp/wp-content/uploads/2019/05/81063.jpg" }, { "bgdb": null, "bgg": null, "bodogema": null, "etitle": "", "hasJPURL": 1, "id": "110318", "keyword": "", "maxPlayers": null, "minPlayers": null, "playAge": null, "playingTime": null, "title": "Escape from the Office: The exciting escape game – escape your boss", "year": "0", "image": null }]
+            games: [{ "bgdb": "http://www.gamers-jp.com/playgame/db_gamea.php?game_id=6959", "bgg": "https://boardgamegeek.com/boardgame/191895", "bodogema": "https://bodoge.hoobby.net/games/golovonogi", "etitle": "Toddles-Bobbles Green", "hasJPURL": 1, "id": "95735", "keyword": "なんじゃもんじゃ,みどり,緑", "maxPlayers": 6, "minPlayers": 2, "playAge": 4, "playingTime": 15, "title": "ナンジャモンジャ・ミドリ", "year": "2010", "image": "https://db.collectio.jp/wp-content/uploads/2019/05/95735.jpg" }, { "bgdb": "", "bgg": "https://boardgamegeek.com/boardgame/230802", "bodogema": "https://bodoge.hoobby.net/games/azul", "etitle": "Azul", "hasJPURL": 1, "id": "72660", "keyword": "", "maxPlayers": 4, "minPlayers": 2, "playAge": 8, "playingTime": 45, "title": "アズール", "year": "2017", "image": "https://db.collectio.jp/wp-content/uploads/2019/05/72660.jpg" }, { "bgdb": "http://www.gamers-jp.com/playgame/db_gamea.php?game_id=4786", "bgg": "https://boardgamegeek.com/boardgame/68448", "bodogema": "https://bodoge.hoobby.net/games/7-wonders", "etitle": "7 Wonders", "hasJPURL": 1, "id": "81063", "keyword": "せかいのななふしぎ せぶんわんだー 7わんだー", "maxPlayers": "", "minPlayers": "", "playAge": "", "playingTime": "", "title": "世界の七不思議", "year": "2010", "image": "https://db.collectio.jp/wp-content/uploads/2019/05/81063.jpg" }, { "bgdb": null, "bgg": null, "bodogema": null, "etitle": "", "hasJPURL": 1, "id": "110318", "keyword": "", "maxPlayers": null, "minPlayers": null, "playAge": null, "playingTime": null, "title": "Escape from the Office: The exciting escape game – escape your boss", "year": "0", "image": null }],
+            userId: ''
         }
-        props.setAlbums(album)
+        props.addAlbums(album)
     }
     setInputRef(element: HTMLInputElement) {
         this.input = element;
     }
+
+    componentDidMount() {
+        // 2回目以降、ページ遷移などで表示する時には実行しない
+        if (this.props.user) return
+        // ログイン済みか？
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log(user)
+                this.props.setUser(user)
+                this.loadAlbums()
+            }
+        });
+        // ログインフローでリダイレクトしてきた時
+        firebase.auth()
+            .getRedirectResult()
+            .then((result) => {
+                if (result.credential) {
+                    const credential = result.credential;
+                    const token = credential.accessToken;
+                }
+                const user = result.user;
+                console.log(user)
+                this.props.setUser(user)
+                this.loadAlbums()
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                const email = error.email;
+                const credential = error.credential;
+                console.log(errorCode, errorMessage, email, credential)
+            });
+    }
+
+    loadAlbums() {
+        db.collection('albums').where('userId', '==', this.props.user.uid).get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc.id, ' => ', doc.data());
+                    this.props.addAlbums(doc.data() as AlbumType)
+                });
+            })
+            .catch((error) => {
+                console.log('Error getting documents: ', error);
+            });
+    }
+
+    uploadPhoto(docRef: any, photoImages: string[]) {
+        return new Promise((resolve, reject) => {
+            const photoUrls: string[] = []
+            photoImages.map((photoImage, index) => {
+                const storageRef = firebase.storage().ref();
+                const ref = storageRef.child(`${this.props.user.uid}/${docRef.id}/${index}.jpg`);
+                const uploadTask = ref.putString(photoImage, 'data_url')
+                uploadTask.on('state_changed', (snapshot: any) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                        case firebase.storage.TaskState.PAUSED: // or 'paused'
+                            console.log('Upload is paused');
+                            break;
+                        case firebase.storage.TaskState.RUNNING: // or 'running'
+                            console.log('Upload is running');
+                            break;
+                    }
+                }, (error) => {
+                    console.log(error)
+                    reject(error)
+                }, async () => {
+
+                    const downloadURL = await uploadTask.snapshot.ref.getDownloadURL()
+                    console.log('File available at', downloadURL);
+                    photoUrls.push(downloadURL)
+                    if (photoImages.length === photoUrls.length) {
+                        resolve(photoUrls)
+                    }
+
+                    // // ファイルの削除
+                    // const desertRef = storageRef.child('test.jpg');
+                    // desertRef.delete().then(function () {
+                    //     console.log('File deleted successfully')
+                    // }).catch(function (error) {
+                    //     console.log(error)
+                    // });
+
+                })
+            })
+        })
+
+    }
+
     loadImage() {
         if (this.input && this.input.files) {
             let reader: any = null;
-            const photos: PhotoType[] = [];
-            Array.from(this.input.files).map((file: any) => {
+            const photoImages: string[] = [];
+            Array.from(this.input.files).map(async (file: any) => {
                 reader = new FileReader();
                 reader.onload = async (e: any) => {
-                    const storageRef = firebase.storage().ref();
-                    const ref = storageRef.child('test.jpg');
-                    const uploadTask = ref.putString(await this.resizeImage(e.target.result) as string, 'data_url')
-                    uploadTask.on('state_changed', (snapshot: any) => {
-                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log('Upload is ' + progress + '% done');
-                        switch (snapshot.state) {
-                            case firebase.storage.TaskState.PAUSED: // or 'paused'
-                                console.log('Upload is paused');
-                                break;
-                            case firebase.storage.TaskState.RUNNING: // or 'running'
-                                console.log('Upload is running');
-                                break;
+                    photoImages.push(await this.resizeImage(e.target.result) as string)
+                    if (this.input?.files?.length === photoImages.length) {
+                        const date = new Date()
+                        const album: AlbumType = {
+                            title: 'ある日のボードゲーム会',
+                            date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`,
+                            photos: [],
+                            games: [],
+                            userId: this.props.user.uid
                         }
-                    }, (error) => {
-                        console.log(error)
-                    }, async () => {
-                        const downloadURL = await uploadTask.snapshot.ref.getDownloadURL()
-                        console.log('File available at', downloadURL);
-                        photos.push({
-                            image: downloadURL,
-                        });
-                        if (this.input?.files?.length === photos.length) {
-                            const date = new Date()
-                            const album: AlbumType = {
-                                title: 'ある日のボードゲーム会',
-                                date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`,
-                                photos: photos,
-                                games: []
-                            }
-                            this.props.setAlbums(album)
-                        }
+                
+                        db.collection('albums').add(album)
+                            .then(async (docRef) => {
+                                console.log('Document written with ID: ', docRef.id);
+                                const photoUrls:any[] = await this.uploadPhoto(docRef, photoImages)
+                                console.log(photoUrls)
+                                const photos: PhotoType[] = []
+                                photoUrls.map((photoUrl:string) => {
+                                    photos.push({
+                                        image: photoUrl
+                                    })
+                                })
+                                docRef.update({ photos: photos })
+                                album.photos = photos as PhotoType[]
+                                this.props.addAlbums(album)
+                
+                            })
+                            .catch((error) => {
+                                console.error('Error adding document: ', error);
+                            })
+                
+                    }
 
-                        // ファイルの削除
-                        const desertRef = storageRef.child('test.jpg');
-                        desertRef.delete().then(function () {
-                            console.log('File deleted successfully')
-                        }).catch(function (error) {
-                            console.log(error)
-                        });
-
-                    });
 
                     //回転対応 ,  回転具合を見てlabelを回転
                     // const arrayBuffer = base64ToArrayBuffer(reader.result);
@@ -163,34 +248,12 @@ class Home extends React.Component<Props, State> {
         })
     }
 
-    componentDidMount() {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.setState({ user })
-            }
-        });
-        firebase.auth()
-            .getRedirectResult()
-            .then((result) => {
-                if (result.credential) {
-                    const credential = result.credential;
-                    const token = credential.accessToken;
-                }
-                const user = result.user;
-                console.log(user)
-                this.setState({ user })
-            }).catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                const email = error.email;
-                const credential = error.credential;
-                console.log(errorCode, errorMessage, email, credential)
-            });
-    }
+
     GoogleLogin() {
         const provider = new firebase.auth.GoogleAuthProvider()
         firebase.auth().signInWithRedirect(provider)
     }
+
     signOut() {
         firebase.auth().signOut().then(() => {
             // Sign-out successful.
@@ -198,30 +261,6 @@ class Home extends React.Component<Props, State> {
         }).catch((error) => {
             // An error happened.
         });
-    }
-    add() {
-        db.collection("users").add({
-            first: "Ada",
-            last: "Lovelace",
-            born: 1815
-        })
-            .then((docRef) => {
-                console.log("Document written with ID: ", docRef.id);
-
-            })
-            .catch((error) => {
-                console.error("Error adding document: ", error);
-            })
-        db.collection("users").get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, " => ", doc.data());
-                });
-            })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            });
     }
 
     render() {
@@ -231,11 +270,13 @@ class Home extends React.Component<Props, State> {
                     <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
                 </Link>
             </nav>
-            {this.state.user ? (
+            {this.props.user ? (
                 <React.Fragment>
-                    <p>Welcome {this.state.user.displayName}</p>
+                    <p>
+                        <img src={this.props.user.photoURL} alt="" />
+                        Welcome {this.props.user.displayName}
+                    </p>
                     <button onClick={this.signOut.bind(this)}>SignOut</button>
-                    <button onClick={this.add.bind(this)}>add sample data on FireStore</button>
                 </React.Fragment>
             ) : (
                 <button onClick={this.GoogleLogin.bind(this)}>Google Login</button>

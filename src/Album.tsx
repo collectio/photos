@@ -1,10 +1,13 @@
+import firebase, { db } from './index'
+
 import React from "react";
 import {withRouter, RouteComponentProps, Link} from "react-router-dom";
 
-import {PhotoType} from './@types/index';
+import {GameType, PhotoType} from './@types/index';
 
 
 interface Props {
+    user: any
 }
 interface State {
 }
@@ -55,7 +58,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                         </Link>
                     </div>
                     <div className="games">
-                        {album.games.map((game, i) => {
+                        {album.games.map((game: GameType, i: number) => {
                             return <div key={'game'+i} className="game">
                                     {game.image ? (
                                         <img src={game.image} alt={game.title} />
