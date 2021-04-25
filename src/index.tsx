@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 
 import firebaseConfig from '../firebaseConfig.json'
 
@@ -10,6 +11,7 @@ export const db = firebase.firestore();
 if (location.hostname === 'localhost' || location.hostname.match(/192\.168\.0\.\w+$/)) {
     db.useEmulator('localhost', 8080);
 }
+export const storage = firebase.storage();
 export const analytics = firebase.analytics();
 
 export default firebase
