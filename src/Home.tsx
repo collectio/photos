@@ -111,7 +111,7 @@ class Home extends React.Component<Props, State> {
             const photoUrls: string[] = []
             photoImages.map((photoImage, index) => {
                 const storageRef = firebase.storage().ref();
-                const ref = storageRef.child(`${this.props.user.uid}/${docRef.id}/${index}.jpg`);
+                const ref = storageRef.child(`${this.props.user.uid}/${docRef.id}/${(new Date()).getTime()}.jpg`);
                 const uploadTask = ref.putString(photoImage, 'data_url')
                 uploadTask.on('state_changed', (snapshot: any) => {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
