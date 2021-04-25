@@ -164,9 +164,6 @@ class Home extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        if (this.input) {
-            this.input.addEventListener('change', this.loadImage.bind(this));
-        }
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({ user })
@@ -277,7 +274,7 @@ class Home extends React.Component<Props, State> {
                 })}
             </div>
             <form action="" encType="multipart/form-data">
-                <input className="file" id="file" type="file" name="file" accept="image/*" multiple={true} ref={this.setInputRef.bind(this)} />
+                <input className="file" onChange={this.loadImage.bind(this)} id="file" type="file" name="file" accept="image/*" multiple={true} ref={this.setInputRef.bind(this)} />
                 <label htmlFor="file"></label>
             </form>
         </div>);
