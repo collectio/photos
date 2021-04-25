@@ -106,45 +106,29 @@ class Home extends React.Component<Props, State> {
             });
     }
 
-    uploadPhoto(docRef: any, photoImages: string[]) {
+    uploadPhoto(docRef: any, photoImage: string) {
         return new Promise((resolve, reject) => {
-            const photoUrls: string[] = []
-            photoImages.map((photoImage, index) => {
-                const storageRef = firebase.storage().ref();
-                const ref = storageRef.child(`${this.props.user.uid}/${docRef.id}/${(new Date()).getTime()}.jpg`);
-                const uploadTask = ref.putString(photoImage, 'data_url')
-                uploadTask.on('state_changed', (snapshot: any) => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case firebase.storage.TaskState.PAUSED: // or 'paused'
-                            console.log('Upload is paused');
-                            break;
-                        case firebase.storage.TaskState.RUNNING: // or 'running'
-                            console.log('Upload is running');
-                            break;
-                    }
-                }, (error) => {
-                    console.log(error)
-                    reject(error)
-                }, async () => {
-
-                    const downloadURL = await uploadTask.snapshot.ref.getDownloadURL()
-                    console.log('File available at', downloadURL);
-                    photoUrls.push(downloadURL)
-                    if (photoImages.length === photoUrls.length) {
-                        resolve(photoUrls)
-                    }
-
-                    // // ファイルの削除
-                    // const desertRef = storageRef.child('test.jpg');
-                    // desertRef.delete().then(function () {
-                    //     console.log('File deleted successfully')
-                    // }).catch(function (error) {
-                    //     console.log(error)
-                    // });
-
-                })
+            const storageRef = firebase.storage().ref();
+            const ref = storageRef.child(`${this.props.user.uid}/${docRef.id}/${(new Date()).getTime()}.jpg`);
+            const uploadTask = ref.putString(photoImage, 'data_url')
+            uploadTask.on('state_changed', (snapshot: any) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+                switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                        console.log('Upload is paused');
+                        break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                        console.log('Upload is running');
+                        break;
+                }
+            }, (error) => {
+                console.log(error)
+                reject(error)
+            }, async () => {
+                const photoUrl = await uploadTask.snapshot.ref.getDownloadURL()
+                console.log('File available at', photoUrl);
+                resolve(photoUrl)
             })
         })
 
@@ -155,66 +139,70 @@ class Home extends React.Component<Props, State> {
             let reader: any = null;
             const photoImages: string[] = [];
             Array.from(this.input.files).map(async (file: any) => {
-                reader = new FileReader();
-                reader.onload = async (e: any) => {
-                    photoImages.push(await this.resizeImage(e.target.result) as string)
-                    if (this.input?.files?.length === photoImages.length) {
-                        const date = new Date()
-                        const album: AlbumType = {
-                            title: 'ある日のボードゲーム会',
-                            date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`,
-                            photos: [],
-                            games: [],
-                            userId: this.props.user.uid
-                        }
-                
-                        db.collection('albums').add(album)
-                            .then(async (docRef) => {
-                                console.log('Document written with ID: ', docRef.id);
-                                const photoUrls:any[] = await this.uploadPhoto(docRef, photoImages)
-                                console.log(photoUrls)
-                                const photos: PhotoType[] = []
-                                photoUrls.map((photoUrl:string) => {
-                                    photos.push({
-                                        image: photoUrl
-                                    })
-                                })
-                                docRef.update({ photos: photos })
-                                album.photos = photos as PhotoType[]
-                                this.props.addAlbums(album)
-                
-                            })
-                            .catch((error) => {
-                                console.error('Error adding document: ', error);
-                            })
-                
+                const photoImage = await new Promise((resolve, reject) => {
+                    reader = new FileReader();
+                    reader.onload = async (e: any) => {
+                        resolve(await this.resizeImage(e.target.result))
                     }
+                    reader.readAsDataURL(file)
+                })
+                photoImages.push(photoImage)
+            })
+            console.log(photoImages)
+            const date = new Date()
+            const album: AlbumType = {
+                title: 'ある日のボードゲーム会',
+                date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`,
+                photos: [],
+                games: [],
+                userId: this.props.user.uid
+            }
+    
+            db.collection('albums').add(album)
+                .then(async (docRef) => {
+                    console.log('Document written with ID: ', docRef.id);
+                    const photos: PhotoType[] = []
+                    photoImages.map(async (photoImage) => {
+                        const photoUrl = await this.uploadPhoto(docRef, photoImage) as string
+                        console.log(photoUrl)
+                        photos.push({
+                            image: photoUrl
+                        })
+                        console.log(photos)
+                        if (photoImages.length === photos.length) {
+                            docRef.update({ photos: photos })
+                            album.photos = photos as PhotoType[]
+                            this.props.addAlbums(album)
+                        }
+                    })
+    
+                })
+                .catch((error) => {
+                    console.error('Error adding document: ', error);
+                })
 
+            //回転対応 ,  回転具合を見てlabelを回転
+            // const arrayBuffer = base64ToArrayBuffer(reader.result);
+            // const exif = EXIF.readFromBinaryFile(arrayBuffer);
+            // console.log(exif)
+            // let rotate = 0;
+            // if (exif && exif.Orientation) {
+            //     console.log(exif.Orientation)
+            //   switch (exif.Orientation) {
+            //     case 3:
+            //       rotate = 180;
+            //       break;
+            //     case 6:
+            //       rotate = 90;
+            //       break;
+            //     case 8:
+            //       rotate = -90;
+            //       break;
+            //   }
+            // }
+            // label.style.transform = `rotate(${rotate}deg)`;
+            // label.style.webkitTransform = `rotate(${rotate}deg)`;
 
-                    //回転対応 ,  回転具合を見てlabelを回転
-                    // const arrayBuffer = base64ToArrayBuffer(reader.result);
-                    // const exif = EXIF.readFromBinaryFile(arrayBuffer);
-                    // console.log(exif)
-                    // let rotate = 0;
-                    // if (exif && exif.Orientation) {
-                    //     console.log(exif.Orientation)
-                    //   switch (exif.Orientation) {
-                    //     case 3:
-                    //       rotate = 180;
-                    //       break;
-                    //     case 6:
-                    //       rotate = 90;
-                    //       break;
-                    //     case 8:
-                    //       rotate = -90;
-                    //       break;
-                    //   }
-                    // }
-                    // label.style.transform = `rotate(${rotate}deg)`;
-                    // label.style.webkitTransform = `rotate(${rotate}deg)`;
-                }
-                reader.readAsDataURL(file)
-            });
         }
     }
 
