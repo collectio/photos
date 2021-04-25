@@ -66,9 +66,6 @@ class Home extends React.Component<Props, State> {
                     const storageRef = firebase.storage().ref();
                     const ref = storageRef.child('test.jpg');
                     const uploadTask = ref.putString(await this.resizeImage(e.target.result) as string, 'data_url')
-                    uploadTask.then(function (snapshot) {
-                        console.log('Uploaded a data_url string!');
-                    });
                     uploadTask.on('state_changed', (snapshot: any) => {
                         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                         console.log('Upload is ' + progress + '% done');
@@ -97,7 +94,16 @@ class Home extends React.Component<Props, State> {
                                 games: []
                             }
                             this.props.setAlbums(album)
-                        }    
+                        }
+
+                        // ファイルの削除
+                        const desertRef = storageRef.child('test.jpg');
+                        desertRef.delete().then(function () {
+                            console.log('File deleted successfully')
+                        }).catch(function (error) {
+                            console.log(error)
+                        });
+
                     });
 
                     //回転対応 ,  回転具合を見てlabelを回転
