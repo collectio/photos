@@ -19,6 +19,7 @@ interface Props {
 }
 interface State {
     user: any | null
+    uploading: boolean
 }
 
 const base64ToArrayBuffer = (base64: any) => {
@@ -59,7 +60,8 @@ class Home extends React.Component<Props, State> {
     constructor(props: any) {
         super(props);
         this.state = {
-            user: null
+            user: null,
+            uploading: false
         }
         this.input = null;
 
@@ -108,13 +110,14 @@ class Home extends React.Component<Props, State> {
 
     async createAlbum(): void {
         if (this.input && this.input.files) {
+            this.setState({ uploading: true })
             const photoImages: string[] = [];
-            for(let i=0; i<=this.input.files.length; i++) {
+            for (let i = 0; i < this.input.files.length; i++) {
                 const file = this.input.files[i]
                 const photoImage = await this.loadImage(file).catch((error) => console.log(error))
                 photoImages.push(photoImage)
             }
-            // console.log(photoImages)
+            console.log(photoImages)
             const date = new Date()
             const album: AlbumType = {
                 title: 'ある日のボードゲーム会',
@@ -143,6 +146,7 @@ class Home extends React.Component<Props, State> {
                 album.photos = photos as PhotoType[]
                 this.props.addAlbums(album)
             }
+            this.setState({ uploading: false })
         }
     }
 
@@ -244,47 +248,52 @@ class Home extends React.Component<Props, State> {
                         Welcome {this.props.user.displayName}
                     </p>
                     <button onClick={this.signOut.bind(this)}>SignOut</button>
+                    {this.state.uploading ? (
+                        <div className="progress">
+                            <p>アップロード中...</p>
+                        </div>
+                    ) : null}
+                    <div className="albums">
+                        {this.props.albums.map((album) => {
+                            return (<Link to={{
+                                pathname: "/album",
+                                state: { album: album }
+                            }} key={album.title + album.date}>
+                                <div className="album">
+                                    <div className="image">
+                                        <h4>{album.title}</h4>
+                                        <span>{album.date}</span>
+                                        <div className="photos">
+                                            {album.photos.map((photo) => {
+                                                return (<div key={photo.image} className="photo" style={{ backgroundImage: `url(${photo.image})` }}></div>)
+                                            })}
+                                        </div>
+                                    </div>
+                                    <div className="games">
+                                        {album.games.map((game, i) => {
+                                            return <div key={'game' + i} className="game">
+                                                {game.image ? (
+                                                    <img src={game.image} alt={game.title} />
+                                                ) : (
+                                                    <span className="title">
+                                                        {game.title}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        })}
+                                    </div>
+                                </div>
+                            </Link>)
+                        })}
+                    </div>
+                    <form action="" encType="multipart/form-data">
+                        <input className="file" onChange={this.createAlbum.bind(this)} id="file" type="file" name="file" accept="image/*" multiple={true} ref={this.setInputRef.bind(this)} />
+                        <label htmlFor="file"></label>
+                    </form>
                 </React.Fragment>
             ) : (
                 <button onClick={this.GoogleLogin.bind(this)}>Google Login</button>
             )}
-            <div className="albums">
-                {this.props.albums.map((album) => {
-                    return (<Link to={{
-                        pathname: "/album",
-                        state: { album: album }
-                    }} key={album.title + album.date}>
-                        <div className="album">
-                            <div className="image">
-                                <h4>{album.title}</h4>
-                                <span>{album.date}</span>
-                                <div className="photos">
-                                    {album.photos.map((photo) => {
-                                        return (<div key={photo.image} className="photo" style={{ backgroundImage: `url(${photo.image})` }}></div>)
-                                    })}
-                                </div>
-                            </div>
-                            <div className="games">
-                                {album.games.map((game, i) => {
-                                    return <div key={'game' + i} className="game">
-                                        {game.image ? (
-                                            <img src={game.image} alt={game.title} />
-                                        ) : (
-                                            <span className="title">
-                                                {game.title}
-                                            </span>
-                                        )}
-                                    </div>
-                                })}
-                            </div>
-                        </div>
-                    </Link>)
-                })}
-            </div>
-            <form action="" encType="multipart/form-data">
-                <input className="file" onChange={this.createAlbum.bind(this)} id="file" type="file" name="file" accept="image/*" multiple={true} ref={this.setInputRef.bind(this)} />
-                <label htmlFor="file"></label>
-            </form>
         </div>);
     }
 }
