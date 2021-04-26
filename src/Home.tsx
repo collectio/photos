@@ -18,6 +18,7 @@ interface Props {
     addAlbums: (album: AlbumType) => void
 }
 interface State {
+    loading: boolean
     user: any | null
     uploading: boolean
 }
@@ -60,6 +61,7 @@ class Home extends React.Component<Props, State> {
     constructor(props: any) {
         super(props);
         this.state = {
+            loading: true,
             user: null,
             uploading: false
         }
@@ -105,6 +107,7 @@ class Home extends React.Component<Props, State> {
                         console.log('Error getting documents: ', error);
                     });
             }
+            this.setState({ loading: false })
         });
     }
 
@@ -241,58 +244,67 @@ class Home extends React.Component<Props, State> {
                     <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
                 </Link>
             </nav>
-            {this.props.user ? (
-                <React.Fragment>
-                    <p>
-                        <img src={this.props.user.photoURL} alt="" />
-                        Welcome {this.props.user.displayName}
-                    </p>
-                    <button onClick={this.signOut.bind(this)}>SignOut</button>
-                    {this.state.uploading ? (
-                        <div className="progress">
-                            <p>アップロード中...</p>
+            {this.state.loading ? null : (
+                this.props.user ? (
+                    <React.Fragment>
+                        <div className="profile">
+                            <img src={this.props.user.photoURL} alt="" />
+                            <p>
+                                {this.props.user.displayName}
+                            </p>
+                            <button onClick={this.signOut.bind(this)}>SignOut</button>
                         </div>
-                    ) : null}
-                    <div className="albums">
-                        {this.props.albums.map((album) => {
-                            return (<Link to={{
-                                pathname: "/album",
-                                state: { album: album }
-                            }} key={album.title + album.date}>
-                                <div className="album">
-                                    <div className="image">
-                                        <h4>{album.title}</h4>
-                                        <span>{album.date}</span>
-                                        <div className="photos">
-                                            {album.photos.map((photo) => {
-                                                return (<div key={photo.image} className="photo" style={{ backgroundImage: `url(${photo.image})` }}></div>)
+                        {this.state.uploading ? (
+                            <div className="progress">
+                                <p>アップロード中...</p>
+                            </div>
+                        ) : null}
+                        <div className="albums">
+                            {this.props.albums.map((album) => {
+                                return (<Link to={{
+                                    pathname: "/album",
+                                    state: { album: album }
+                                }} key={album.title + album.date}>
+                                    <div className="album">
+                                        <div className="image">
+                                            <h4>{album.title}</h4>
+                                            <span>{album.date}</span>
+                                            <div className="photos">
+                                                {album.photos.map((photo) => {
+                                                    return (<div key={photo.image} className="photo" style={{ backgroundImage: `url(${photo.image})` }}></div>)
+                                                })}
+                                            </div>
+                                        </div>
+                                        <div className="games">
+                                            {album.games.map((game, i) => {
+                                                return <div key={'game' + i} className="game">
+                                                    {game.image ? (
+                                                        <img src={game.image} alt={game.title} />
+                                                    ) : (
+                                                        <span className="title">
+                                                            {game.title}
+                                                        </span>
+                                                    )}
+                                                </div>
                                             })}
                                         </div>
                                     </div>
-                                    <div className="games">
-                                        {album.games.map((game, i) => {
-                                            return <div key={'game' + i} className="game">
-                                                {game.image ? (
-                                                    <img src={game.image} alt={game.title} />
-                                                ) : (
-                                                    <span className="title">
-                                                        {game.title}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        })}
-                                    </div>
-                                </div>
-                            </Link>)
-                        })}
+                                </Link>)
+                            })}
+                        </div>
+                        <form action="" encType="multipart/form-data">
+                            <input className="file" onChange={this.createAlbum.bind(this)} id="file" type="file" name="file" accept="image/*" multiple={true} ref={this.setInputRef.bind(this)} />
+                            <label htmlFor="file"></label>
+                        </form>
+                    </React.Fragment>
+                ) : (
+                    <div className="login">
+                        <button onClick={this.GoogleLogin.bind(this)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">{/* Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) */}<path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" /></svg>
+                        Googleでログイン
+                    </button>
                     </div>
-                    <form action="" encType="multipart/form-data">
-                        <input className="file" onChange={this.createAlbum.bind(this)} id="file" type="file" name="file" accept="image/*" multiple={true} ref={this.setInputRef.bind(this)} />
-                        <label htmlFor="file"></label>
-                    </form>
-                </React.Fragment>
-            ) : (
-                <button onClick={this.GoogleLogin.bind(this)}>Google Login</button>
+                )
             )}
         </div>);
     }
