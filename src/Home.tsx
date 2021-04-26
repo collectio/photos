@@ -32,6 +32,29 @@ const base64ToArrayBuffer = (base64: any) => {
     return bytes.buffer;
 }
 
+//回転対応 ,  回転具合を見てlabelを回転
+// const arrayBuffer = base64ToArrayBuffer(reader.result);
+// const exif = EXIF.readFromBinaryFile(arrayBuffer);
+// console.log(exif)
+// let rotate = 0;
+// if (exif && exif.Orientation) {
+//     console.log(exif.Orientation)
+//   switch (exif.Orientation) {
+//     case 3:
+//       rotate = 180;
+//       break;
+//     case 6:
+//       rotate = 90;
+//       break;
+//     case 8:
+//       rotate = -90;
+//       break;
+//   }
+// }
+// label.style.transform = `rotate(${rotate}deg)`;
+// label.style.webkitTransform = `rotate(${rotate}deg)`;
+
+
 class Home extends React.Component<Props, State> {
     constructor(props: any) {
         super(props);
@@ -56,11 +79,11 @@ class Home extends React.Component<Props, State> {
         }
         props.addAlbums(album)
     }
-    setInputRef(element: HTMLInputElement) {
+    setInputRef(element: HTMLInputElement):void {
         this.input = element;
     }
 
-    componentDidMount() {
+    componentDidMount():void {
         // 2回目以降、ページ遷移などで表示する時には実行しない
         if (this.props.user) return
         // ログイン済みか？
@@ -68,45 +91,74 @@ class Home extends React.Component<Props, State> {
             if (user) {
                 console.log(user)
                 this.props.setUser(user)
-                this.loadAlbums()
+                db.collection('albums').where('userId', '==', this.props.user.uid).get()
+                    .then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            // doc.data() is never undefined for query doc snapshots
+                            // console.log(doc.id, ' => ', doc.data());
+                            this.props.addAlbums(doc.data() as AlbumType)
+                        });
+                    })
+                    .catch((error) => {
+                        console.log('Error getting documents: ', error);
+                    });
             }
         });
-        // ログインフローでリダイレクトしてきた時
-        firebase.auth()
-            .getRedirectResult()
-            .then((result) => {
-                if (result.credential) {
-                    const credential = result.credential;
-                    const token = credential.accessToken;
-                }
-                const user = result.user;
-                console.log(user)
-                this.props.setUser(user)
-                this.loadAlbums()
-            }).catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                const email = error.email;
-                const credential = error.credential;
-                console.log(errorCode, errorMessage, email, credential)
-            });
     }
 
-    loadAlbums() {
-        db.collection('albums').where('userId', '==', this.props.user.uid).get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, ' => ', doc.data());
-                    this.props.addAlbums(doc.data() as AlbumType)
-                });
+    createAlbum():void {
+        if (this.input && this.input.files) {
+            const photoImages: string[] = [];
+            Array.from(this.input.files).map(async (file) => {
+                const photoImage = await this.loadImage(file)
+                photoImages.push(photoImage)
             })
-            .catch((error) => {
-                console.log('Error getting documents: ', error);
-            });
+            console.log(photoImages)
+            const date = new Date()
+            const album: AlbumType = {
+                title: 'ある日のボードゲーム会',
+                date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`,
+                photos: [],
+                games: [],
+                userId: this.props.user.uid
+            }
+
+            db.collection('albums').add(album)
+                .then(async (docRef) => {
+                    console.log('Document written with ID: ', docRef.id);
+                    const photos: PhotoType[] = []
+                    for(const photoImage of photoImages) {
+                        const photoUrl = await this.uploadPhoto(docRef, photoImage).catch((error) => console.log(error))
+                        console.log(photoUrl)
+                        if (photoUrl) {
+                            photos.push({
+                                image: photoUrl
+                            })
+                            console.log(photos)
+                        }
+                    }
+                    docRef.update({ photos: photos })
+                    album.photos = photos as PhotoType[]
+                    this.props.addAlbums(album)
+                })
+                .catch((error) => {
+                    console.error('Error adding document: ', error);
+                })
+        }
     }
 
-    uploadPhoto(docRef: any, photoImage: string) {
+    loadImage(file: any): Promise<string> {
+        return new Promise((resolve, reject) => {
+            const reader:any = new FileReader();
+            reader.onload = async (e: any) => {
+                resolve(await this.resizeImage(e.target.result))
+            }
+            reader.readAsDataURL(file)
+        })
+    }
+
+    uploadPhoto(docRef: any, photoImage: string): Promise<string> {
+        console.log('uploadPhoto')
         return new Promise((resolve, reject) => {
             const storageRef = firebase.storage().ref();
             const ref = storageRef.child(`${this.props.user.uid}/${docRef.id}/${(new Date()).getTime()}.jpg`);
@@ -124,7 +176,7 @@ class Home extends React.Component<Props, State> {
                 }
             }, (error) => {
                 console.log(error)
-                reject(error)
+                reject()
             }, async () => {
                 const photoUrl = await uploadTask.snapshot.ref.getDownloadURL()
                 console.log('File available at', photoUrl);
@@ -134,79 +186,7 @@ class Home extends React.Component<Props, State> {
 
     }
 
-    loadImage() {
-        if (this.input && this.input.files) {
-            let reader: any = null;
-            const photoImages: string[] = [];
-            Array.from(this.input.files).map(async (file: any) => {
-                const photoImage = await new Promise((resolve, reject) => {
-                    reader = new FileReader();
-                    reader.onload = async (e: any) => {
-                        resolve(await this.resizeImage(e.target.result))
-                    }
-                    reader.readAsDataURL(file)
-                })
-                photoImages.push(photoImage)
-            })
-            console.log(photoImages)
-            const date = new Date()
-            const album: AlbumType = {
-                title: 'ある日のボードゲーム会',
-                date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`,
-                photos: [],
-                games: [],
-                userId: this.props.user.uid
-            }
-    
-            db.collection('albums').add(album)
-                .then(async (docRef) => {
-                    console.log('Document written with ID: ', docRef.id);
-                    const photos: PhotoType[] = []
-                    photoImages.map(async (photoImage) => {
-                        const photoUrl = await this.uploadPhoto(docRef, photoImage) as string
-                        console.log(photoUrl)
-                        photos.push({
-                            image: photoUrl
-                        })
-                        console.log(photos)
-                        if (photoImages.length === photos.length) {
-                            docRef.update({ photos: photos })
-                            album.photos = photos as PhotoType[]
-                            this.props.addAlbums(album)
-                        }
-                    })
-    
-                })
-                .catch((error) => {
-                    console.error('Error adding document: ', error);
-                })
-
-            //回転対応 ,  回転具合を見てlabelを回転
-            // const arrayBuffer = base64ToArrayBuffer(reader.result);
-            // const exif = EXIF.readFromBinaryFile(arrayBuffer);
-            // console.log(exif)
-            // let rotate = 0;
-            // if (exif && exif.Orientation) {
-            //     console.log(exif.Orientation)
-            //   switch (exif.Orientation) {
-            //     case 3:
-            //       rotate = 180;
-            //       break;
-            //     case 6:
-            //       rotate = 90;
-            //       break;
-            //     case 8:
-            //       rotate = -90;
-            //       break;
-            //   }
-            // }
-            // label.style.transform = `rotate(${rotate}deg)`;
-            // label.style.webkitTransform = `rotate(${rotate}deg)`;
-
-        }
-    }
-
-    resizeImage(base64: string) {
+    resizeImage(base64: string): Promise<string>  {
         return new Promise((resolve, reject) => {
             const MIN_SIZE = 640
             const canvas = document.createElement('canvas')
@@ -303,7 +283,7 @@ class Home extends React.Component<Props, State> {
                 })}
             </div>
             <form action="" encType="multipart/form-data">
-                <input className="file" onChange={this.loadImage.bind(this)} id="file" type="file" name="file" accept="image/*" multiple={true} ref={this.setInputRef.bind(this)} />
+                <input className="file" onChange={this.createAlbum.bind(this)} id="file" type="file" name="file" accept="image/*" multiple={true} ref={this.setInputRef.bind(this)} />
                 <label htmlFor="file"></label>
             </form>
         </div>);
