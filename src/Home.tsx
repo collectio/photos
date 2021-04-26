@@ -79,11 +79,11 @@ class Home extends React.Component<Props, State> {
         }
         props.addAlbums(album)
     }
-    setInputRef(element: HTMLInputElement):void {
+    setInputRef(element: HTMLInputElement): void {
         this.input = element;
     }
 
-    componentDidMount():void {
+    componentDidMount(): void {
         // 2回目以降、ページ遷移などで表示する時には実行しない
         if (this.props.user) return
         // ログイン済みか？
@@ -106,14 +106,15 @@ class Home extends React.Component<Props, State> {
         });
     }
 
-    createAlbum():void {
+    async createAlbum(): void {
         if (this.input && this.input.files) {
             const photoImages: string[] = [];
-            Array.from(this.input.files).map(async (file) => {
-                const photoImage = await this.loadImage(file)
+            for(let i=0; i<=this.input.files.length; i++) {
+                const file = this.input.files[i]
+                const photoImage = await this.loadImage(file).catch((error) => console.log(error))
                 photoImages.push(photoImage)
-            })
-            console.log(photoImages)
+            }
+            // console.log(photoImages)
             const date = new Date()
             const album: AlbumType = {
                 title: 'ある日のボードゲーム会',
@@ -123,33 +124,31 @@ class Home extends React.Component<Props, State> {
                 userId: this.props.user.uid
             }
 
-            db.collection('albums').add(album)
-                .then(async (docRef) => {
-                    console.log('Document written with ID: ', docRef.id);
-                    const photos: PhotoType[] = []
-                    for(const photoImage of photoImages) {
-                        const photoUrl = await this.uploadPhoto(docRef, photoImage).catch((error) => console.log(error))
-                        console.log(photoUrl)
-                        if (photoUrl) {
-                            photos.push({
-                                image: photoUrl
-                            })
-                            console.log(photos)
-                        }
-                    }
-                    docRef.update({ photos: photos })
-                    album.photos = photos as PhotoType[]
-                    this.props.addAlbums(album)
-                })
+            const docRef = await db.collection('albums').add(album)
                 .catch((error) => {
                     console.error('Error adding document: ', error);
                 })
+            if (docRef) {
+                console.log('Document written with ID: ', docRef.id);
+                const photos: PhotoType[] = []
+                for (const photoImage of photoImages) {
+                    const photoUrl = await this.uploadPhoto(docRef, photoImage).catch((error) => console.log(error))
+                    if (photoUrl) {
+                        photos.push({
+                            image: photoUrl
+                        })
+                    }
+                }
+                docRef.update({ photos: photos }).catch((error) => console.log(error))
+                album.photos = photos as PhotoType[]
+                this.props.addAlbums(album)
+            }
         }
     }
 
     loadImage(file: any): Promise<string> {
         return new Promise((resolve, reject) => {
-            const reader:any = new FileReader();
+            const reader: any = new FileReader();
             reader.onload = async (e: any) => {
                 resolve(await this.resizeImage(e.target.result))
             }
@@ -186,7 +185,7 @@ class Home extends React.Component<Props, State> {
 
     }
 
-    resizeImage(base64: string): Promise<string>  {
+    resizeImage(base64: string): Promise<string> {
         return new Promise((resolve, reject) => {
             const MIN_SIZE = 640
             const canvas = document.createElement('canvas')
