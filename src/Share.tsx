@@ -63,8 +63,8 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
     }
     share() {
         let text = this.textArea.value
-        let titles: string[] = ['\n']
-        let files: File[] = []
+        const titles: string[] = ['\n']
+        const files: File[] = []
         this.state.photos.map((photo) => {
             const file = dataURLtoFile(photo.image, 'test.jpg')
             files.push(file)

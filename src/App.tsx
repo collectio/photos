@@ -10,7 +10,7 @@ import {
 import {AlbumType, PhotoType, GameType} from './@types/index';
 import Home from './Home';
 import Album from './Album';
-import AlbumSelect from './AlbumSelect';
+import ShareSelect from './ShareSelect';
 import Game from './Game';
 import Photo from './Photo';
 import Select from './Select';
@@ -71,10 +71,12 @@ class App extends React.Component<Props, State> {
                 <Route path="/album" render={() => <Album {...this.state}
                     setGame={this.setGame.bind(this)}
                 />} />
-                <Route path="/albumSelect" render={() => <AlbumSelect {...this.state} />} />
+                <Route path="/shareSelect" render={() => <ShareSelect {...this.state} />} />
                 <Route path="/game" render={() => <Game {...this.state} />} />
                 <Route path="/photo" render={() => <Photo {...this.state} />} />
-                <Route path="/select" render={() => <Select {...this.state} />} />
+                <Route path="/select" render={() => <Select {...this.state}
+                    setGame={this.setGame.bind(this)}
+                />} />
                 <Route path="/share" render={() => <Share {...this.state} />} />
             </Switch>
         </Router>);

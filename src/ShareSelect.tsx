@@ -1,10 +1,15 @@
 import React from "react";
 import {withRouter, RouteComponentProps, Link} from "react-router-dom";
 
-import {PhotoType} from './@types/index';
+import {AlbumType, PhotoType, GameType} from './@types/index';
 
 
 interface Props {
+    user: any
+    album: AlbumType | null
+    albums: AlbumType[]
+    game: GameType | null
+    setGame: (game: GameType) => void
 }
 interface State {
     selectedImageIndex: number[]
@@ -50,36 +55,37 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
     //     this.setState({selectedImageIndex: []})
     // }
     render() {
-        try {
-            const {album} = this.props.location.state as any
-            return (<div id="albumSelect">
-                <nav>
-                    <Link to={{
-                        pathname: "/album",
-                        state: { album: album }
-                    }}>
-                        <img className="logo" src="./assets/back.svg" alt="戻る" />
-                    </Link>
-                    <span>写真の選択</span>
-                    <span></span>
-                </nav>
-                <div className="album">
-                    <div className="photos">
-                        {album.photos.map((photo: PhotoType, index: number) => {
-                            return (<div className={'photo' + (this.state.selectDisabled ? ' disabled' : '')} onClick={this.select.bind(this, index)} style={{backgroundImage: `url(${photo.image})`}}>
-                                <span className={'select' + (this.state.selectedImageIndex.indexOf(index) > -1 ? ' selected' : '')}></span>
-                            </div>);
-                        })}
-                    </div>
-                    <div className="bottomActions">
-                        <span className="share" onClick={this.share.bind(this)}>次へ</span>
-                    </div>
-                </div>
-            </div>);
-        } catch {
+        // const {album} = this.props.location.state as any
+        const album = this.props.album
+        if (album === null) {
             this.props.history.push('/')
             location.reload()
+            return
         }
+        return (<div id="albumSelect">
+            <nav>
+                <Link to={{
+                    pathname: "/album",
+                    state: { album: album }
+                }}>
+                    <img className="logo" src="./assets/back.svg" alt="戻る" />
+                </Link>
+                <span>写真の選択</span>
+                <span></span>
+            </nav>
+            <div className="album">
+                <div className="photos">
+                    {album.photos.map((photo: PhotoType, index: number) => {
+                        return (<div className={'photo' + (this.state.selectDisabled ? ' disabled' : '')} onClick={this.select.bind(this, index)} style={{backgroundImage: `url(${photo.image})`}}>
+                            <span className={'select' + (this.state.selectedImageIndex.indexOf(index) > -1 ? ' selected' : '')}></span>
+                        </div>);
+                    })}
+                </div>
+                <div className="bottomActions">
+                    <span className="share" onClick={this.share.bind(this)}>次へ</span>
+                </div>
+            </div>
+        </div>);
     }
 }
 

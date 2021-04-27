@@ -1,6 +1,6 @@
 import React from "react";
-import {withRouter, RouteComponentProps, Link} from "react-router-dom";
-import {AlbumType, PhotoType, GameType} from './@types/index';
+import { withRouter, RouteComponentProps, Link } from "react-router-dom";
+import { AlbumType, PhotoType, GameType } from './@types/index';
 
 import fetchJsonp from "fetch-jsonp";
 // import SimpleSlider from './Slider'
@@ -10,7 +10,11 @@ interface Select {
 }
 
 interface Props {
-
+    user: any
+    album: AlbumType | null
+    albums: AlbumType[]
+    game: GameType | null
+    setGame: (game: GameType) => void
 }
 interface State {
     loading: boolean
@@ -25,7 +29,7 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         super(props);
         this.textInput = null;
         try {
-            const {album} = this.props.location.state as any
+            const { album } = this.props.location.state as any
             this.state = {
                 index: 0,
                 loading: false,
@@ -51,16 +55,16 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
     setTextInputRef(element: any) {
         this.textInput = element;
     }
-    hiraToKana (str: string) {
+    hiraToKana(str: string) {
         return str.replace(/[\u3041-\u3096]/g, function (match: any) {
-          const chr = match.charCodeAt(0) + 0x60
-          return String.fromCharCode(chr)
+            const chr = match.charCodeAt(0) + 0x60
+            return String.fromCharCode(chr)
         })
     }
     async onSearch(event: any) {
         event.preventDefault();
         const query = this.textInput.value;
-        if (query === '') return this.setState({suggests: []})
+        if (query === '') return this.setState({ suggests: [] })
         let games = await this.search(query)
         this.setState({ loading: true })
         if (games.length === 0) {
@@ -68,9 +72,9 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         }
         const suggests = await this.suggest(query)
         this.setState({ loading: false })
-        let mergedSuggests:GameType[] = games.concat(suggests)
+        let mergedSuggests: GameType[] = games.concat(suggests)
         if (mergedSuggests.length === 0) {
-            const suggest:any = {title: query}
+            const suggest: any = { title: query }
             mergedSuggests = [suggest]
         }
         this.setState({ suggests: mergedSuggests });
@@ -93,7 +97,7 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         s[1].map((suggest: string) => {
             const data = {
                 title: suggest,
-            } 
+            }
             suggests.push(data);
         });
         return suggests
@@ -114,7 +118,7 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         // })
         // if (isExist) this.state.histories.unshift(suggest)
         // this.state.histories.unshift(suggest)
-        this.setState({suggests: []})
+        this.setState({ suggests: [] })
         this.textInput.value = ''
     }
     // selectHistory(history: GameType) {
@@ -155,33 +159,38 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                         </div>
                         ) : null} */}
                     </div>
-                    {this.state.suggests.length===0 && this.state.loading ? (
+                    {this.state.suggests.length === 0 && this.state.loading ? (
                         <div className="suggests">読み込み中...</div>
                     ) : null}
                     {this.state.suggests.length > 0 ? (
                         <div className="suggests">
-                        {this.state.suggests.slice(0, 100).map((suggest: GameType, i: number) => {
-                            return <div key={'suggest'+i} onClick={this.selectSuggest.bind(this, suggest)}>{suggest.title}</div>;
-                        })}
+                            {this.state.suggests.slice(0, 100).map((suggest: GameType, i: number) => {
+                                return <div key={'suggest' + i} onClick={this.selectSuggest.bind(this, suggest)}>{suggest.title}</div>;
+                            })}
                         </div>
                     ) : null}
                 </form>
                 {this.state.album.games.length > 0 ? (
-                        <div className="games">
-                            <h3>遊んだゲーム</h3>
-                            {this.state.album.games.map((game: GameType, i: number) => {
-                                return <div key={'game'+i} className="game">
+                    <div className="games">
+                        <h3>遊んだゲーム</h3>
+                        {this.state.album.games.map((game: GameType, i: number) => {
+                            return <Link to={{
+                                pathname: "/game",
+                                state: { game: game }
+                            }} key={game.id} onClick={() => this.props.setGame(game)}>
+                                <div key={'game' + i} className="game">
                                     {game.image ? (
-                                        <img src={game.image} alt=""/>
-                                    ): (
+                                        <img src={game.image} alt="" />
+                                    ) : (
                                         <span className="image"></span>
                                     )}
                                     <span className="title">
                                         {game.title}
                                     </span>
-                                </div>;
-                            })}
-                        </div>
+                                </div>
+                            </Link>
+                        })}
+                    </div>
                 ) : null}
                 {/* <SimpleSlider album={this.state.album} afterChange={this.afterChange.bind(this)} /> */}
             </div>
