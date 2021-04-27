@@ -133,18 +133,12 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         return (
             <div id="select">
                 <nav>
-                    <Link to={{
-                        pathname: "/album",
-                        state: { album: this.state.album }
-                    }} className="back">
+                    <a onClick={() => this.props.history.goBack()}>
                         <img className="logo" src="./assets/back.svg" alt="戻る" />
-                    </Link>
-                    <Link to={{
-                        pathname: "/album",
-                        state: { album: this.state.album }
-                    }} className="complete">
+                    </a>
+                    <a onClick={() => this.props.history.goBack()}>
                         完了
-                    </Link>
+                    </a>
                 </nav>
                 <form action="" onSubmit={this.onSearch.bind(this)}>
                     <div className="bg">

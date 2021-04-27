@@ -1,6 +1,6 @@
 import React from "react";
-import {withRouter, RouteComponentProps, Link} from "react-router-dom";
-import {AlbumType, PhotoType, GameType} from './@types/index';
+import { withRouter, RouteComponentProps, Link } from "react-router-dom";
+import { AlbumType, PhotoType, GameType } from './@types/index';
 
 interface Share {
     textArea: any
@@ -8,6 +8,7 @@ interface Share {
 interface Props {
 }
 interface State {
+    album: AlbumType
     photos: PhotoType[]
 }
 
@@ -18,34 +19,15 @@ interface ShareData {
     files?: File[];
 }
 
-function dataURLtoFile(dataurl: string, filename: string) {
-    var arr = dataurl.split(','),
-        bstr = atob(arr[1]), 
-        n = bstr.length, 
-        u8arr = new Uint8Array(n);
-
-        var mime;
-        var m = arr[0]
-        if (m) {
-            var mi = m.match(/:(.*?);/)
-            if (mi) mime = mi[1]
-        }
-        
-    while(n--){
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    
-    return new File([u8arr], filename, {type:mime});
-}
-
-
 class Share extends React.Component<Props & RouteComponentProps, State> {
     constructor(props: any) {
         super(props);
         this.textArea = null
         try {
-            const {photos} = this.props.location.state as any
+            const { photos } = this.props.location.state as any
+            const { album } = this.props.location.state as any
             this.state = {
+                album: album,
                 photos: photos
             };
         } catch {
@@ -61,16 +43,19 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
     setTextInputRef(element: any) {
         this.textArea = element;
     }
-    share() {
+    async share() {
         let text = this.textArea.value
-        const titles: string[] = ['\n']
-        const files: File[] = []
-        this.state.photos.map((photo) => {
-            const file = dataURLtoFile(photo.image, 'test.jpg')
+        const files: any[] = []
+        for (const photo of this.state.photos) {
+            // const file = await imageToBase64(photo.image)
+            const file = await fetch(photo.image).then((r) => r.blob())
             files.push(file)
-            if (photo.game && titles.indexOf(photo.game.title) === -1) titles.push('#' + photo.game.title)
+        }
+        const titles: string[] = []
+        this.state.album.games.map((game) => {
+            if (titles.indexOf(game.title) === -1) titles.push('#' + game.title)
         })
-        text += titles.join(' ')
+        text += '\n' + titles.join(' ')
         // console.log(text)
         // console.log(files)
         if (navigator.share) {
@@ -78,29 +63,26 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
                 text: text,
                 url: 'https://collectio.jp/',
                 files: files
-              } as ShareData).then(() => {
+            } as ShareData).then(() => {
                 console.log('Share was successful.')
-              }).catch((error) => {
+            }).catch((error) => {
                 console.log('Sharing failed', error)
-              })
+            })
         } else {
             alert('このブラウザではシェア機能が使えません。\n最新のSafari, Chromeをお使いください。')
         }
     }
     render() {
-        const {album} = this.props.location.state as any
+        const { album } = this.props.location.state as any
         return (<div id="share">
             <nav>
-                <Link to={{
-                    pathname: "/albumSelect",
-                    state: { album: album }
-                }} className="back">
+                <a onClick={() => this.props.history.goBack()}>
                     <img className="logo" src="./assets/back.svg" alt="戻る" />
-                </Link>
+                </a>
             </nav>
             <div className="photos">
                 {this.state.photos.map((photo: PhotoType, index: number) => {
-                    return (<div className={'photo'} style={{backgroundImage: `url(${photo.image})`}}>
+                    return (<div className={'photo'} style={{ backgroundImage: `url(${photo.image})` }}>
                     </div>);
                 })}
             </div>

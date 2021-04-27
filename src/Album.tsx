@@ -60,7 +60,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                         遊んだゲーム
                     </Link>
                     <Link to={{
-                        pathname: "/albumSelect",
+                        pathname: "/shareSelect",
                         state: { album: album }
                     }} className="share">
                         シェア
