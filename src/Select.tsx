@@ -103,9 +103,9 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         return suggests
     }
     async selectSuggest(suggest: GameType) {
-        const game = await fetch(`http://db.collectio.jp/wp-json/wp/v2/posts/${suggest.id}?_embed`).then((r) => r.json())
+        const game = await fetch(`https://db.collectio.jp/wp-json/wp/v2/posts/${suggest.id}?_embed`).then((r) => r.json())
         const gameImage = game.featured_image.src
-        if (gameImage !== 'http://db.collectio.jp/wp-includes/images/media/default.png') {
+        if (gameImage !== 'https://db.collectio.jp/wp-includes/images/media/default.png') {
             suggest.image = gameImage
         } else {
             suggest.image = null
