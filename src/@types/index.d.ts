@@ -15,4 +15,7 @@ export interface GameType {
     title: string
     image: string | null
     year: string
+    bodogema: string
+    bgg: string
+    bgdb: string
 }
