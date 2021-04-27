@@ -1,22 +1,8 @@
-# FireBaseTemplate
-npm scripts で pug+sass+TypeScript+React+Firebaseがビルドできてオートリロードできるサイト作成環境を書く  
+# Collectio Photo
 
-## FireBaseのセットアップ
+https://collectio.github.io/photos/#/
 
-https://firebase.google.com/docs/web/setup?hl=ja
-
-- [.firebaserc](./.firebaserc)のプロジェクトidを変更
-- firebase-toolsのプロジェクトを切り替え
-    ```
-    npx firebase use default
-    ```
-- GitHubリポジトリ->Settings->SecretにFIREBASECONFIGを作成
-- Authentication->Sign-in method->Googleログインを有効化
-- Authentication->Sign-in method->承認済みドメインを追加
-- FireStoreを有効化　リージョンに注意（後から変更できない）
-- FireStoreのルールのデプロイ
-
-## 使い方
+## 開発
 
 ```
 npm install  
