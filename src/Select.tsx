@@ -36,7 +36,6 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         } catch {
             this.props.history.push('/')
             location.reload()
-            alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。')
         }
     }
     componentDidMount() {

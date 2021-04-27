@@ -77,7 +77,6 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                 </div>
             </div>);
         } catch {
-            alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。')
             this.props.history.push('/')
             location.reload()
         }

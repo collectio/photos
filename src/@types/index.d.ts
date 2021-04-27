@@ -14,4 +14,5 @@ export interface GameType {
     id: number | null
     title: string
     image: string | null
+    year: string
 }

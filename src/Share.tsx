@@ -49,7 +49,6 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
                 photos: photos
             };
         } catch {
-            alert('ホームに戻ります。\n理由:ブラウザのリロード、フリック操作での戻るなど。')
             this.props.history.push('/')
             location.reload()
         }

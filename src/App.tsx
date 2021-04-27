@@ -23,7 +23,9 @@ interface Props {
 }
 interface State {
     user: any
+    album: AlbumType | null
     albums: AlbumType[]
+    game: GameType | null
 }
 
 
@@ -32,17 +34,27 @@ class App extends React.Component<Props, State> {
         super(props);
         this.state = {
             user: null,
+            album: null,
             albums: [],
+            game: null
         };
     }
 
-    setUser(user) {
+    setUser(user: any): void {
         this.setState({user})
     }
 
-    addAlbums(album: AlbumType) {
+    setAlbum(album: AlbumType): void {
+        this.setState({album})
+    }
+
+    addAlbums(album: AlbumType): void {
         this.state.albums.unshift(album)
         this.setState({})
+    }
+
+    setGame(game: GameType): void {
+        this.setState({game})
     }
 
     render() {
@@ -52,16 +64,18 @@ class App extends React.Component<Props, State> {
                     user={this.state.user}
                     albums={this.state.albums}
                     setUser={this.setUser.bind(this)}
+                    setAlbum={this.setAlbum.bind(this)}
                     addAlbums={this.addAlbums.bind(this)}
+                    setGame={this.setGame.bind(this)}
                 />} />
-                <Route path="/album" render={() => <Album
-                    user={this.state.user}
+                <Route path="/album" render={() => <Album {...this.state}
+                    setGame={this.setGame.bind(this)}
                 />} />
-                <Route path="/albumSelect" render={() => <AlbumSelect />} />
-                <Route path="/game" render={() => <Game />} />
-                <Route path="/photo" render={() => <Photo />} />
-                <Route path="/select" render={() => <Select />} />
-                <Route path="/share" render={() => <Share />} />
+                <Route path="/albumSelect" render={() => <AlbumSelect {...this.state} />} />
+                <Route path="/game" render={() => <Game {...this.state} />} />
+                <Route path="/photo" render={() => <Photo {...this.state} />} />
+                <Route path="/select" render={() => <Select {...this.state} />} />
+                <Route path="/share" render={() => <Share {...this.state} />} />
             </Switch>
         </Router>);
     }

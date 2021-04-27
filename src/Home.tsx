@@ -15,7 +15,9 @@ interface Props {
     user: any | null
     albums: AlbumType[]
     setUser: (user: any) => void
+    setAlbum: (album: AlbumType) => void
     addAlbums: (album: AlbumType) => void
+    setGame: (game: GameType) => void
 }
 interface State {
     loading: boolean
@@ -264,7 +266,7 @@ class Home extends React.Component<Props, State> {
                                 return (<Link to={{
                                     pathname: "/album",
                                     state: { album: album }
-                                }} key={album.title + album.date}>
+                                }} key={album.title + album.date} onClick={() => this.props.setAlbum(album)}>
                                     <div className="album">
                                         <div className="image">
                                             <h4>{album.title}</h4>
@@ -280,7 +282,7 @@ class Home extends React.Component<Props, State> {
                                                 return <Link to={{
                                                     pathname: "/game",
                                                     state: { game: game }
-                                                }} key={game.id}>
+                                                }} key={game.id} onClick={() => this.props.setGame(game)}>
                                                     <div key={'game' + i} className="game">
                                                         {game.image ? (
                                                             <img src={game.image} alt={game.title} />
