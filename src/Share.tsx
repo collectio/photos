@@ -36,8 +36,8 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
         }
     }
     async convertFile(url: string) {
-        const blob = await fetch(url).then(res => res.blob())
-        console.log(blob.type)
+        const blob = await fetch(url).then(r => r.blob())
+        // console.log(blob.type)
         return new File([blob], 'test.jpg',{ type: blob.type })
     }
     setTextInputRef(element: any) {

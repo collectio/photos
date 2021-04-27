@@ -1,6 +1,6 @@
 # Collectio Photo
 
-https://collectio.github.io/photos/#/
+https://collectio.github.io/photos/
 
 ## 開発
 
