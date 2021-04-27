@@ -1,3 +1,5 @@
+import firebase, { db } from './index'
+
 import React from "react";
 import { withRouter, RouteComponentProps, Link } from "react-router-dom";
 import { AlbumType, PhotoType, GameType } from './@types/index';
@@ -129,6 +131,14 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
     // afterChange(index: number) {
     //     this.setState({index: index})
     // }
+
+    async updateAlbum(album: AlbumType | null) {
+        if (album) {
+            const docRef = await db.collection('albums').doc(album.id)
+            await docRef.update(album).catch((error) => console.log(error))
+        }
+    }
+
     render() {
         return (
             <div id="select">
@@ -136,7 +146,10 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                     <a onClick={() => this.props.history.goBack()}>
                         <img className="logo" src="./assets/back.svg" alt="戻る" />
                     </a>
-                    <a onClick={() => this.props.history.goBack()}>
+                    <a onClick={() => {
+                        this.updateAlbum(this.props.album)
+                        this.props.history.goBack()
+                    }}>
                         完了
                     </a>
                 </nav>

@@ -93,10 +93,11 @@ class Home extends React.Component<Props, State> {
                         if (!querySnapshot.empty) return
                         const photos = []
                         photos.push({
-                            image: 'https://yabumi.cc/17901ccdcd7973907b4cfd62.jpg',
+                            image: 'https://storage.cloud.google.com/collectio-photo-2233e.appspot.com/sample/PXL_20201018_061909430.jpg',
                         });
                         const date = new Date()
                         const album: AlbumType = {
+                            id: 'sample',
                             title: 'サンプルのボードゲーム会',
                             date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`,
                             photos: photos,
@@ -113,18 +114,19 @@ class Home extends React.Component<Props, State> {
         });
     }
 
-    async createAlbum(): void {
+    async createAlbum(): Promise<void> {
         if (this.input && this.input.files) {
             this.setState({ uploading: true })
             const photoImages: string[] = [];
             for (let i = 0; i < this.input.files.length; i++) {
                 const file = this.input.files[i]
                 const photoImage = await this.loadImage(file).catch((error) => console.log(error))
-                photoImages.push(photoImage)
+                if (photoImage) photoImages.push(photoImage)
             }
             console.log(photoImages)
             const date = new Date()
             const album: AlbumType = {
+                id: '',
                 title: 'ある日のボードゲーム会',
                 date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`,
                 photos: [],
@@ -147,7 +149,8 @@ class Home extends React.Component<Props, State> {
                         })
                     }
                 }
-                docRef.update({ photos: photos }).catch((error) => console.log(error))
+                docRef.update({ id: docRef.id, photos: photos }).catch((error) => console.log(error))
+                album.id = docRef.id
                 album.photos = photos as PhotoType[]
                 this.props.addAlbums(album)
             }
@@ -263,20 +266,21 @@ class Home extends React.Component<Props, State> {
                         ) : null}
                         <div className="albums">
                             {this.props.albums.map((album) => {
-                                return (<Link to={{
-                                    pathname: "/album",
-                                    state: { album: album }
-                                }} key={album.title + album.date} onClick={() => this.props.setAlbum(album)}>
-                                    <div className="album">
-                                        <div className="image">
-                                            <h4>{album.title}</h4>
-                                            <span>{album.date}</span>
-                                            <div className="photos">
-                                                {album.photos.map((photo) => {
-                                                    return (<div key={photo.image} className="photo" style={{ backgroundImage: `url(${photo.image})` }}></div>)
-                                                })}
+                                return (<div className="album">
+                                    <Link to={{
+                                        pathname: "/album",
+                                        state: { album: album }
+                                    }} key={album.title + album.date} onClick={() => this.props.setAlbum(album)}>
+                                            <div className="image">
+                                                <h4>{album.title}</h4>
+                                                <span>{album.date}</span>
+                                                <div className="photos">
+                                                    {album.photos.map((photo) => {
+                                                        return (<div key={photo.image} className="photo" style={{ backgroundImage: `url(${photo.image})` }}></div>)
+                                                    })}
+                                                </div>
                                             </div>
-                                        </div>
+                                            </Link>
                                         <div className="games">
                                             {album.games.map((game, i) => {
                                                 return <Link to={{
@@ -295,8 +299,7 @@ class Home extends React.Component<Props, State> {
                                                 </Link>
                                             })}
                                         </div>
-                                    </div>
-                                </Link>)
+                                    </div>)
                             })}
                         </div>
                         <form action="" encType="multipart/form-data">

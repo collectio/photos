@@ -53,6 +53,13 @@ class App extends React.Component<Props, State> {
         this.setState({})
     }
 
+    updateAlbum(album: AlbumType): void {
+        this.state.albums.map((alb) => {
+            if (alb.id === album.id) alb = album
+        })
+        this.setState({})
+    }
+
     setGame(game: GameType): void {
         this.setState({game})
     }
@@ -65,6 +72,7 @@ class App extends React.Component<Props, State> {
                     albums={this.state.albums}
                     setUser={this.setUser.bind(this)}
                     setAlbum={this.setAlbum.bind(this)}
+                    updateAlbum={this.updateAlbum.bind(this)}
                     addAlbums={this.addAlbums.bind(this)}
                     setGame={this.setGame.bind(this)}
                 />} />

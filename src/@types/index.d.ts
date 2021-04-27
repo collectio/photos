@@ -1,4 +1,5 @@
 export interface AlbumType {
+    id: string
     title: string
     date: string
     photos: PhotoType[]
