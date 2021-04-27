@@ -35,20 +35,19 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
             location.reload()
         }
     }
-    // async convertFile(url: string) {
-    //     const blob = await fetch(url).then(res => res.blob())
-    //     console.log(blob.type)
-    //     return new File([blob], 'test.jpg',{ type: blob.type })
-    // }
+    async convertFile(url: string) {
+        const blob = await fetch(url).then(res => res.blob())
+        console.log(blob.type)
+        return new File([blob], 'test.jpg',{ type: blob.type })
+    }
     setTextInputRef(element: any) {
         this.textArea = element;
     }
     async share() {
         let text = this.textArea.value
-        const files: any[] = []
+        const files: File[] = []
         for (const photo of this.state.photos) {
-            // const file = await imageToBase64(photo.image)
-            const file = await fetch(photo.image).then((r) => r.blob())
+            const file = await this.convertFile(photo.image)
             files.push(file)
         }
         const titles: string[] = []
