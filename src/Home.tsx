@@ -277,15 +277,20 @@ class Home extends React.Component<Props, State> {
                                         </div>
                                         <div className="games">
                                             {album.games.map((game, i) => {
-                                                return <div key={'game' + i} className="game">
-                                                    {game.image ? (
-                                                        <img src={game.image} alt={game.title} />
-                                                    ) : (
-                                                        <span className="title">
-                                                            {game.title}
-                                                        </span>
-                                                    )}
-                                                </div>
+                                                return <Link to={{
+                                                    pathname: "/game",
+                                                    state: { game: game }
+                                                }} key={game.id}>
+                                                    <div key={'game' + i} className="game">
+                                                        {game.image ? (
+                                                            <img src={game.image} alt={game.title} />
+                                                        ) : (
+                                                            <span className="title">
+                                                                {game.title}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </Link>
                                             })}
                                         </div>
                                     </div>

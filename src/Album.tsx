@@ -1,9 +1,9 @@
 import firebase, { db } from './index'
 
 import React from "react";
-import {withRouter, RouteComponentProps, Link} from "react-router-dom";
+import { withRouter, RouteComponentProps, Link } from "react-router-dom";
 
-import {GameType, PhotoType} from './@types/index';
+import { GameType, PhotoType } from './@types/index';
 
 
 interface Props {
@@ -26,7 +26,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
     // }
     render() {
         try {
-            const {album} = this.props.location.state as any
+            const { album } = this.props.location.state as any
             return (<div id="album">
                 <nav>
                     <Link to="/">
@@ -34,14 +34,14 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                     </Link>
                     <span></span>
                     <span onClick={() => alert('アルバムのタイトル編集・アルバムの削除機能などがくる予定')}>
-                        <img src="./assets/menu.svg" alt="menu"/>
+                        <img src="./assets/menu.svg" alt="menu" />
                     </span>
                 </nav>
                 <div className="album">
                     <div className="hero">
                         <h4>{album.title}</h4>
                         <span>{album.date}</span>
-                        <div className="cover" style={{backgroundImage: `url(${album.photos[0].image})`}}></div>
+                        <div className="cover" style={{ backgroundImage: `url(${album.photos[0].image})` }}></div>
                     </div>
                     <div className="actions">
                         <Link to={{
@@ -59,15 +59,20 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                     </div>
                     <div className="games">
                         {album.games.map((game: GameType, i: number) => {
-                            return <div key={'game'+i} className="game">
+                            return <Link to={{
+                                pathname: "/game",
+                                state: { game: game }
+                            }} key={game.id}>
+                                <div key={'game' + i} className="game">
                                     {game.image ? (
                                         <img src={game.image} alt={game.title} />
-                                    ): (
+                                    ) : (
                                         <span className="title">
                                             {game.title}
                                         </span>
                                     )}
                                 </div>
+                            </Link>
                         })}
                     </div>
                     <div className="photos">
@@ -76,7 +81,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                                 pathname: "/photo",
                                 state: { album: album, photo: photo }
                             }} key={photo.image}>
-                                <div className="photo" style={{backgroundImage: `url(${photo.image})`}}></div>
+                                <div className="photo" style={{ backgroundImage: `url(${photo.image})` }}></div>
                             </Link>);
                         })}
                     </div>
