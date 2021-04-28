@@ -257,9 +257,9 @@ class Home extends React.Component<Props, State> {
                             <p>
                                 {this.props.user.displayName}
                             </p>
-                            <button onClick={this.signOut.bind(this)}>SignOut</button>
+                            <button onClick={this.signOut.bind(this)}>ログアウト</button>
                         </div>
-                        {this.state.uploading ? (
+                        {!this.state.uploading ? (
                             <div className="progress">
                                 <p>アップロード中...</p>
                             </div>
