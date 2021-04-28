@@ -91,17 +91,20 @@
         .photos
             display: flex
             flex-wrap: wrap
-            margin-top: 0.2rem
-            margin-left: 1vw
-            margin-right: 1vw
-            .photo
-                position: relative
-                width: 23.5vw
+            width: 95%
+            margin: 0.2rem auto 0
+            a
+                display: block
+                width: 25%
                 height: 23.5vw
-                background-size: cover
-                background-position: center center
-                background-repeat: no-repeat
-                margin: 0.5vw
+                .photo
+                    position: relative
+                    width: 100%
+                    height: 100%
+                    background-size: cover
+                    background-position: center center
+                    background-repeat: no-repeat
+                    margin: 0.5vw
         .bottomActions
             position: fixed
             bottom: 0
