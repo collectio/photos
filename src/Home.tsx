@@ -259,7 +259,7 @@ class Home extends React.Component<Props, State> {
                             </p>
                             <button onClick={this.signOut.bind(this)}>ログアウト</button>
                         </div>
-                        {!this.state.uploading ? (
+                        {this.state.uploading ? (
                             <div className="progress">
                                 <p>アップロード中...</p>
                             </div>
@@ -267,10 +267,7 @@ class Home extends React.Component<Props, State> {
                         <div className="albums">
                             {this.props.albums.map((album) => {
                                 return (<div className="album">
-                                    <Link to={{
-                                        pathname: "/album",
-                                        state: { album: album }
-                                    }} key={album.title + album.date} onClick={() => this.props.setAlbum(album)}>
+                                    <Link to="/album" key={album.title + album.date} onClick={() => this.props.setAlbum(album)}>
                                             <div className="image">
                                                 <h4>{album.title}</h4>
                                                 <span>{album.date}</span>

@@ -13,9 +13,10 @@ interface Select {
 
 interface Props {
     user: any
-    album: AlbumType | null
+    album: AlbumType
     albums: AlbumType[]
     game: GameType | null
+    updateAlbum: (album: AlbumType) => void
     setGame: (game: GameType) => void
 }
 interface State {
@@ -29,20 +30,19 @@ interface State {
 class Select extends React.Component<Props & RouteComponentProps, State> {
     constructor(props: any) {
         super(props);
-        this.textInput = null;
-        try {
-            const { album } = this.props.location.state as any
-            this.state = {
-                index: 0,
-                loading: false,
-                album: album,
-                suggests: [],
-                // histories: []
-            };
-        } catch {
+        if (!this.props.album) {
             this.props.history.push('/')
             location.reload()
         }
+        this.textInput = null;
+        const album = Object.assign({}, JSON.parse(JSON.stringify(this.props.album)))
+        this.state = {
+            index: 0,
+            loading: false,
+            album: album,
+            suggests: [],
+            // histories: []
+        };
     }
     componentDidMount() {
         if (this.textInput) {
@@ -112,31 +112,23 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         } else {
             suggest.image = null
         }
-        this.state.album.games.push(suggest)
-        // this.state.album.games.push(suggest);
-        // let isExist = false
-        // this.state.histories.map((game) => {
-        //     if (game.title === suggest.title) isExist = true
-        // })
-        // if (isExist) this.state.histories.unshift(suggest)
-        // this.state.histories.unshift(suggest)
+        if (!this.state.album.games.some((game) => game.id === suggest.id)) {
+            this.state.album.games.push(suggest)
+        }
         this.setState({ suggests: [] })
         this.textInput.value = ''
     }
-    // selectHistory(history: GameType) {
-    //     this.state.album.photos[this.state.index].game.title = history.title;
-    //     this.setState({suggests: []})
-    //     this.textInput.value = ''
-    // }
     // afterChange(index: number) {
     //     this.setState({index: index})
     // }
 
-    async updateAlbum(album: AlbumType | null) {
-        if (album) {
-            const docRef = await db.collection('albums').doc(album.id)
-            await docRef.update(album).catch((error) => console.log(error))
-        }
+    async updateAlbum() {
+        const album = this.state.album
+        const docRef = await db.collection('albums').doc(album.id)
+        await docRef.update(album).then(() => {
+            this.props.updateAlbum(album)
+            this.props.history.push('/album')
+        }).catch((error) => console.log(error))
     }
 
     render() {
@@ -147,8 +139,7 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                         <img className="logo" src="./assets/back.svg" alt="戻る" />
                     </a>
                     <a onClick={() => {
-                        this.updateAlbum(this.props.album)
-                        this.props.history.goBack()
+                        this.updateAlbum()
                     }}>
                         完了
                     </a>
@@ -156,15 +147,6 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
                 <form action="" onSubmit={this.onSearch.bind(this)}>
                     <div className="bg">
                         <input type="text" ref={this.setTextInputRef.bind(this)} placeholder="ゲームを検索" onChange={this.onSearch.bind(this)} />
-                        {/* {this.state.histories.length > 0 ? (
-                        <div className="histories">
-                            <div>
-                            {this.state.histories.map((history: GameType, i: number) => {
-                                return <div key={'history'+i} onClick={this.selectHistory.bind(this, history)}>{history.title}</div>;
-                            })}
-                            </div>
-                        </div>
-                        ) : null} */}
                     </div>
                     {this.state.suggests.length === 0 && this.state.loading ? (
                         <div className="suggests">読み込み中...</div>

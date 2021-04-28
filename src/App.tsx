@@ -54,9 +54,11 @@ class App extends React.Component<Props, State> {
     }
 
     updateAlbum(album: AlbumType): void {
-        this.state.albums.map((alb) => {
-            if (alb.id === album.id) alb = album
+        let updateIndex = 0
+        this.state.albums.map((alb, index) => {
+            if (alb.id === album.id) updateIndex = index
         })
+        this.state.albums[updateIndex] = album
         this.setState({})
     }
 
@@ -72,7 +74,6 @@ class App extends React.Component<Props, State> {
                     albums={this.state.albums}
                     setUser={this.setUser.bind(this)}
                     setAlbum={this.setAlbum.bind(this)}
-                    updateAlbum={this.updateAlbum.bind(this)}
                     addAlbums={this.addAlbums.bind(this)}
                     setGame={this.setGame.bind(this)}
                 />} />
@@ -84,6 +85,7 @@ class App extends React.Component<Props, State> {
                 <Route path="/photo" render={() => <Photo {...this.state} />} />
                 <Route path="/select" render={() => <Select {...this.state}
                     setGame={this.setGame.bind(this)}
+                    updateAlbum={this.updateAlbum.bind(this)}
                 />} />
                 <Route path="/share" render={() => <Share {...this.state} />} />
             </Switch>

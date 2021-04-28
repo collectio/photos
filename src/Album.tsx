@@ -53,10 +53,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                     <div className="cover" style={{ backgroundImage: `url(${album.photos[0].image})` }}></div>
                 </div>
                 <div className="actions">
-                    <Link to={{
-                        pathname: "/select",
-                        state: { album: album }
-                    }} className="add">
+                    <Link to="/select" className="add">
                         遊んだゲーム
                     </Link>
                     <Link to={{
