@@ -92,13 +92,13 @@ class Home extends React.Component<Props, State> {
                         // サンプルのアルバム
                         if (!querySnapshot.empty) return
                         const photos = [
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201018_061909430.jpg'},
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201123_020944249.jpg'},
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201123_022045056.jpg'},
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201123_031730091.jpg'},
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201123_035255429.jpg'},
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201018_061909430.jpg'},
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201123_035951755.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/1.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/2.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/3.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/4.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/5.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/6.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/7.jpg'},
                         ]
                         const date = new Date()
                         const album: AlbumType = {
