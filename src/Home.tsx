@@ -92,7 +92,13 @@ class Home extends React.Component<Props, State> {
                         // サンプルのアルバム
                         if (!querySnapshot.empty) return
                         const photos = [
-                            {image: 'https://yabumi.cc/1791b67b889bb88330dd8a32.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201018_061909430.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201123_020944249.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201123_022045056.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201123_031730091.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201123_035255429.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201018_061909430.jpg'},
+                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/PXL_20201123_035951755.jpg'},
                         ]
                         const date = new Date()
                         const album: AlbumType = {
