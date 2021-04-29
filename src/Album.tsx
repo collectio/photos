@@ -53,15 +53,27 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                     <div className="cover" style={{ backgroundImage: `url(${album.photos[0].image})` }}></div>
                 </div>
                 <div className="actions">
-                    <Link to="/select" className="add">
-                        遊んだゲーム
-                    </Link>
-                    <Link to={{
-                        pathname: "/shareSelect",
-                        state: { album: album }
-                    }} className="share">
-                        シェア
-                    </Link>
+                    {album.id==='sample' ? (
+                        <a onClick={() => alert('サンプルのため、ゲームは追加できません。')} className="add">
+                            遊んだゲーム
+                        </a>
+                    ) : (
+                        <Link to="/select" className="add">
+                            遊んだゲーム
+                        </Link>
+                    )}
+                    {album.id==='sample' ? (
+                        <a onClick={() => alert('サンプルのため、シェアできません。')} className="share">
+                            シェア
+                        </a>
+                    ) : (
+                        <Link to={{
+                            pathname: "/shareSelect",
+                            state: { album: album }
+                        }} className="share">
+                            シェア
+                        </Link>
+                    )}
                 </div>
                 <div className="games">
                     {album.games.map((game: GameType, i: number) => {
