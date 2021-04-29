@@ -91,10 +91,9 @@ class Home extends React.Component<Props, State> {
                         });
                         // サンプルのアルバム
                         if (!querySnapshot.empty) return
-                        const photos = []
-                        photos.push({
-                            image: 'https://storage.cloud.google.com/collectio-photo-2233e.appspot.com/sample/PXL_20201018_061909430.jpg',
-                        });
+                        const photos = [
+                            {image: 'https://yabumi.cc/1791b67b889bb88330dd8a32.jpg'},
+                        ]
                         const date = new Date()
                         const album: AlbumType = {
                             id: 'sample',

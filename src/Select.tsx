@@ -72,14 +72,15 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         if (games.length === 0) {
             games = await this.search(this.hiraToKana(query))
         }
-        const suggests = await this.suggest(query)
-        this.setState({ loading: false })
-        let mergedSuggests: GameType[] = games.concat(suggests)
-        if (mergedSuggests.length === 0) {
-            const suggest: any = { title: query }
-            mergedSuggests = [suggest]
-        }
-        this.setState({ suggests: mergedSuggests });
+        this.setState({loading: false, suggests: games})
+        // const suggests = await this.suggest(query)
+        // this.setState({ loading: false })
+        // let mergedSuggests: GameType[] = games.concat(suggests)
+        // if (mergedSuggests.length === 0) {
+        //     const suggest: any = { title: query }
+        //     mergedSuggests = [suggest]
+        // }
+        // this.setState({ suggests: mergedSuggests });
     }
     async search(query: string) {
         const r = await fetch(
