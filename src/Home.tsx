@@ -253,7 +253,11 @@ class Home extends React.Component<Props, State> {
                     <img className="logo" src="./assets/collectio.svg" alt="Collectio" />
                 </Link>
             </nav>
-            {this.state.loading ? null : (
+            {this.state.loading ? (
+                <div className="loading">
+                    <p>準備中...</p>
+                </div>
+            ) : (
                 this.props.user ? (
                     <React.Fragment>
                         <div className="profile">
