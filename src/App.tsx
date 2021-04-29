@@ -69,9 +69,7 @@ class App extends React.Component<Props, State> {
     render() {
         return (<Router>
             <Switch>
-                <Route exact path="/" render={() => <Home
-                    user={this.state.user}
-                    albums={this.state.albums}
+                <Route exact path="/" render={() => <Home {...this.state}
                     setUser={this.setUser.bind(this)}
                     setAlbum={this.setAlbum.bind(this)}
                     addAlbums={this.addAlbums.bind(this)}
