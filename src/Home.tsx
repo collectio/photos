@@ -98,7 +98,6 @@ class Home extends React.Component<Props, State> {
                             {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/4.jpg'},
                             {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/5.jpg'},
                             {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/6.jpg'},
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/7.jpg'},
                         ]
                         const date = new Date()
                         const album: AlbumType = {
