@@ -35,11 +35,10 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
             location.reload()
         }
         this.textInput = null;
-        const album = Object.assign({}, JSON.parse(JSON.stringify(this.props.album)))
         this.state = {
             index: 0,
             loading: false,
-            album: album,
+            album: this.props.album,
             suggests: [],
             // histories: []
         };
