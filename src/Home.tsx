@@ -325,7 +325,10 @@ class Home extends React.Component<Props, State> {
                             </button>
                         </p>
                         <button onClick={this.GoogleLogin.bind(this)}>
-                            <img src="./assets/google.svg" alt="" />
+                            <object
+                                type="image/svg+xml"
+                                data="./assets/google.svg">
+                            </object>
                             Googleでログイン
                         </button>
                     </div>
