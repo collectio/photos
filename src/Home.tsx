@@ -92,12 +92,12 @@ class Home extends React.Component<Props, State> {
                         // サンプルのアルバム
                         if (!querySnapshot.empty) return
                         const photos = [
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/1.jpg'},
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/2.jpg'},
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/3.jpg'},
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/4.jpg'},
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/5.jpg'},
-                            {image: 'https://storage.googleapis.com/collectio-photo-assets/sample/6.jpg'},
+                            { image: 'https://storage.googleapis.com/collectio-photo-assets/sample/1.jpg' },
+                            { image: 'https://storage.googleapis.com/collectio-photo-assets/sample/2.jpg' },
+                            { image: 'https://storage.googleapis.com/collectio-photo-assets/sample/3.jpg' },
+                            { image: 'https://storage.googleapis.com/collectio-photo-assets/sample/4.jpg' },
+                            { image: 'https://storage.googleapis.com/collectio-photo-assets/sample/5.jpg' },
+                            { image: 'https://storage.googleapis.com/collectio-photo-assets/sample/6.jpg' },
                         ]
                         const date = new Date()
                         const album: AlbumType = {
@@ -276,33 +276,33 @@ class Home extends React.Component<Props, State> {
                             {this.props.albums.map((album) => {
                                 return (<div className="album">
                                     <Link to="/album" key={album.title + album.date} onClick={() => this.props.setAlbum(album)}>
-                                            <div className="image">
-                                                <h4>{album.title}</h4>
-                                                <span>{album.date}</span>
-                                                <div className="photos">
-                                                    {album.photos.map((photo) => {
-                                                        return (<div key={photo.image} className="photo" style={{ backgroundImage: `url(${photo.image})` }}></div>)
-                                                    })}
-                                                </div>
+                                        <div className="image">
+                                            <h4>{album.title}</h4>
+                                            <span>{album.date}</span>
+                                            <div className="photos">
+                                                {album.photos.map((photo) => {
+                                                    return (<div key={photo.image} className="photo" style={{ backgroundImage: `url(${photo.image})` }}></div>)
+                                                })}
                                             </div>
-                                            </Link>
-                                        <div className="games">
-                                            {album.games.map((game, i) => {
-                                                return <Link to={{
-                                                    pathname: "/game",
-                                                    state: { game: game }
-                                                }} key={game.id} onClick={() => this.props.setGame(game)}>
-                                                    <div key={'game' + i} className="game" style={{backgroundImage: `url(${game.image})`}}>
-                                                        {game.image ? null : (
-                                                            <span className="title">
-                                                                {game.title}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </Link>
-                                            })}
                                         </div>
-                                    </div>)
+                                    </Link>
+                                    <div className="games">
+                                        {album.games.map((game, i) => {
+                                            return <Link to={{
+                                                pathname: "/game",
+                                                state: { game: game }
+                                            }} key={game.id} onClick={() => this.props.setGame(game)}>
+                                                <div key={'game' + i} className="game" style={{ backgroundImage: `url(${game.image})` }}>
+                                                    {game.image ? null : (
+                                                        <span className="title">
+                                                            {game.title}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </Link>
+                                        })}
+                                    </div>
+                                </div>)
                             })}
                         </div>
                         <form action="" encType="multipart/form-data">
@@ -313,16 +313,18 @@ class Home extends React.Component<Props, State> {
                 ) : (
                     <div className="login">
                         <h2>Collectio Photoへようこそ</h2>
-                        <p>                            
+                        <p>
                             このアプリは、ボードゲームを遊んだ時の写真をアルバムにまとめて、遊んだゲームを記録できるアプリです。<br /><br />
                             「この前、あの時、遊んだゲームはなんだった？」<br />
                             そんな時に役立ちます。<br /><br />
                             どんな風に使えるか、ログインしてサンプルのアルバムを見てみましょう。
                         </p>
-                        <button onClick={this.GoogleLogin.bind(this)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" /></svg>
+                        {/* <button onClick={this.GoogleLogin.bind(this)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
+                                <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" />
+                            </svg>
                             Googleでログイン
-                        </button>
+                        </button> */}
                         <p>
                             <button onClick={this.GoogleLogin.bind(this)}>
                                 Googleでログイン
