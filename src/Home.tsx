@@ -320,11 +320,6 @@ class Home extends React.Component<Props, State> {
                             どんな風に使えるか、ログインしてサンプルのアルバムを見てみましょう。
                         </p>
                         <p>
-                            <button onClick={this.GoogleLogin.bind(this)}>
-                                Googleでログイン
-                            </button>
-                        </p>
-                        <p>
                             <button className="google" onClick={this.GoogleLogin.bind(this)}>
                                 Googleでログイン
                             </button>
