@@ -45,6 +45,7 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         };
     }
     componentDidMount() {
+        scrollTo(0, 0)
         if (this.textInput) {
             this.textInput.addEventListener('focus', () => {
                 scrollTo(0, 140)
