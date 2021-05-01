@@ -319,6 +319,11 @@ class Home extends React.Component<Props, State> {
                             そんな時に役立ちます。<br /><br />
                             どんな風に使えるか、ログインしてサンプルのアルバムを見てみましょう。
                         </p>
+                        <p>
+                            <button onClick={this.GoogleLogin.bind(this)}>
+                                Googleでログイン
+                            </button>
+                        </p>
                         <button onClick={this.GoogleLogin.bind(this)}>
                             <img src="./assets/google.svg" alt="" />
                             Googleでログイン
