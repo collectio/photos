@@ -255,7 +255,7 @@ class Home extends React.Component<Props, State> {
             </nav>
             {this.state.loading ? (
                 <div className="loading">
-                    <p>準備中...</p>
+                    <p>読み込み中...</p>
                 </div>
             ) : (
                 this.props.user ? (
