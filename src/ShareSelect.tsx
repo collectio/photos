@@ -24,6 +24,9 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
             selectDisabled: false,
         };
     }
+    componentDidMount() {
+        scrollTo(0, 0)
+    }
     select(index: number) {
         if (this.state.selectedImageIndex.indexOf(index) === -1) {
             if (this.state.selectDisabled === false) {

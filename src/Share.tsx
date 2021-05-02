@@ -35,6 +35,9 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
             location.reload()
         }
     }
+    componentDidMount() {
+        scrollTo(0, 0)
+    }
     async convertFile(url: string) {
         const blob = await fetch(url).then(r => r.blob())
         // console.log(blob.type)

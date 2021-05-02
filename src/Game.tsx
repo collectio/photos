@@ -14,6 +14,9 @@ class Game extends React.Component<Props & RouteComponentProps, State> {
         this.state = {
         };
     }
+    componentDidMount() {
+        scrollTo(0, 0)
+    }
     render() {
         // const { game } = this.props.location.state as any
         const game = this.props.game

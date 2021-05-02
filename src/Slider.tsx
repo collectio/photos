@@ -11,6 +11,10 @@ interface State {
 }
 
 class SimpleSlider extends React.Component<Prop, State> {
+    componentDidMount() {
+      scrollTo(0, 0)
+    }
+
     render() {
       const settings = {
         dots: false,

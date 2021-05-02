@@ -22,6 +22,9 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
         this.state = {
         };
     }
+    componentDidMount() {
+        scrollTo(0, 0)
+    }
     // delete() {
     //     const {album} = this.props.location.state as any
     //     if (this.state.selectedImageIndex.length === 0) return alert('写真を選択してください')

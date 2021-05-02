@@ -13,6 +13,9 @@ class Scafold extends React.Component<Props & RouteComponentProps, State> {
         this.state = {
         };
     }
+    componentDidMount() {
+        scrollTo(0, 0)
+    }
     render() {
         return (<div id=""></div>);
     }

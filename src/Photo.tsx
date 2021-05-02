@@ -13,6 +13,9 @@ class Photo extends React.Component<Props & RouteComponentProps, State> {
         this.state = {
         };
     }
+    componentDidMount() {
+        scrollTo(0, 0)
+    }
     render() {
         const {photo} = this.props.location.state as any;
         const {album} = this.props.location.state as any;
