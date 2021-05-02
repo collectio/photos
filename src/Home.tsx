@@ -292,12 +292,11 @@ class Home extends React.Component<Props, State> {
                                                 pathname: "/game",
                                                 state: { game: game }
                                             }} key={game.id} onClick={() => this.props.setGame(game)}>
-                                                <div key={'game' + i} className="game" style={{ backgroundImage: `url(${game.image})` }}>
-                                                    {game.image ? null : (
-                                                        <span className="title">
-                                                            {game.title}
-                                                        </span>
-                                                    )}
+                                                <div key={'game' + i} className="game">
+                                                    <div style={{ backgroundImage: `url(${game.image})` }}></div>
+                                                    <span className="title">
+                                                        {game.title}
+                                                    </span>
                                                 </div>
                                             </Link>
                                         })}
