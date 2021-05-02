@@ -89,8 +89,9 @@ class Home extends React.Component<Props, State> {
                             // console.log(doc.id, ' => ', doc.data());
                             this.props.addAlbums(doc.data() as AlbumType)
                         });
-                        // サンプルのアルバム
+                        this.setGameImage()
                         if (!querySnapshot.empty) return
+                        // サンプルのアルバム
                         const photos = [
                             { image: 'https://storage.googleapis.com/collectio-photo-assets/sample/1.jpg' },
                             { image: 'https://storage.googleapis.com/collectio-photo-assets/sample/2.jpg' },
@@ -116,6 +117,34 @@ class Home extends React.Component<Props, State> {
             }
             this.setState({ loading: false })
         });
+    }
+
+    // ゲーム画像を最新のものにする
+    setGameImage(): void {
+        let ids: number[] = []
+        this.props.albums.map((album) => {
+            album.games.map((game: GameType) => {
+                if(game.id) ids.push(game.id)
+            })
+        })
+        ids = Array.from(new Set(ids))
+        const url = 'https://db.collectio.jp/wp-json/wp/v2/posts?include=' + ids.join(',')
+        fetch(url).then(r => r.json()).then((games) => {
+            // console.log(games)
+            this.props.albums.map((album) => {
+                album.games.map((g: GameType) => {
+                    games.map((game: any) => {
+                        // console.log(game.featured_image.src)
+                        if (game.featured_image.src !== 'https://db.collectio.jp/wp-includes/images/media/default.png') {
+                            if (g.id == game.id) {
+                                g.image = game.featured_image.src
+                            }
+                        }
+                    })
+                })
+                this.setState({})
+            })
+        })
     }
 
     async createAlbum(): Promise<void> {
@@ -292,7 +321,7 @@ class Home extends React.Component<Props, State> {
                                                 pathname: "/game",
                                                 state: { game: game }
                                             }} key={game.id} onClick={() => this.props.setGame(game)}>
-                                                <div key={'game' + i} className="game">
+                                                <div key={game.id} data-id={game.id} className="game">
                                                     <div style={{ backgroundImage: `url(${game.image})` }}></div>
                                                     <span className="title">
                                                         {game.title}
