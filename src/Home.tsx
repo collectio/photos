@@ -82,7 +82,7 @@ class Home extends React.Component<Props, State> {
             if (user) {
                 console.log(user)
                 this.props.setUser(user)
-                db.collection('albums').where('userId', '==', this.props.user.uid).get()
+                db.collection('albums').where('userId', '==', this.props.user.uid).orderBy('date', 'desc').get()
                     .then((querySnapshot) => {
                         querySnapshot.forEach((doc) => {
                             // doc.data() is never undefined for query doc snapshots
