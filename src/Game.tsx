@@ -32,9 +32,7 @@ class Game extends React.Component<Props & RouteComponentProps, State> {
                     <img className="logo" src="./assets/back.svg" alt="戻る" />
                 </a>
                 <span></span>
-                <span onClick={() => alert('アルバムのタイトル編集・アルバムの削除機能などがくる予定')}>
-                    <img src="./assets/menu.svg" alt="menu" />
-                </span>
+                <span></span>
             </nav>
             <div className="game">
                 {game.image ? (
