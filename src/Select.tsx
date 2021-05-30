@@ -72,20 +72,18 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
         this.setState({ loading: true })
         if (games.length === 0) {
             games = await this.search(this.hiraToKana(query))
+        } else {
+            this.setState({loading: false, suggests: games})
         }
-        this.setState({loading: false, suggests: games})
-        // const suggests = await this.suggest(query)
-        // this.setState({ loading: false })
-        // let mergedSuggests: GameType[] = games.concat(suggests)
-        // if (mergedSuggests.length === 0) {
-        //     const suggest: any = { title: query }
-        //     mergedSuggests = [suggest]
-        // }
-        // this.setState({ suggests: mergedSuggests });
+        if (games.length <= 5) {
+            const suggests = await this.suggest(query)
+            games = games.concat(suggests)
+        }
+        this.setState({loading: false, suggests: games });
     }
     async search(query: string) {
         const r = await fetch(
-            "https://db-api-mxiq5qapta-an.a.run.app/search?q=" + encodeURIComponent(query)
+            'https://db-api-mxiq5qapta-an.a.run.app/search?q=' + encodeURIComponent(query)
         ).then((r) => r.json());
         const suggests: GameType[] = [];
         r.map((game: GameType) => {
@@ -95,27 +93,45 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
     }
     async suggest(query: string) {
         const s = await fetchJsonp(
-            "https://www.google.com/complete/search?hl=ja&client=firefox&q=" + encodeURIComponent(query)
+            'https://www.google.com/complete/search?hl=ja&client=firefox&q=' + encodeURIComponent(query)
         ).then((r) => r.json());
         const suggests: any[] = [];
         s[1].map((suggest: string) => {
             const data = {
+                id: null,
                 title: suggest,
+                image: null
             }
-            suggests.push(data);
-        });
+            suggests.push(data)
+        })
+        // 見つからなかった場合、検索キーワードを出す
+        if (suggests.length===0) {
+            const suggest: any = {
+                id:null,
+                title: query,
+                image: null
+            }
+            suggests.push(suggest)
+        }
         return suggests
     }
     async selectSuggest(suggest: GameType) {
-        const game = await fetch(`https://db.collectio.jp/wp-json/wp/v2/posts/${suggest.id}?_embed`).then((r) => r.json())
-        const gameImage = game.featured_image.src
-        if (gameImage !== 'https://db.collectio.jp/wp-includes/images/media/default.png') {
-            suggest.image = gameImage
+        // データベースにあるゲームだったら画像を取得
+        if (suggest.id) {
+            const game = await fetch(`https://db.collectio.jp/wp-json/wp/v2/posts/${suggest.id}?_embed`).then((r) => r.json())
+            const gameImage = game.featured_image.src
+            if (gameImage !== 'https://db.collectio.jp/wp-includes/images/media/default.png') {
+                suggest.image = gameImage
+            } else {
+                suggest.image = null
+            }
+            if (!this.state.album.games.some((game) => game.id === suggest.id)) {
+                this.state.album.games.push(suggest)
+            }
         } else {
-            suggest.image = null
-        }
-        if (!this.state.album.games.some((game) => game.id === suggest.id)) {
-            this.state.album.games.push(suggest)
+            if (!this.state.album.games.some((game) => game.title === suggest.title)) {
+                this.state.album.games.push(suggest)
+            }
         }
         this.setState({ suggests: [] })
         this.textInput.value = ''
