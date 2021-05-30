@@ -126,11 +126,13 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
 
     async updateAlbum() {
         const album = this.state.album
-        const docRef = await db.collection('albums').doc(album.id)
-        await docRef.update(album).then(() => {
-            this.props.updateAlbum(album)
-            this.props.history.push('/album')
-        }).catch((error) => console.log(error))
+        this.props.updateAlbum(album)
+        this.props.history.push('/album')
+        // const docRef = await db.collection('albums').doc(album.id)
+        // await docRef.update(album).then(() => {
+        //     this.props.updateAlbum(album)
+        //     this.props.history.push('/album')
+        // }).catch((error) => console.log(error))
     }
 
     render() {

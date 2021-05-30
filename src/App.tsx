@@ -1,4 +1,4 @@
-
+import firebase, { db } from './index'
 import React, { ReactPropTypes } from "react";
 import {
     HashRouter as Router,
@@ -53,13 +53,16 @@ class App extends React.Component<Props, State> {
         this.setState({})
     }
 
-    updateAlbum(album: AlbumType): void {
-        let updateIndex = 0
-        this.state.albums.map((alb, index) => {
-            if (alb.id === album.id) updateIndex = index
-        })
-        this.state.albums[updateIndex] = album
-        this.setState({})
+    async updateAlbum(album: AlbumType): Promise<void> {
+        const docRef = db.collection('albums').doc(album.id)
+        await docRef.update(album).then(() => {
+            let updateIndex = 0
+            this.state.albums.forEach((a, index) => {
+                if (a.id === album.id) updateIndex = index
+            })
+            this.state.albums[updateIndex] = album
+            this.setState({})
+        }).catch((error) => console.log(error))
     }
 
     setGame(game: GameType): void {
