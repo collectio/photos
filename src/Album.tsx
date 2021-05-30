@@ -91,6 +91,9 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                     ) : (
                         <Link to="/select" className="add">+</Link>
                     )}
+                    {album.games.length === 0 ? (
+                        <p>遊んだゲームを追加しましょう</p>
+                    ) : null}
                 </div>
                 <div className="photos">
                     {album.photos.map((photo: PhotoType, index: number) => {
