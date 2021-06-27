@@ -21,15 +21,15 @@ class Photo extends React.Component<Props & RouteComponentProps, State> {
         scrollTo(0, 0)
     }
     render() {
+        const {photo, album, index} = this.props.location.state as any;
         const settings = {
             dots: false,
             infinite: false,
             speed: 500,
             slidesToShow: 1,
             slidesToScroll: 1,
-        }    
-        const {photo} = this.props.location.state as any;
-        const {album} = this.props.location.state as any;
+            initialSlide: index
+        }
         return (<div id="photo">
             <Link to={{
                 pathname: "/album",

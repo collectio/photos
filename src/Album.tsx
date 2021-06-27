@@ -99,7 +99,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                     {album.photos.map((photo: PhotoType, index: number) => {
                         return (<Link to={{
                             pathname: "/photo",
-                            state: { album: album, photo: photo }
+                            state: { album: album, photo: photo, index: index}
                         }} key={photo.image}>
                             <div className="photo" style={{ backgroundImage: `url(${photo.image})` }}></div>
                         </Link>);
