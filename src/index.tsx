@@ -1,5 +1,3 @@
-console.log('collectio photo')
-
 import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/auth";
@@ -7,6 +5,8 @@ import "firebase/firestore";
 import "firebase/storage";
 
 import firebaseConfig from '../firebaseConfig.json'
+
+console.log('collectio photo')
 
 firebase.initializeApp(firebaseConfig);
 export const db = firebase.firestore();
@@ -23,4 +23,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from './App';
 
+console.log('collectio photo init')
+
+
 ReactDOM.render(<App />, document.getElementById("app"));
+
+console.log('collectio photo done')
