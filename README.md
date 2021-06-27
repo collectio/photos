@@ -19,8 +19,7 @@ ngrokのドメインをfirebaseの承認済みドメインに登録する
 
 https://console.firebase.google.com/u/0/project/collectio-photo-2233e/authentication/providers?hl=ja
 
-## その他
-
+----
 
 FireStore emulator
 ```
