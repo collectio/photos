@@ -20,6 +20,7 @@
     "build:autoprefixer": "postcss ./build/index.css -o ./build/index.css --config ./postcss.config.js",
     "build:pug": "pug -O pug_env.js src/ --out ./build/",
     "build:copy:assets": "cpx \"src/assets/**/*\" build/assets/",
+    "build:copy:404": "cpx \"src/404.html\" build/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

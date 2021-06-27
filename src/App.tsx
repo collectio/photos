@@ -1,7 +1,7 @@
 import firebase, { db } from './index'
 import React, { ReactPropTypes } from "react";
 import {
-    HashRouter as Router,
+    BrowserRouter as Router,
     Switch,
     Route,
     Link
