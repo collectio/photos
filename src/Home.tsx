@@ -80,7 +80,7 @@ class Home extends React.Component<Props, State> {
         // ログイン済みか？
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                console.log(user)
+                // console.log(user)
                 this.props.setUser(user)
                 db.collection('albums').where('userId', '==', this.props.user.uid).orderBy('date').get()
                     .then((querySnapshot) => {

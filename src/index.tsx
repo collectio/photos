@@ -1,3 +1,5 @@
+console.log('collectio photo')
+
 import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/auth";
