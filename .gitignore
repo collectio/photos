@@ -65,5 +65,3 @@ typings/
 build/
 
 .DS_Store
-
-firebaseConfig.json
