@@ -9,6 +9,17 @@ npm install
 npm start
 ```
 
+httpsが必須なので、ngrokで立てる
+
+```
+./ngrok http 3000
+```
+
+ngrokのドメインをfirebaseの承認済みドメインに登録する  
+
+https://console.firebase.google.com/u/0/project/collectio-photo-2233e/authentication/providers?hl=ja
+
+
 FireStore emulator
 ```
 npm run firestore
