@@ -1,6 +1,6 @@
 # Collectio Photo
 
-https://collectio.github.io/photos/
+https://photos.collectio.jp/
 
 ## 開発
 
