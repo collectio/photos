@@ -15,11 +15,11 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-node-
             ${{ runner.OS }}-
-      - shell: bash
-        env:
-          FIREBASECONFIG: ${{ secrets.FIREBASECONFIG }}
-        run: |
-          echo "$FIREBASECONFIG" > firebaseConfig.json
+      # - shell: bash
+      #   env:
+      #     FIREBASECONFIG: ${{ secrets.FIREBASECONFIG }}
+      #   run: |
+      #     echo "$FIREBASECONFIG" > firebaseConfig.json
       - name: Install and Build 🔧
         run: |
           npm install --no-optional
