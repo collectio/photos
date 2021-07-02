@@ -156,7 +156,7 @@ class Select extends React.Component<Props & RouteComponentProps, State> {
             <div id="select">
                 <nav>
                     <a onClick={() => this.props.history.goBack()}>
-                        <img className="logo" src="./assets/back.svg" alt="戻る" />
+                        <img className="logo" src="/assets/back.svg" alt="戻る" />
                     </a>
                     <a onClick={() => {
                         this.updateAlbum()

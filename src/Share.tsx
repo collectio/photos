@@ -79,7 +79,7 @@ class Share extends React.Component<Props & RouteComponentProps, State> {
         return (<div id="share">
             <nav>
                 <a onClick={() => this.props.history.goBack()}>
-                    <img className="logo" src="./assets/back.svg" alt="戻る" />
+                    <img className="logo" src="/assets/back.svg" alt="戻る" />
                 </a>
             </nav>
             <div className="photos">

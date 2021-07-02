@@ -29,7 +29,7 @@ class Game extends React.Component<Props & RouteComponentProps, State> {
         return (<div id="game">
             <nav>
                 <a onClick={() => this.props.history.goBack()}>
-                    <img className="logo" src="./assets/back.svg" alt="戻る" />
+                    <img className="logo" src="/assets/back.svg" alt="戻る" />
                 </a>
                 <span></span>
                 <span></span>

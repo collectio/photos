@@ -70,7 +70,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                 <Link to={{
                     pathname: `/album/${album.id}`,
                 }}>
-                    <img className="logo" src="./assets/back.svg" alt="戻る" />
+                    <img className="logo" src="/assets/back.svg" alt="戻る" />
                 </Link>
                 <span>写真の選択</span>
                 <span></span>

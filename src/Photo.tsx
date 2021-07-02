@@ -34,7 +34,7 @@ class Photo extends React.Component<Props & RouteComponentProps, State> {
             <Link to={{
                 pathname: `/album/${album.id}`
             }} className="close">
-                <img src="./assets/close.svg" />
+                <img src="/assets/close.svg" />
             </Link>
             <Slider {...settings}>
             {this.props.album.photos.map((photo: PhotoType) => {
