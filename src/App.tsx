@@ -78,7 +78,7 @@ class App extends React.Component<Props, State> {
                     addAlbums={this.addAlbums.bind(this)}
                     setGame={this.setGame.bind(this)}
                 />} />
-                <Route path="/album" render={() => <Album {...this.state} key={Date.now()}
+                <Route path="/album/" render={() => <Album {...this.state} key={Date.now()}
                     setGame={this.setGame.bind(this)}
                 />} />
                 <Route path="/shareSelect" render={() => <ShareSelect {...this.state} />} />
