@@ -32,8 +32,7 @@ class Photo extends React.Component<Props & RouteComponentProps, State> {
         }
         return (<div id="photo">
             <Link to={{
-                pathname: "/album",
-                state: { album: album }
+                pathname: `/album/${album.id}`
             }} className="close">
                 <img src="./assets/close.svg" />
             </Link>

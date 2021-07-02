@@ -304,7 +304,7 @@ class Home extends React.Component<Props, State> {
                         <div className="albums">
                             {this.props.albums.map((album) => {
                                 return (<div className="album">
-                                    <Link to="/album" key={album.title + album.date} onClick={() => this.props.setAlbum(album)}>
+                                    <Link to={`/album/${album.id}`} key={album.title + album.date} onClick={() => this.props.setAlbum(album)}>
                                         <div className="image">
                                             <h4>{album.title}</h4>
                                             <span>{album.date}</span>

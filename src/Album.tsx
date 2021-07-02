@@ -14,13 +14,27 @@ interface Props {
     setGame: (game: GameType) => void
 }
 interface State {
+    album: Album
 }
 
 class Album extends React.Component<Props & RouteComponentProps, State> {
     constructor(props: any) {
         super(props);
+        let album = null
+        this.props.albums.some((a) => {
+            if (a.id === this.props.match.params.id) {
+                album = a
+                return true
+            }
+        })
+        if(album === null) {
+            this.props.history.push('/')
+            location.reload()
+            return
+        }
         this.state = {
-        };
+            album: album
+        }
     }
     componentDidMount() {
         scrollTo(0, 0)
@@ -32,13 +46,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
     //     album.photos = photos
     // }
     render() {
-        // const { album } = this.props.location.state as any
-        const album = this.props.album
-        if(album === null) {
-            this.props.history.push('/')
-            location.reload()
-            return
-        }
+        const album = this.state.album
         return (<div id="album">
             <nav>
                 <Link to="/">
