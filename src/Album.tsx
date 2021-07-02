@@ -14,15 +14,16 @@ interface Props {
     setGame: (game: GameType) => void
 }
 interface State {
-    album: Album
+    album: Album | null
 }
 
 class Album extends React.Component<Props & RouteComponentProps, State> {
     constructor(props: any) {
         super(props);
         let album = null
+        const query = new URLSearchParams(this.props.location.search)
         this.props.albums.some((a) => {
-            if (a.id === this.props.match.params.id) {
+            if (a.id === query.get('id')) {
                 album = a
                 return true
             }
