@@ -28,11 +28,11 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
                 return true
             }
         })
-        // if(album === null) {
-        //     this.props.history.push('/')
-        //     location.reload()
-        //     return
-        // }
+        if(album === null) {
+            this.props.history.push('/')
+            location.reload()
+            return
+        }
         this.state = {
             album: album
         }
@@ -48,7 +48,6 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
     // }
     render() {
         const album = this.state.album
-        if (!album) return null
         return (<div id="album">
             <nav>
                 <Link to="/">
