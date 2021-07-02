@@ -48,6 +48,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
     // }
     render() {
         const album = this.state.album
+        if (!album) return null
         return (<div id="album">
             <nav>
                 <Link to="/">
