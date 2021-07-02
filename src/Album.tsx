@@ -20,22 +20,22 @@ interface State {
 class Album extends React.Component<Props & RouteComponentProps, State> {
     constructor(props: any) {
         super(props);
-        let album = null
-        const query = new URLSearchParams(this.props.location.search)
-        this.props.albums.some((a) => {
-            if (a.id === query.get('id')) {
-                album = a
-                return true
-            }
-        })
-        if(album === null) {
-            this.props.history.push('/')
-            location.reload()
-            return
-        }
-        this.state = {
-            album: album
-        }
+        // let album = null
+        // const query = new URLSearchParams(this.props.location.search)
+        // this.props.albums.some((a) => {
+        //     if (a.id === query.get('id')) {
+        //         album = a
+        //         return true
+        //     }
+        // })
+        // if(album === null) {
+        //     this.props.history.push('/')
+        //     location.reload()
+        //     return
+        // }
+        // this.state = {
+        //     album: album
+        // }
     }
     componentDidMount() {
         scrollTo(0, 0)
@@ -47,7 +47,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
     //     album.photos = photos
     // }
     render() {
-        const album = this.state.album
+        const album = this.props.album
         return (<div id="album">
             <nav>
                 <Link to="/">

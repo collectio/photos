@@ -68,7 +68,7 @@ class Album extends React.Component<Props & RouteComponentProps, State> {
         return (<div id="albumSelect">
             <nav>
                 <Link to={{
-                    pathname: `/album?id=${album.id}`,
+                    pathname: `/album`,
                 }}>
                     <img className="logo" src="/assets/back.svg" alt="戻る" />
                 </Link>
